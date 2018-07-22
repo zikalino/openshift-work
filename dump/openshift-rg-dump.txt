@@ -1,0 +1,581 @@
+
+PLAY [localhost] *******************************************************************************************************
+
+TASK [Gathering Facts] *************************************************************************************************
+ok: [localhost]
+
+TASK [Call REST API - Resources_ListByResourceGroup] *******************************************************************
+ok: [localhost]
+
+TASK [debug] ***********************************************************************************************************
+ok: [localhost] => {
+    "output": {
+        "changed": false, 
+        "failed": false, 
+        "response": [
+            {
+                "value": [
+                    {
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/availabilitySets/infraavailabilityset", 
+                        "location": "eastus", 
+                        "name": "infraavailabilityset", 
+                        "tags": {
+                            "app": "OpenShiftOrigin", 
+                            "displayName": "InfraAvailabilitySet", 
+                            "platform": "AzurePublic", 
+                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
+                            "version": "3.9"
+                        }, 
+                        "type": "Microsoft.Compute/availabilitySets"
+                    }, 
+                    {
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/availabilitySets/masteravailabilityset", 
+                        "location": "eastus", 
+                        "name": "masteravailabilityset", 
+                        "tags": {
+                            "app": "OpenShiftOrigin", 
+                            "displayName": "MasterAvailabilitySet", 
+                            "platform": "AzurePublic", 
+                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
+                            "version": "3.9"
+                        }, 
+                        "type": "Microsoft.Compute/availabilitySets"
+                    }, 
+                    {
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/availabilitySets/nodeavailabilityset", 
+                        "location": "eastus", 
+                        "name": "nodeavailabilityset", 
+                        "tags": {
+                            "app": "OpenShiftOrigin", 
+                            "displayName": "NodeAvailabilitySet", 
+                            "platform": "AzurePublic", 
+                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
+                            "version": "3.9"
+                        }, 
+                        "type": "Microsoft.Compute/availabilitySets"
+                    }, 
+                    {
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/ZIMS-OPENSHIFT/providers/Microsoft.Compute/disks/mycluster-master-0-docker-pool", 
+                        "location": "eastus", 
+                        "managedBy": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-master-0", 
+                        "name": "mycluster-master-0-docker-pool", 
+                        "sku": {
+                            "name": "Premium_LRS", 
+                            "tier": "Premium"
+                        }, 
+                        "tags": {
+                            "Role": "masternode", 
+                            "app": "OpenShiftOrigin", 
+                            "platform": "AzurePublic", 
+                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
+                            "version": "3.9"
+                        }, 
+                        "type": "Microsoft.Compute/disks"
+                    }, 
+                    {
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/ZIMS-OPENSHIFT/providers/Microsoft.Compute/disks/mycluster-master-0-osdisk", 
+                        "location": "eastus", 
+                        "managedBy": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-master-0", 
+                        "name": "mycluster-master-0-osdisk", 
+                        "sku": {
+                            "name": "Premium_LRS", 
+                            "tier": "Premium"
+                        }, 
+                        "tags": {
+                            "Role": "masternode", 
+                            "app": "OpenShiftOrigin", 
+                            "platform": "AzurePublic", 
+                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
+                            "version": "3.9"
+                        }, 
+                        "type": "Microsoft.Compute/disks"
+                    }, 
+                    {
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/ZIMS-OPENSHIFT/providers/Microsoft.Compute/disks/mycluster-master-1-docker-pool", 
+                        "location": "eastus", 
+                        "managedBy": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-master-1", 
+                        "name": "mycluster-master-1-docker-pool", 
+                        "sku": {
+                            "name": "Premium_LRS", 
+                            "tier": "Premium"
+                        }, 
+                        "tags": {
+                            "Role": "masternode", 
+                            "app": "OpenShiftOrigin", 
+                            "platform": "AzurePublic", 
+                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
+                            "version": "3.9"
+                        }, 
+                        "type": "Microsoft.Compute/disks"
+                    }, 
+                    {
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/ZIMS-OPENSHIFT/providers/Microsoft.Compute/disks/mycluster-master-1-osdisk", 
+                        "location": "eastus", 
+                        "managedBy": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-master-1", 
+                        "name": "mycluster-master-1-osdisk", 
+                        "sku": {
+                            "name": "Premium_LRS", 
+                            "tier": "Premium"
+                        }, 
+                        "tags": {
+                            "Role": "masternode", 
+                            "app": "OpenShiftOrigin", 
+                            "platform": "AzurePublic", 
+                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
+                            "version": "3.9"
+                        }, 
+                        "type": "Microsoft.Compute/disks"
+                    }, 
+                    {
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/ZIMS-OPENSHIFT/providers/Microsoft.Compute/disks/mycluster-master-2-docker-pool", 
+                        "location": "eastus", 
+                        "managedBy": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-master-2", 
+                        "name": "mycluster-master-2-docker-pool", 
+                        "sku": {
+                            "name": "Premium_LRS", 
+                            "tier": "Premium"
+                        }, 
+                        "tags": {
+                            "Role": "masternode", 
+                            "app": "OpenShiftOrigin", 
+                            "platform": "AzurePublic", 
+                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
+                            "version": "3.9"
+                        }, 
+                        "type": "Microsoft.Compute/disks"
+                    }, 
+                    {
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/ZIMS-OPENSHIFT/providers/Microsoft.Compute/disks/mycluster-master-2-osdisk", 
+                        "location": "eastus", 
+                        "managedBy": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-master-2", 
+                        "name": "mycluster-master-2-osdisk", 
+                        "sku": {
+                            "name": "Premium_LRS", 
+                            "tier": "Premium"
+                        }, 
+                        "tags": {
+                            "Role": "masternode", 
+                            "app": "OpenShiftOrigin", 
+                            "platform": "AzurePublic", 
+                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
+                            "version": "3.9"
+                        }, 
+                        "type": "Microsoft.Compute/disks"
+                    }, 
+                    {
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/ZIMS-OPENSHIFT/providers/Microsoft.Compute/disks/mycluster-node-0-docker-pool", 
+                        "location": "eastus", 
+                        "managedBy": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-node-0", 
+                        "name": "mycluster-node-0-docker-pool", 
+                        "sku": {
+                            "name": "Premium_LRS", 
+                            "tier": "Premium"
+                        }, 
+                        "tags": {
+                            "Role": "appnode", 
+                            "app": "OpenShiftOrigin", 
+                            "platform": "AzurePublic", 
+                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
+                            "version": "3.9"
+                        }, 
+                        "type": "Microsoft.Compute/disks"
+                    }, 
+                    {
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/ZIMS-OPENSHIFT/providers/Microsoft.Compute/disks/mycluster-node-0-osdisk", 
+                        "location": "eastus", 
+                        "managedBy": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-node-0", 
+                        "name": "mycluster-node-0-osdisk", 
+                        "sku": {
+                            "name": "Premium_LRS", 
+                            "tier": "Premium"
+                        }, 
+                        "tags": {
+                            "Role": "appnode", 
+                            "app": "OpenShiftOrigin", 
+                            "platform": "AzurePublic", 
+                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
+                            "version": "3.9"
+                        }, 
+                        "type": "Microsoft.Compute/disks"
+                    }, 
+                    {
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/ZIMS-OPENSHIFT/providers/Microsoft.Compute/disks/mycluster-node-1-docker-pool", 
+                        "location": "eastus", 
+                        "managedBy": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-node-1", 
+                        "name": "mycluster-node-1-docker-pool", 
+                        "sku": {
+                            "name": "Premium_LRS", 
+                            "tier": "Premium"
+                        }, 
+                        "tags": {
+                            "Role": "appnode", 
+                            "app": "OpenShiftOrigin", 
+                            "platform": "AzurePublic", 
+                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
+                            "version": "3.9"
+                        }, 
+                        "type": "Microsoft.Compute/disks"
+                    }, 
+                    {
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/ZIMS-OPENSHIFT/providers/Microsoft.Compute/disks/mycluster-node-1-osdisk", 
+                        "location": "eastus", 
+                        "managedBy": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-node-1", 
+                        "name": "mycluster-node-1-osdisk", 
+                        "sku": {
+                            "name": "Premium_LRS", 
+                            "tier": "Premium"
+                        }, 
+                        "tags": {
+                            "Role": "appnode", 
+                            "app": "OpenShiftOrigin", 
+                            "platform": "AzurePublic", 
+                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
+                            "version": "3.9"
+                        }, 
+                        "type": "Microsoft.Compute/disks"
+                    }, 
+                    {
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-master-0", 
+                        "location": "eastus", 
+                        "name": "mycluster-master-0", 
+                        "tags": {
+                            "Role": "masternode", 
+                            "app": "OpenShiftOrigin", 
+                            "platform": "AzurePublic", 
+                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
+                            "version": "3.9"
+                        }, 
+                        "type": "Microsoft.Compute/virtualMachines"
+                    }, 
+                    {
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-master-0/extensions/deployOpenShift", 
+                        "location": "eastus", 
+                        "name": "mycluster-master-0/deployOpenShift", 
+                        "tags": {
+                            "app": "OpenShiftOrigin", 
+                            "displayName": "PrepMaster", 
+                            "platform": "AzurePublic", 
+                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
+                            "version": "3.9"
+                        }, 
+                        "type": "Microsoft.Compute/virtualMachines/extensions"
+                    }, 
+                    {
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-master-1", 
+                        "location": "eastus", 
+                        "name": "mycluster-master-1", 
+                        "tags": {
+                            "Role": "masternode", 
+                            "app": "OpenShiftOrigin", 
+                            "platform": "AzurePublic", 
+                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
+                            "version": "3.9"
+                        }, 
+                        "type": "Microsoft.Compute/virtualMachines"
+                    }, 
+                    {
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-master-1/extensions/deployOpenShift", 
+                        "location": "eastus", 
+                        "name": "mycluster-master-1/deployOpenShift", 
+                        "tags": {
+                            "app": "OpenShiftOrigin", 
+                            "displayName": "PrepMaster", 
+                            "platform": "AzurePublic", 
+                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
+                            "version": "3.9"
+                        }, 
+                        "type": "Microsoft.Compute/virtualMachines/extensions"
+                    }, 
+                    {
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-master-2", 
+                        "location": "eastus", 
+                        "name": "mycluster-master-2", 
+                        "tags": {
+                            "Role": "masternode", 
+                            "app": "OpenShiftOrigin", 
+                            "platform": "AzurePublic", 
+                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
+                            "version": "3.9"
+                        }, 
+                        "type": "Microsoft.Compute/virtualMachines"
+                    }, 
+                    {
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-master-2/extensions/deployOpenShift", 
+                        "location": "eastus", 
+                        "name": "mycluster-master-2/deployOpenShift", 
+                        "tags": {
+                            "app": "OpenShiftOrigin", 
+                            "displayName": "PrepMaster", 
+                            "platform": "AzurePublic", 
+                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
+                            "version": "3.9"
+                        }, 
+                        "type": "Microsoft.Compute/virtualMachines/extensions"
+                    }, 
+                    {
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-node-0", 
+                        "location": "eastus", 
+                        "name": "mycluster-node-0", 
+                        "tags": {
+                            "Role": "appnode", 
+                            "app": "OpenShiftOrigin", 
+                            "platform": "AzurePublic", 
+                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
+                            "version": "3.9"
+                        }, 
+                        "type": "Microsoft.Compute/virtualMachines"
+                    }, 
+                    {
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-node-0/extensions/prepNodes", 
+                        "location": "eastus", 
+                        "name": "mycluster-node-0/prepNodes", 
+                        "tags": {
+                            "app": "OpenShiftOrigin", 
+                            "displayName": "PrepNodes", 
+                            "platform": "AzurePublic", 
+                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
+                            "version": "3.9"
+                        }, 
+                        "type": "Microsoft.Compute/virtualMachines/extensions"
+                    }, 
+                    {
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-node-1", 
+                        "location": "eastus", 
+                        "name": "mycluster-node-1", 
+                        "tags": {
+                            "Role": "appnode", 
+                            "app": "OpenShiftOrigin", 
+                            "platform": "AzurePublic", 
+                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
+                            "version": "3.9"
+                        }, 
+                        "type": "Microsoft.Compute/virtualMachines"
+                    }, 
+                    {
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-node-1/extensions/prepNodes", 
+                        "location": "eastus", 
+                        "name": "mycluster-node-1/prepNodes", 
+                        "tags": {
+                            "app": "OpenShiftOrigin", 
+                            "displayName": "PrepNodes", 
+                            "platform": "AzurePublic", 
+                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
+                            "version": "3.9"
+                        }, 
+                        "type": "Microsoft.Compute/virtualMachines/extensions"
+                    }, 
+                    {
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb", 
+                        "location": "eastus", 
+                        "name": "mycluster-masterlb", 
+                        "sku": {
+                            "name": "Basic", 
+                            "tier": "Regional"
+                        }, 
+                        "tags": {
+                            "app": "OpenShiftOrigin", 
+                            "displayName": "OpenShiftMasterLB", 
+                            "platform": "AzurePublic", 
+                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
+                            "version": "3.9"
+                        }, 
+                        "type": "Microsoft.Network/loadBalancers"
+                    }, 
+                    {
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-master-0-nic", 
+                        "location": "eastus", 
+                        "name": "mycluster-master-0-nic", 
+                        "tags": {
+                            "app": "OpenShiftOrigin", 
+                            "displayName": "OpenShiftMasterNetworkInterface", 
+                            "platform": "AzurePublic", 
+                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
+                            "version": "3.9"
+                        }, 
+                        "type": "Microsoft.Network/networkInterfaces"
+                    }, 
+                    {
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-master-1-nic", 
+                        "location": "eastus", 
+                        "name": "mycluster-master-1-nic", 
+                        "tags": {
+                            "app": "OpenShiftOrigin", 
+                            "displayName": "OpenShiftMasterNetworkInterface", 
+                            "platform": "AzurePublic", 
+                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
+                            "version": "3.9"
+                        }, 
+                        "type": "Microsoft.Network/networkInterfaces"
+                    }, 
+                    {
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-master-2-nic", 
+                        "location": "eastus", 
+                        "name": "mycluster-master-2-nic", 
+                        "tags": {
+                            "app": "OpenShiftOrigin", 
+                            "displayName": "OpenShiftMasterNetworkInterface", 
+                            "platform": "AzurePublic", 
+                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
+                            "version": "3.9"
+                        }, 
+                        "type": "Microsoft.Network/networkInterfaces"
+                    }, 
+                    {
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-node-0-nic", 
+                        "location": "eastus", 
+                        "name": "mycluster-node-0-nic", 
+                        "tags": {
+                            "app": "OpenShiftOrigin", 
+                            "displayName": "OpenShiftNodeNetworkInterfaces", 
+                            "platform": "AzurePublic", 
+                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
+                            "version": "3.9"
+                        }, 
+                        "type": "Microsoft.Network/networkInterfaces"
+                    }, 
+                    {
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-node-1-nic", 
+                        "location": "eastus", 
+                        "name": "mycluster-node-1-nic", 
+                        "tags": {
+                            "app": "OpenShiftOrigin", 
+                            "displayName": "OpenShiftNodeNetworkInterfaces", 
+                            "platform": "AzurePublic", 
+                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
+                            "version": "3.9"
+                        }, 
+                        "type": "Microsoft.Network/networkInterfaces"
+                    }, 
+                    {
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-infra-nsg", 
+                        "location": "eastus", 
+                        "name": "mycluster-infra-nsg", 
+                        "tags": {
+                            "app": "OpenShiftOrigin", 
+                            "displayName": "InfraNSG", 
+                            "platform": "AzurePublic", 
+                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
+                            "version": "3.9"
+                        }, 
+                        "type": "Microsoft.Network/networkSecurityGroups"
+                    }, 
+                    {
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-master-nsg", 
+                        "location": "eastus", 
+                        "name": "mycluster-master-nsg", 
+                        "tags": {
+                            "app": "OpenShiftOrigin", 
+                            "displayName": "MasterNSG", 
+                            "platform": "AzurePublic", 
+                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
+                            "version": "3.9"
+                        }, 
+                        "type": "Microsoft.Network/networkSecurityGroups"
+                    }, 
+                    {
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-node-nsg", 
+                        "location": "eastus", 
+                        "name": "mycluster-node-nsg", 
+                        "tags": {
+                            "app": "OpenShiftOrigin", 
+                            "displayName": "NodeNSG", 
+                            "platform": "AzurePublic", 
+                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
+                            "version": "3.9"
+                        }, 
+                        "type": "Microsoft.Network/networkSecurityGroups"
+                    }, 
+                    {
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/publicIPAddresses/masterdnswbsoodzidfrky", 
+                        "location": "eastus", 
+                        "name": "masterdnswbsoodzidfrky", 
+                        "sku": {
+                            "name": "Basic", 
+                            "tier": "Regional"
+                        }, 
+                        "tags": {
+                            "app": "OpenShiftOrigin", 
+                            "displayName": "OpenShiftMasterPublicIP", 
+                            "platform": "AzurePublic", 
+                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
+                            "version": "3.9"
+                        }, 
+                        "type": "Microsoft.Network/publicIPAddresses"
+                    }, 
+                    {
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/virtualNetworks/openshiftvnet", 
+                        "location": "eastus", 
+                        "name": "openshiftvnet", 
+                        "tags": {
+                            "app": "OpenShiftOrigin", 
+                            "displayName": "VirtualNetwork", 
+                            "platform": "AzurePublic", 
+                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
+                            "version": "3.9"
+                        }, 
+                        "type": "Microsoft.Network/virtualNetworks"
+                    }, 
+                    {
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Storage/storageAccounts/diag1ldgn67ikjhlis", 
+                        "kind": "Storage", 
+                        "location": "eastus", 
+                        "name": "diag1ldgn67ikjhlis", 
+                        "sku": {
+                            "name": "Standard_LRS", 
+                            "tier": "Standard"
+                        }, 
+                        "tags": {
+                            "app": "OpenShiftOrigin", 
+                            "displayName": "DiagnosticsStorageAccount", 
+                            "platform": "AzurePublic", 
+                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
+                            "version": "3.9"
+                        }, 
+                        "type": "Microsoft.Storage/storageAccounts"
+                    }, 
+                    {
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Storage/storageAccounts/diag2pyd3glxqg44l4", 
+                        "kind": "Storage", 
+                        "location": "eastus", 
+                        "name": "diag2pyd3glxqg44l4", 
+                        "sku": {
+                            "name": "Standard_LRS", 
+                            "tier": "Standard"
+                        }, 
+                        "tags": {
+                            "app": "OpenShiftOrigin", 
+                            "displayName": "DiagnosticsStorageAccount", 
+                            "platform": "AzurePublic", 
+                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
+                            "version": "3.9"
+                        }, 
+                        "type": "Microsoft.Storage/storageAccounts"
+                    }, 
+                    {
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Storage/storageAccounts/registry6molhzsbn6klu", 
+                        "kind": "Storage", 
+                        "location": "eastus", 
+                        "name": "registry6molhzsbn6klu", 
+                        "sku": {
+                            "name": "Standard_LRS", 
+                            "tier": "Standard"
+                        }, 
+                        "tags": {
+                            "app": "OpenShiftOrigin", 
+                            "displayName": "RegistryStorageAccount", 
+                            "platform": "AzurePublic", 
+                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
+                            "version": "3.9"
+                        }, 
+                        "type": "Microsoft.Storage/storageAccounts"
+                    }
+                ]
+            }
+        ], 
+        "url": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/resources"
+    }
+}
+
+PLAY RECAP *************************************************************************************************************
+localhost                  : ok=3    changed=0    unreachable=0    failed=0   
+

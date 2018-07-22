@@ -1,0 +1,103 @@
+
+---
+- hosts: localhost
+  vars:
+    resource_group: zims-openshift
+
+  tasks:
+
+    - name: Call REST API - Disks_List
+      azure_rm_resource_facts:
+        # url: /subscriptions/{{ lookup('env','AZURE_SUBSCRIPTION_ID') }}/providers/Microsoft.Compute/disks
+        api_version: '2018-04-01'
+        resource_group: "{{ resource_group }}"
+        provider: compute
+        resource_type: disks
+      register: output
+
+    - debug:
+        var: output
+    
+    - name: Call REST API - AvailabilitySets_List
+      azure_rm_resource_facts:
+        # url: /subscriptions/{{ lookup('env','AZURE_SUBSCRIPTION_ID') }}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets
+        api_version: '2018-06-01'
+        resource_group: "{{ resource_group }}"
+        provider: compute
+        resource_type: availabilitysets
+      register: output
+
+    - debug:
+        var: output
+
+    - name: Call REST API - VirtualMachines_List
+      azure_rm_resource_facts:
+        # url: /subscriptions/{{ lookup('env','AZURE_SUBSCRIPTION_ID') }}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines
+        api_version: '2018-06-01'
+        resource_group: "{{ resource_group }}"
+        provider: compute
+        resource_type: virtualmachines
+      register: output
+
+    - debug:
+        var: output
+    
+    - name: Call REST API - LoadBalancers_List
+      azure_rm_resource_facts:
+        # url: /subscriptions/{{ lookup('env','AZURE_SUBSCRIPTION_ID') }}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers
+        api_version: '2018-04-01'
+        resource_group: "{{ resource_group }}"
+        provider: network
+        resource_type: loadbalancers
+      register: output
+
+    - debug:
+        var: output
+
+    - name: Call REST API - NetworkInterfaces_List
+      azure_rm_resource_facts:
+        # url: /subscriptions/{{ lookup('env','AZURE_SUBSCRIPTION_ID') }}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces
+        api_version: '2018-04-01'
+        resource_group: "{{ resource_group }}"
+        provider: network
+        resource_type: networkinterfaces
+      register: output
+
+    - debug:
+        var: output
+
+    - name: Call REST API - NetworkSecurityGroups_List
+      azure_rm_resource_facts:
+        # url: /subscriptions/{{ lookup('env','AZURE_SUBSCRIPTION_ID') }}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups
+        api_version: '2018-04-01'
+        resource_group: "{{ resource_group }}"
+        provider: network
+        resource_type: networksecuritygroups
+      register: output
+
+    - debug:
+        var: output
+
+    - name: Call REST API - PublicIPAddresses_List
+      azure_rm_resource_facts:
+        # url: /subscriptions/{{ lookup('env','AZURE_SUBSCRIPTION_ID') }}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses
+        api_version: '2018-04-01'
+        resource_group: "{{ resource_group }}"
+        provider: network
+        resource_type: publicipaddresses
+      register: output
+
+    - debug:
+        var: output
+
+    - name: Call REST API - VirtualNetworks_List
+      azure_rm_resource_facts:
+        # url: /subscriptions/{{ lookup('env','AZURE_SUBSCRIPTION_ID') }}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks
+        api_version: '2018-04-01'
+        resource_group: "{{ resource_group }}"
+        provider: network
+        resource_type: virtualnetworks
+      register: output
+
+    - debug:
+        var: output
