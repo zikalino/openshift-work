@@ -1,0 +1,198 @@
+
+========================= DISKS
+
+mycluster-master-0-docker-pool
+    - /subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-master-0
+
+mycluster-master-0-osdisk
+    - subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-master-0
+
+mycluster-master-1-docker-pool
+    - subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-master-1
+
+mycluster-master-1-osdisk
+    - subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-master-1
+
+mycluster-master-2-docker-pool
+    - subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-master-2
+
+mycluster-master-2-osdisk
+    - subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-master-2
+
+mycluster-node-0-docker-pool
+    - subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-node-0
+
+mycluster-node-0-osdisk
+    - subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-node-0
+
+mycluster-node-1-docker-pool
+    - subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-node-1
+
+mycluster-node-1-osdisk
+    - subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-node-1
+
+Note: all disks refer VMs via Managed By
+
+========================= AVAILABILITY SETS
+
+infraavailabilityset
+
+masteravailabilityset
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/ZIMS-OPENSHIFT/providers/Microsoft.Compute/virtualMachines/MYCLUSTER-MASTER-0"
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/ZIMS-OPENSHIFT/providers/Microsoft.Compute/virtualMachines/MYCLUSTER-MASTER-1"
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/ZIMS-OPENSHIFT/providers/Microsoft.Compute/virtualMachines/MYCLUSTER-MASTER-2"
+
+nodeavailabilityset
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/ZIMS-OPENSHIFT/providers/Microsoft.Compute/virtualMachines/MYCLUSTER-NODE-0"
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/ZIMS-OPENSHIFT/providers/Microsoft.Compute/virtualMachines/MYCLUSTER-NODE-1"
+
+========================= VIRTUAL MACHINES
+
+mycluster-master-0
+    - MASTERAVAILABILITYSET
+    - mycluster-master-0-nic
+    - mycluster-master-0-docker-pool
+    - mycluster-master-0-osdisk
+    - mycluster-master-0/extensions/deployOpenShift"
+
+
+mycluster-master-1
+    - MASTERAVAILABILITYSET
+    - mycluster-master-1-nic
+    - mycluster-master-1-docker-pool
+    - mycluster-master-1-osdisk 
+    - mycluster-master-1/extensions/deployOpenShift
+
+mycluster-node-0 
+    - NODEAVAILABILITYSET
+    - mycluster-node-0-nic"
+    - mycluster-node-0-docker-pool
+    - mycluster-node-0-osdisk
+    - mycluster-node-0/extensions/prepNodes"
+
+mycluster-node-1
+    - NODEAVAILABILITYSET
+    - mycluster-node-1-nic"
+    - mycluster-node-1-docker-pool
+    - mycluster-node-1-osdisk
+    - mycluster-node-1/extensions/prepNodes
+
+========================= LOAD BALANCERS
+
+mycluster-masterlb
+    - mycluster-masterlb/backendAddressPools/loadBalancerBackEnd
+                                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-master-1-nic/ipConfigurations/mycluster-master1ipconfig"
+                                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-master-2-nic/ipConfigurations/mycluster-master2ipconfig"
+                                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-master-0-nic/ipConfigurations/mycluster-master0ipconfig"
+                                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb/loadBalancingRules/OpenShiftAdminConsole"
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb/frontendIPConfigurations/LoadBalancerFrontEnd
+                                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb/inboundNatRules/SSH-mycluster-master2"
+                                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb/inboundNatRules/SSH-mycluster-master1"
+                                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb/inboundNatRules/SSH-mycluster-master0"
+                                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb/loadBalancingRules/OpenShiftAdminConsole"
+                                            "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/publicIPAddresses/masterdnswbsoodzidfrky"
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb/inboundNatRules/SSH-mycluster-master2
+                                            "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-master-2-nic/ipConfigurations/mycluster-master2ipconfig"
+                                            "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb/frontendIPConfigurations/LoadBalancerFrontEnd"
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb/inboundNatRules/SSH-mycluster-master1
+                                            "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-master-1-nic/ipConfigurations/mycluster-master1ipconfig"
+                                            "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb/frontendIPConfigurations/LoadBalancerFrontEnd"
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb/inboundNatRules/SSH-mycluster-master0
+                                            "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-master-0-nic/ipConfigurations/mycluster-master0ipconfig"
+                                            "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb/frontendIPConfigurations/LoadBalancerFrontEnd"
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb/loadBalancingRules/OpenShiftAdminConsole
+                                            "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb/backendAddressPools/loadBalancerBackEnd"
+                                            "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb/frontendIPConfigurations/LoadBalancerFrontEnd"
+                                            "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb/probes/httpsProbe"
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb/probes/httpsProbe
+                                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb/loadBalancingRules/OpenShiftAdminConsole"
+
+
+========================= NETWORK INTERFACES
+
+mycluster-master-0-nic 
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-master-0-nic/ipConfigurations/mycluster-master0ipconfig
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb/backendAddressPools/loadBalancerBackEnd"
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb/inboundNatRules/SSH-mycluster-master0"
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/virtualNetworks/openshiftvnet/subnets/mastersubnet"
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-master-nsg"
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-master-0"
+
+"id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-master-2-nic
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-master-2-nic/ipConfigurations/mycluster-master2ipconfig
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb/backendAddressPools/loadBalancerBackEnd"
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/virtualNetworks/openshiftvnet/subnets/mastersubnet"
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-master-nsg"
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-master-2"
+
+"id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-node-0-nic
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-node-0-nic/ipConfigurations/mycluster-node0ipconfig
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/virtualNetworks/openshiftvnet/subnets/nodesubnet"
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-node-nsg"
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-node-0"
+
+"id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-node-1-nic
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-node-1-nic/ipConfigurations/mycluster-node1ipconfig
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/virtualNetworks/openshiftvnet/subnets/nodesubnet"
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-node-nsg"
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-node-1"
+
+
+========================= NETWORK SECURITY GROUPS
+
+"id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-infra-nsg
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-infra-nsg/defaultSecurityRules/AllowVnetInBound
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-infra-nsg/defaultSecurityRules/AllowAzureLoadBalancerInBound
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-infra-nsg/defaultSecurityRules/DenyAllInBound
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-infra-nsg/defaultSecurityRules/AllowVnetOutBound
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-infra-nsg/defaultSecurityRules/AllowInternetOutBound
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-infra-nsg/defaultSecurityRules/DenyAllOutBound
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-infra-nsg/securityRules/allowSSHin_all
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-infra-nsg/securityRules/allowHTTPSIn_all
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-infra-nsg/securityRules/allowHTTPIn_all
+
+"id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-master-nsg
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-master-nsg/defaultSecurityRules/AllowVnetInBound
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-master-nsg/defaultSecurityRules/AllowAzureLoadBalancerInBound
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-master-nsg/defaultSecurityRules/DenyAllInBound
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-master-nsg/defaultSecurityRules/AllowVnetOutBound
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-master-nsg/defaultSecurityRules/AllowInternetOutBound
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-master-nsg/defaultSecurityRules/DenyAllOutBound
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-master-1-nic"
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-master-2-nic"
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-master-0-nic"
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-master-nsg/securityRules/allowSSHin_all
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-master-nsg/securityRules/allowHTTPS_all
+
+"id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-node-nsg
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-node-nsg/defaultSecurityRules/AllowVnetInBound
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-node-nsg/defaultSecurityRules/AllowAzureLoadBalancerInBound
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-node-nsg/defaultSecurityRules/DenyAllInBound
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-node-nsg/defaultSecurityRules/AllowVnetOutBound
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-node-nsg/defaultSecurityRules/AllowInternetOutBound
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-node-nsg/defaultSecurityRules/DenyAllOutBound
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-node-1-nic"
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-node-0-nic"
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-node-nsg/securityRules/allowSSHin_all
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-node-nsg/securityRules/allowHTTPS_all
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-node-nsg/securityRules/allowHTTPIn_all
+
+
+========================= PUBLIC IP ADDRESSES
+
+"id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/publicIPAddresses/masterdnswbsoodzidfrky
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb/frontendIPConfigurations/LoadBalancerFrontEnd"
+
+
+========================= VIRTUAL NETWORKS
+
+"id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/virtualNetworks/openshiftvnet
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/virtualNetworks/openshiftvnet/subnets/mastersubnet
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-master-1-nic/ipConfigurations/mycluster-master1ipconfig"
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-master-2-nic/ipConfigurations/mycluster-master2ipconfig"
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-master-0-nic/ipConfigurations/mycluster-master0ipconfig"
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/cleanupservice/providers/Microsoft.Network/networkSecurityGroups/rg-cleanupservice-nsg5"
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/virtualNetworks/openshiftvnet/subnets/nodesubnet
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-node-1-nic/ipConfigurations/mycluster-node1ipconfig"
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-node-0-nic/ipConfigurations/mycluster-node0ipconfig"
+    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/cleanupservice/providers/Microsoft.Network/networkSecurityGroups/rg-cleanupservice-nsg5"
