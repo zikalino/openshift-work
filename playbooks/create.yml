@@ -14,6 +14,7 @@
     infra_count: 3
     node_count: 3
     runvmext: "false"
+    virtual_network_name: "{{ virtual_network_name }}"
 
   tasks:
     - name: Create a resource group
@@ -24,7 +25,7 @@
     - name: Create virtual network
       azure_rm_virtualnetwork:
         resource_group: "{{ resource_group }}"
-        name: openshiftvnet01
+        name: "{{ virtual_network_name }}"
         address_prefixes: "10.0.0.0/14"
 
     - name: Add master subnet
@@ -32,7 +33,7 @@
         resource_group: "{{ resource_group }}"
         name: mastersubnet
         address_prefix: "10.1.0.0/16"
-        virtual_network: openshiftvnet01
+        virtual_network: "{{ virtual_network_name }}"
       async: 15
       poll: 10
   
@@ -41,7 +42,7 @@
         resource_group: "{{ resource_group }}"
         name: nodesubnet
         address_prefix: "10.2.0.0/16"
-        virtual_network: openshiftvnet01
+        virtual_network: "{{ virtual_network_name }}"
       async: 15
       poll: 10
   
@@ -50,7 +51,7 @@
         resource_group: "{{ resource_group }}"
         name: infrasubnet
         address_prefix: "10.3.0.0/16"
-        virtual_network: openshiftvnet01
+        virtual_network: "{{ virtual_network_name }}"
       async: 15
       poll: 10
         
@@ -228,7 +229,7 @@
       azure_rm_networkinterface:
         resource_group: "{{ resource_group }}"
         name: mycluster-master-{{ item }}-nic
-        virtual_network: openshiftvnet01
+        virtual_network: "{{ virtual_network_name }}"
         subnet: mastersubnet
         security_group: mycluster-master-nsg
         ip_configurations:
@@ -242,7 +243,7 @@
       azure_rm_networkinterface:
         resource_group: "{{ resource_group }}"
         name: mycluster-node-{{ item }}-nic
-        virtual_network: openshiftvnet01
+        virtual_network: "{{ virtual_network_name }}"
         subnet: nodesubnet
         security_group: mycluster-node-nsg
       with_items: start=0 end={{ node_count - 1 }}
@@ -251,7 +252,7 @@
       azure_rm_networkinterface:
         resource_group: "{{ resource_group }}"
         name: mycluster-infra-{{ item }}-nic
-        virtual_network: openshiftvnet01
+        virtual_network: "{{ virtual_network_name }}"
         subnet: infrasubnet
         security_group: mycluster-infra-nsg
         ip_configurations:
