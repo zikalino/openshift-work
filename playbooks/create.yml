@@ -14,7 +14,7 @@
     infra_count: 3
     node_count: 3
     runvmext: "false"
-    virtual_network_name: "{{ virtual_network_name }}"
+    virtual_network_name: "openshiftvnet01"
 
   tasks:
     - name: Create a resource group
