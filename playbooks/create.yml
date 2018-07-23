@@ -38,7 +38,14 @@
         name: nodesubnet
         address_prefix: "10.2.0.0/16"
         virtual_network: openshiftvnet
-
+  
+    - name: Add infra subnet
+      azure_rm_subnet:
+        resource_group: "{{ resource_group }}"
+        name: infrasubnet
+        address_prefix: "10.3.0.0/16"
+        virtual_network: openshiftvnet
+        
     - name: Create public IP address for Master LB
       azure_rm_publicipaddress:
         resource_group: "{{ resource_group }}"
@@ -199,7 +206,7 @@
         resource_group: "{{ resource_group }}"
         name: mycluster-infra-{{ item }}-nic
         virtual_network: openshiftvnet
-        subnet: openshiftsubnet
+        subnet: infrasubnet
         security_group: mycluster-infra-nsg
         ip_configurations:
           - name: ipconfig1
