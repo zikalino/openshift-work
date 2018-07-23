@@ -33,8 +33,8 @@
         name: mastersubnet
         address_prefix: "10.1.0.0/16"
         virtual_network: openshiftvnet01
-        async: 5
-        poll: 60
+      async: 5
+      poll: 60
   
     - name: Add node subnet
       azure_rm_subnet:
@@ -42,8 +42,8 @@
         name: nodesubnet
         address_prefix: "10.2.0.0/16"
         virtual_network: openshiftvnet01
-        async: 5
-        poll: 60
+      async: 5
+      poll: 60
   
     - name: Add infra subnet
       azure_rm_subnet:
@@ -51,24 +51,24 @@
         name: infrasubnet
         address_prefix: "10.3.0.0/16"
         virtual_network: openshiftvnet01
-        async: 5
-        poll: 60
+      async: 5
+      poll: 60
         
     - name: Create public IP address for Master LB
       azure_rm_publicipaddress:
         resource_group: "{{ resource_group }}"
         allocation_method: Static
         name: masterlb_publicip
-        async: 5
-        poll: 60
+      async: 5
+      poll: 60
 
     - name: Create public IP address for Infra LB
       azure_rm_publicipaddress:
         resource_group: "{{ resource_group }}"
         allocation_method: Static
         name: infralb_publicip
-        async: 5
-        poll: 60
+      async: 5
+      poll: 60
 
     - name: Create infrastructure NSG
       azure_rm_securitygroup:
@@ -93,8 +93,8 @@
             access: Allow
             priority: 300
             direction: Inbound
-        async: 5
-        poll: 60
+      async: 5
+      poll: 60
 
     - name: Create master NSG
       azure_rm_securitygroup:
@@ -113,8 +113,8 @@
             access: Allow
             priority: 200
             direction: Inbound
-        async: 5
-        poll: 60
+      async: 5
+      poll: 60
 
     - name: Create node NSG
       azure_rm_securitygroup:
@@ -139,8 +139,8 @@
             access: Allow
             priority: 300
             direction: Inbound
-        async: 5
-        poll: 60
+      async: 5
+      poll: 60
 
     - name: Create master availability set
       azure_rm_availabilityset:
@@ -148,8 +148,8 @@
         location: eastus
         resource_group: "{{ resource_group }}"
         sku: Aligned
-        async: 5
-        poll: 60
+      async: 5
+      poll: 60
 
     - name: Create node availability set
       azure_rm_availabilityset:
@@ -157,8 +157,8 @@
         location: eastus
         resource_group: "{{ resource_group }}"
         sku: Aligned
-        async: 5
-        poll: 60
+      async: 5
+      poll: 60
 
     - name: Create infra availability set
       azure_rm_availabilityset:
@@ -166,8 +166,8 @@
         location: eastus
         resource_group: "{{ resource_group }}"
         sku: Aligned
-        async: 5
-        poll: 60
+      async: 5
+      poll: 60
 
 
     - name: Create master load balancer
