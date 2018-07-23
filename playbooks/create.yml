@@ -13,6 +13,7 @@
     master_count: 3
     infra_count: 3
     node_count: 3
+    runvmext: "false"
 
   tasks:
     - name: Create a resource group
@@ -196,7 +197,7 @@
     - name: Create infra load balancer
       azure_rm_loadbalancer:
         name: mycluster-infralb
-        location: eastus
+        location: "{{ location }}"
         resource_group: "{{ resource_group }}"
         public_ip: infralb_publicip
         frontend_ip_configurations:
@@ -283,7 +284,6 @@
       with_items: start=0 end={{ master_count - 1 }}
 
 
-
     - name: Create node VMs
       azure_rm_virtualmachine:
         resource_group: "{{ resource_group }}"
@@ -304,7 +304,6 @@
               managed_disk_type: Standard_LRS
         availability_set: nodeavailabilityset
       with_items: start=0 end={{ node_count - 1 }}
-
 
     - name: Create infra VMs
       azure_rm_virtualmachine:
@@ -340,7 +339,9 @@
             - 'https://raw.githubusercontent.com/Microsoft/openshift-origin/master/scripts/masterPrep.sh'
           commandToExecute: "bash masterPrep.sh {{ persistent_volume_name }} {{ admin_user_name }} {{ location }}"
       with_items: start=0 end={{ master_count - 1 }}
+      when: runvmext == "true"
     
+
     - name: Create infra VM extension
       azure_rm_virtualmachine_extension:
         resource_group: "{{ resource_group }}"
@@ -354,6 +355,7 @@
             - 'https://raw.githubusercontent.com/Microsoft/openshift-origin/master/scripts/nodePrep.sh'
           commandToExecute: "bash nodePrep.sh"
       with_items: start=0 end={{ infra_count - 1 }}
+      when: runvmext == "true"
 
     - name: Create node VM extension
       azure_rm_virtualmachine_extension:
@@ -368,4 +370,4 @@
             - 'https://raw.githubusercontent.com/Microsoft/openshift-origin/master/scripts/nodePrep.sh'
           commandToExecute: "bash nodePrep.sh"
       with_items: start=0 end={{ node_count - 1 }}
-      
+      when: runvmext == "true"
