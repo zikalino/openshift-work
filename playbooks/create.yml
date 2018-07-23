@@ -5,15 +5,15 @@
 ---
 - hosts: localhost
   vars:
-    resource_group: del-me-brus-openx
+    resource_group: del-me-brus-123
     location: eastus
-    persistent_volume_name: "pv1saunique12233a44"
+    persistent_volume_name: "pv1saunique1223a44"
     admin_user_name: bruno
-    master_count: 1
-    infra_count: 1
-    node_count: 1
+    master_count: 3
+    infra_count: 3
+    node_count: 3
     runvmext: "false"
-    virtual_network_name: "openshiftvnet02"
+    virtual_network_name: "openshiftvnet03"
 
   tasks:
     - name: Create a resource group
@@ -237,6 +237,8 @@
               - name: backendaddrpool0
                 load_balancer: mycluster-masterlb
       with_sequence: start=0 end={{ master_count - 1 }}
+      async: 150
+      poll: 0
 
     - name: Create virtual network inteface card for node
       azure_rm_networkinterface:
@@ -246,6 +248,8 @@
         subnet: nodesubnet
         security_group: mycluster-node-nsg
       with_sequence: start=0 end={{ node_count - 1 }}
+      async: 150
+      poll: 0
 
     - name: Create virtual network inteface card for infra
       azure_rm_networkinterface:
@@ -260,6 +264,8 @@
               - name: backendaddrpool0
                 load_balancer: mycluster-infralb
       with_sequence: start=0 end={{ infra_count - 1 }}
+      async: 150
+      poll: 0
 
   
     - name: Create master VMs
