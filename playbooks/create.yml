@@ -8,7 +8,6 @@
   vars:
     resource_group: zims-openshift-2
     location: eastus
-    vm_name: mycluster-master-0
 
   tasks:
     - name: Create a resource group
@@ -25,7 +24,7 @@
     - name: Add subnet
       azure_rm_subnet:
         resource_group: "{{ resource_group }}"
-        name: "{{ vm_name }}"
+        name: openshiftsubnet
         address_prefix: "10.0.1.0/24"
         virtual_network: openshiftvnet
 
@@ -106,8 +105,7 @@
         resource_group: "{{ resource_group }}"
         name: mycluster-master-0-nic
         virtual_network: openshiftvnet
-        subnet: "{{ vm_name }}"
-        #public_ip_name: "{{ vm_name }}"
+        subnet: openshiftsubnet
         security_group: mycluster-master-nsg
 
     - name: Create virtual network inteface card
@@ -115,8 +113,7 @@
         resource_group: "{{ resource_group }}"
         name: mycluster-node-0-nic
         virtual_network: openshiftvnet
-        subnet: "{{ vm_name }}"
-        #public_ip_name: "{{ vm_name }}"
+        subnet: openshiftsubnet
         security_group: mycluster-node-nsg
 
 
