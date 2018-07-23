@@ -9,7 +9,8 @@
     location: eastus
     persistent_volume_name: "pv1saunique1223344"
     admin_user_name: zim
-    master_count: 2
+    master_count: 3
+    infra_count: 3
     node_count: 3
 
   tasks:
@@ -22,20 +23,33 @@
       azure_rm_virtualnetwork:
         resource_group: "{{ resource_group }}"
         name: openshiftvnet
-        address_prefixes: "10.0.0.0/16"
+        address_prefixes: "10.0.0.0/14"
 
-    - name: Add subnet
+    - name: Add master subnet
       azure_rm_subnet:
         resource_group: "{{ resource_group }}"
-        name: openshiftsubnet
-        address_prefix: "10.0.1.0/24"
+        name: mastersubnet
+        address_prefix: "10.1.0.0/16"
+        virtual_network: openshiftvnet
+  
+    - name: Add node subnet
+      azure_rm_subnet:
+        resource_group: "{{ resource_group }}"
+        name: nodesubnet
+        address_prefix: "10.2.0.0/16"
         virtual_network: openshiftvnet
 
-    - name: Create public IP address
+    - name: Create public IP address for Master LB
       azure_rm_publicipaddress:
         resource_group: "{{ resource_group }}"
-        allocation_method: Dynamic
-        name: mycluster_publicip
+        allocation_method: Static
+        name: masterlb_publicip
+
+    - name: Create public IP address for Infra LB
+      azure_rm_publicipaddress:
+        resource_group: "{{ resource_group }}"
+        allocation_method: Static
+        name: infralb_publicip
 
     - name: Create infrastructure NSG
       azure_rm_securitygroup:
@@ -103,12 +117,44 @@
             priority: 300
             direction: Inbound
 
-    - name: Create a load balancer
+    - name: Create master load balancer
       azure_rm_loadbalancer:
         name: mycluster-masterlb
         location: eastus
         resource_group: "{{ resource_group }}"
-        public_ip: mycluster_publicip
+        public_ip: masterlb_publicip
+        probe_protocol: Tcp
+        probe_port: 80
+        probe_interval: 10
+        probe_fail_count: 3
+        protocol: Tcp
+        load_distribution: SourceIP
+        frontend_port: 80
+        backend_port: 8080
+        idle_timeout: 15
+        frontend_ip_configurations:
+          - name: frontendip
+            public_ip_address: masterlb_publicip
+        load_balancing_rules:
+          - name: loadbalancingrule
+            frontend_ip_configuration: frontendip
+            probe: prob0
+            backend_address_pool: backendaddrpool0
+            frontend_port: 443
+            backend_port: 443
+        backend_address_pools:
+          - name: backendaddrpool0
+        probes:
+          - name: prob0
+            port: 443
+      register: lb
+
+    - name: Create infra load balancer
+      azure_rm_loadbalancer:
+        name: mycluster-infralb
+        location: eastus
+        resource_group: "{{ resource_group }}"
+        public_ip: infralb_publicip
         probe_protocol: Tcp
         probe_port: 80
         probe_interval: 10
@@ -118,15 +164,9 @@
         frontend_port: 80
         backend_port: 8080
         idle_timeout: 4
-        inbound_nat_pools:
-          - name: inboundnatpool
-            backend_port: 22
-            frontend_port_range_start: 2000
-            frontend_port_range_end: 2005
-            frontend_ip_configuration_name: frontendip
         frontend_ip_configurations:
           - name: frontendip
-            public_ip_address: mycluster_publicip
+            public_ip_address: infralb_publicip
         load_balancing_rules:
           - name: loadbalancingrule
             frontend_ip_configuration: frontendip
