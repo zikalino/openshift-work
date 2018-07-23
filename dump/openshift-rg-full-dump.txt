@@ -1,321 +1,30 @@
 
-PLAY [localhost] *******************************************************************************************************************************************************************************************************************
+PLAY [localhost] ********************************************************************************************************
 
-TASK [Gathering Facts] *************************************************************************************************************************************************************************************************************
+TASK [Gathering Facts] **************************************************************************************************
 ok: [localhost]
 
-TASK [Call REST API - Disks_List] **************************************************************************************************************************************************************************************************
+TASK [Call REST API - Disks_List] ***************************************************************************************
 ok: [localhost]
 
-TASK [debug] ***********************************************************************************************************************************************************************************************************************
+TASK [debug] ************************************************************************************************************
 ok: [localhost] => {
     "output": {
         "changed": false, 
         "failed": false, 
         "response": [
             {
-                "value": [
-                    {
-                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/disks/mycluster-master-0-docker-pool", 
-                        "location": "eastus", 
-                        "managedBy": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-master-0", 
-                        "name": "mycluster-master-0-docker-pool", 
-                        "properties": {
-                            "creationData": {
-                                "createOption": "Empty"
-                            }, 
-                            "diskSizeGB": 64, 
-                            "diskState": "Attached", 
-                            "provisioningState": "Succeeded", 
-                            "timeCreated": "2018-07-12T07:34:33.5231337+00:00"
-                        }, 
-                        "sku": {
-                            "name": "Premium_LRS", 
-                            "tier": "Premium"
-                        }, 
-                        "tags": {
-                            "Role": "masternode", 
-                            "app": "OpenShiftOrigin", 
-                            "platform": "AzurePublic", 
-                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
-                            "version": "3.9"
-                        }, 
-                        "type": "Microsoft.Compute/disks"
-                    }, 
-                    {
-                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/disks/mycluster-master-0-osdisk", 
-                        "location": "eastus", 
-                        "managedBy": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-master-0", 
-                        "name": "mycluster-master-0-osdisk", 
-                        "properties": {
-                            "creationData": {
-                                "createOption": "FromImage", 
-                                "imageReference": {
-                                    "id": "/Subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/Providers/Microsoft.Compute/Locations/eastus/Publishers/Openlogic/ArtifactTypes/VMImage/Offers/CentOS/Skus/7.4/Versions/7.4.20180410"
-                                }
-                            }, 
-                            "diskSizeGB": 64, 
-                            "diskState": "Attached", 
-                            "osType": "Linux", 
-                            "provisioningState": "Succeeded", 
-                            "timeCreated": "2018-07-12T07:34:33.5231337+00:00"
-                        }, 
-                        "sku": {
-                            "name": "Premium_LRS", 
-                            "tier": "Premium"
-                        }, 
-                        "tags": {
-                            "Role": "masternode", 
-                            "app": "OpenShiftOrigin", 
-                            "platform": "AzurePublic", 
-                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
-                            "version": "3.9"
-                        }, 
-                        "type": "Microsoft.Compute/disks"
-                    }, 
-                    {
-                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/disks/mycluster-master-1-docker-pool", 
-                        "location": "eastus", 
-                        "managedBy": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-master-1", 
-                        "name": "mycluster-master-1-docker-pool", 
-                        "properties": {
-                            "creationData": {
-                                "createOption": "Empty"
-                            }, 
-                            "diskSizeGB": 64, 
-                            "diskState": "Attached", 
-                            "provisioningState": "Succeeded", 
-                            "timeCreated": "2018-07-12T07:34:33.5231337+00:00"
-                        }, 
-                        "sku": {
-                            "name": "Premium_LRS", 
-                            "tier": "Premium"
-                        }, 
-                        "tags": {
-                            "Role": "masternode", 
-                            "app": "OpenShiftOrigin", 
-                            "platform": "AzurePublic", 
-                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
-                            "version": "3.9"
-                        }, 
-                        "type": "Microsoft.Compute/disks"
-                    }, 
-                    {
-                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/disks/mycluster-master-1-osdisk", 
-                        "location": "eastus", 
-                        "managedBy": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-master-1", 
-                        "name": "mycluster-master-1-osdisk", 
-                        "properties": {
-                            "creationData": {
-                                "createOption": "FromImage", 
-                                "imageReference": {
-                                    "id": "/Subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/Providers/Microsoft.Compute/Locations/eastus/Publishers/Openlogic/ArtifactTypes/VMImage/Offers/CentOS/Skus/7.4/Versions/7.4.20180410"
-                                }
-                            }, 
-                            "diskSizeGB": 64, 
-                            "diskState": "Attached", 
-                            "osType": "Linux", 
-                            "provisioningState": "Succeeded", 
-                            "timeCreated": "2018-07-12T07:34:33.5231337+00:00"
-                        }, 
-                        "sku": {
-                            "name": "Premium_LRS", 
-                            "tier": "Premium"
-                        }, 
-                        "tags": {
-                            "Role": "masternode", 
-                            "app": "OpenShiftOrigin", 
-                            "platform": "AzurePublic", 
-                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
-                            "version": "3.9"
-                        }, 
-                        "type": "Microsoft.Compute/disks"
-                    }, 
-                    {
-                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/disks/mycluster-master-2-docker-pool", 
-                        "location": "eastus", 
-                        "managedBy": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-master-2", 
-                        "name": "mycluster-master-2-docker-pool", 
-                        "properties": {
-                            "creationData": {
-                                "createOption": "Empty"
-                            }, 
-                            "diskSizeGB": 64, 
-                            "diskState": "Attached", 
-                            "provisioningState": "Succeeded", 
-                            "timeCreated": "2018-07-12T07:34:33.5231337+00:00"
-                        }, 
-                        "sku": {
-                            "name": "Premium_LRS", 
-                            "tier": "Premium"
-                        }, 
-                        "tags": {
-                            "Role": "masternode", 
-                            "app": "OpenShiftOrigin", 
-                            "platform": "AzurePublic", 
-                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
-                            "version": "3.9"
-                        }, 
-                        "type": "Microsoft.Compute/disks"
-                    }, 
-                    {
-                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/disks/mycluster-master-2-osdisk", 
-                        "location": "eastus", 
-                        "managedBy": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-master-2", 
-                        "name": "mycluster-master-2-osdisk", 
-                        "properties": {
-                            "creationData": {
-                                "createOption": "FromImage", 
-                                "imageReference": {
-                                    "id": "/Subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/Providers/Microsoft.Compute/Locations/eastus/Publishers/Openlogic/ArtifactTypes/VMImage/Offers/CentOS/Skus/7.4/Versions/7.4.20180410"
-                                }
-                            }, 
-                            "diskSizeGB": 64, 
-                            "diskState": "Attached", 
-                            "osType": "Linux", 
-                            "provisioningState": "Succeeded", 
-                            "timeCreated": "2018-07-12T07:34:33.5231337+00:00"
-                        }, 
-                        "sku": {
-                            "name": "Premium_LRS", 
-                            "tier": "Premium"
-                        }, 
-                        "tags": {
-                            "Role": "masternode", 
-                            "app": "OpenShiftOrigin", 
-                            "platform": "AzurePublic", 
-                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
-                            "version": "3.9"
-                        }, 
-                        "type": "Microsoft.Compute/disks"
-                    }, 
-                    {
-                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/disks/mycluster-node-0-docker-pool", 
-                        "location": "eastus", 
-                        "managedBy": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-node-0", 
-                        "name": "mycluster-node-0-docker-pool", 
-                        "properties": {
-                            "creationData": {
-                                "createOption": "Empty"
-                            }, 
-                            "diskSizeGB": 64, 
-                            "diskState": "Attached", 
-                            "provisioningState": "Succeeded", 
-                            "timeCreated": "2018-07-12T07:34:23.1896851+00:00"
-                        }, 
-                        "sku": {
-                            "name": "Premium_LRS", 
-                            "tier": "Premium"
-                        }, 
-                        "tags": {
-                            "Role": "appnode", 
-                            "app": "OpenShiftOrigin", 
-                            "platform": "AzurePublic", 
-                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
-                            "version": "3.9"
-                        }, 
-                        "type": "Microsoft.Compute/disks"
-                    }, 
-                    {
-                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/disks/mycluster-node-0-osdisk", 
-                        "location": "eastus", 
-                        "managedBy": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-node-0", 
-                        "name": "mycluster-node-0-osdisk", 
-                        "properties": {
-                            "creationData": {
-                                "createOption": "FromImage", 
-                                "imageReference": {
-                                    "id": "/Subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/Providers/Microsoft.Compute/Locations/eastus/Publishers/Openlogic/ArtifactTypes/VMImage/Offers/CentOS/Skus/7.4/Versions/7.4.20180410"
-                                }
-                            }, 
-                            "diskSizeGB": 64, 
-                            "diskState": "Attached", 
-                            "osType": "Linux", 
-                            "provisioningState": "Succeeded", 
-                            "timeCreated": "2018-07-12T07:34:23.1896851+00:00"
-                        }, 
-                        "sku": {
-                            "name": "Premium_LRS", 
-                            "tier": "Premium"
-                        }, 
-                        "tags": {
-                            "Role": "appnode", 
-                            "app": "OpenShiftOrigin", 
-                            "platform": "AzurePublic", 
-                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
-                            "version": "3.9"
-                        }, 
-                        "type": "Microsoft.Compute/disks"
-                    }, 
-                    {
-                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/disks/mycluster-node-1-docker-pool", 
-                        "location": "eastus", 
-                        "managedBy": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-node-1", 
-                        "name": "mycluster-node-1-docker-pool", 
-                        "properties": {
-                            "creationData": {
-                                "createOption": "Empty"
-                            }, 
-                            "diskSizeGB": 64, 
-                            "diskState": "Attached", 
-                            "provisioningState": "Succeeded", 
-                            "timeCreated": "2018-07-12T07:34:23.1896851+00:00"
-                        }, 
-                        "sku": {
-                            "name": "Premium_LRS", 
-                            "tier": "Premium"
-                        }, 
-                        "tags": {
-                            "Role": "appnode", 
-                            "app": "OpenShiftOrigin", 
-                            "platform": "AzurePublic", 
-                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
-                            "version": "3.9"
-                        }, 
-                        "type": "Microsoft.Compute/disks"
-                    }, 
-                    {
-                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/disks/mycluster-node-1-osdisk", 
-                        "location": "eastus", 
-                        "managedBy": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-node-1", 
-                        "name": "mycluster-node-1-osdisk", 
-                        "properties": {
-                            "creationData": {
-                                "createOption": "FromImage", 
-                                "imageReference": {
-                                    "id": "/Subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/Providers/Microsoft.Compute/Locations/eastus/Publishers/Openlogic/ArtifactTypes/VMImage/Offers/CentOS/Skus/7.4/Versions/7.4.20180410"
-                                }
-                            }, 
-                            "diskSizeGB": 64, 
-                            "diskState": "Attached", 
-                            "osType": "Linux", 
-                            "provisioningState": "Succeeded", 
-                            "timeCreated": "2018-07-12T07:34:23.1896851+00:00"
-                        }, 
-                        "sku": {
-                            "name": "Premium_LRS", 
-                            "tier": "Premium"
-                        }, 
-                        "tags": {
-                            "Role": "appnode", 
-                            "app": "OpenShiftOrigin", 
-                            "platform": "AzurePublic", 
-                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
-                            "version": "3.9"
-                        }, 
-                        "type": "Microsoft.Compute/disks"
-                    }
-                ]
+                "value": []
             }
         ], 
-        "url": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.compute/disks"
+        "url": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.compute/disks"
     }
 }
 
-TASK [Call REST API - AvailabilitySets_List] ***************************************************************************************************************************************************************************************
+TASK [Call REST API - AvailabilitySets_List] ****************************************************************************
 ok: [localhost]
 
-TASK [debug] ***********************************************************************************************************************************************************************************************************************
+TASK [debug] ************************************************************************************************************
 ok: [localhost] => {
     "output": {
         "changed": false, 
@@ -324,7 +33,28 @@ ok: [localhost] => {
             {
                 "value": [
                     {
-                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/availabilitySets/infraavailabilityset", 
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Compute/availabilitySets/cnsavailabilityset", 
+                        "location": "eastus", 
+                        "name": "cnsavailabilityset", 
+                        "properties": {
+                            "platformFaultDomainCount": 2, 
+                            "platformUpdateDomainCount": 5, 
+                            "virtualMachines": []
+                        }, 
+                        "sku": {
+                            "name": "Aligned"
+                        }, 
+                        "tags": {
+                            "app": "OpenShiftContainerPlatform", 
+                            "displayName": "CnsAvailabilitySet", 
+                            "platform": "AzurePublic", 
+                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
+                            "version": "3.9"
+                        }, 
+                        "type": "Microsoft.Compute/availabilitySets"
+                    }, 
+                    {
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Compute/availabilitySets/infraavailabilityset", 
                         "location": "eastus", 
                         "name": "infraavailabilityset", 
                         "properties": {
@@ -336,7 +66,7 @@ ok: [localhost] => {
                             "name": "Aligned"
                         }, 
                         "tags": {
-                            "app": "OpenShiftOrigin", 
+                            "app": "OpenShiftContainerPlatform", 
                             "displayName": "InfraAvailabilitySet", 
                             "platform": "AzurePublic", 
                             "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
@@ -345,29 +75,19 @@ ok: [localhost] => {
                         "type": "Microsoft.Compute/availabilitySets"
                     }, 
                     {
-                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/availabilitySets/masteravailabilityset", 
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Compute/availabilitySets/masteravailabilityset", 
                         "location": "eastus", 
                         "name": "masteravailabilityset", 
                         "properties": {
                             "platformFaultDomainCount": 2, 
                             "platformUpdateDomainCount": 5, 
-                            "virtualMachines": [
-                                {
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/ZIMS-OPENSHIFT/providers/Microsoft.Compute/virtualMachines/MYCLUSTER-MASTER-0"
-                                }, 
-                                {
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/ZIMS-OPENSHIFT/providers/Microsoft.Compute/virtualMachines/MYCLUSTER-MASTER-1"
-                                }, 
-                                {
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/ZIMS-OPENSHIFT/providers/Microsoft.Compute/virtualMachines/MYCLUSTER-MASTER-2"
-                                }
-                            ]
+                            "virtualMachines": []
                         }, 
                         "sku": {
                             "name": "Aligned"
                         }, 
                         "tags": {
-                            "app": "OpenShiftOrigin", 
+                            "app": "OpenShiftContainerPlatform", 
                             "displayName": "MasterAvailabilitySet", 
                             "platform": "AzurePublic", 
                             "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
@@ -376,26 +96,19 @@ ok: [localhost] => {
                         "type": "Microsoft.Compute/availabilitySets"
                     }, 
                     {
-                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/availabilitySets/nodeavailabilityset", 
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Compute/availabilitySets/nodeavailabilityset", 
                         "location": "eastus", 
                         "name": "nodeavailabilityset", 
                         "properties": {
                             "platformFaultDomainCount": 2, 
                             "platformUpdateDomainCount": 5, 
-                            "virtualMachines": [
-                                {
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/ZIMS-OPENSHIFT/providers/Microsoft.Compute/virtualMachines/MYCLUSTER-NODE-0"
-                                }, 
-                                {
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/ZIMS-OPENSHIFT/providers/Microsoft.Compute/virtualMachines/MYCLUSTER-NODE-1"
-                                }
-                            ]
+                            "virtualMachines": []
                         }, 
                         "sku": {
                             "name": "Aligned"
                         }, 
                         "tags": {
-                            "app": "OpenShiftOrigin", 
+                            "app": "OpenShiftContainerPlatform", 
                             "displayName": "NodeAvailabilitySet", 
                             "platform": "AzurePublic", 
                             "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
@@ -406,681 +119,48 @@ ok: [localhost] => {
                 ]
             }
         ], 
-        "url": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.compute/availabilitysets"
+        "url": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.compute/availabilitysets"
     }
 }
 
-TASK [Call REST API - VirtualMachines_List] ****************************************************************************************************************************************************************************************
+TASK [Call REST API - VirtualMachines_List] *****************************************************************************
 ok: [localhost]
 
-TASK [debug] ***********************************************************************************************************************************************************************************************************************
+TASK [debug] ************************************************************************************************************
 ok: [localhost] => {
     "output": {
         "changed": false, 
         "failed": false, 
         "response": [
             {
-                "value": [
-                    {
-                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-master-0", 
-                        "location": "eastus", 
-                        "name": "mycluster-master-0", 
-                        "properties": {
-                            "availabilitySet": {
-                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/availabilitySets/MASTERAVAILABILITYSET"
-                            }, 
-                            "diagnosticsProfile": {
-                                "bootDiagnostics": {
-                                    "enabled": true, 
-                                    "storageUri": "https://diag1ldgn67ikjhlis.blob.core.windows.net/"
-                                }
-                            }, 
-                            "hardwareProfile": {
-                                "vmSize": "Standard_DS3_v2"
-                            }, 
-                            "networkProfile": {
-                                "networkInterfaces": [
-                                    {
-                                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-master-0-nic"
-                                    }
-                                ]
-                            }, 
-                            "osProfile": {
-                                "adminUsername": "clusteradmin", 
-                                "computerName": "mycluster-master-0", 
-                                "linuxConfiguration": {
-                                    "disablePasswordAuthentication": true, 
-                                    "ssh": {
-                                        "publicKeys": [
-                                            {
-                                                "keyData": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDEyXQwVg52NMVoEBU/dRUEmHX9o/+wqm33YhjlbNa33xSmcGFBLs47QFsd8s3fvTIOq7ntKt9E8tONcI0BMcAlm9Ur+Utsuv2MctevO8Y/MLSWQM4qzhwSQof43yoEdf8mRQ1zyTIIzv7noXt9DOg3rfCVX8MhX3xTFwRS1v13HPu6tuyPSl27o5NLGhEbBToXXbcFkNp3isCBjfYWjDnFX58lGmjYDTbMwOhLBiMKYm5hYwtuF7Cxhm29tvBdi9OReMkKhcaJgTsa+a9h8ybwj/2Jk1iL+VZxkiDvTwPGE1vpYbyz/JJ7DhKSoJjpEIl5jqnBXb0v6KPev3FMVUsL", 
-                                                "path": "/home/clusteradmin/.ssh/authorized_keys"
-                                            }
-                                        ]
-                                    }
-                                }, 
-                                "secrets": []
-                            }, 
-                            "provisioningState": "Succeeded", 
-                            "storageProfile": {
-                                "dataDisks": [
-                                    {
-                                        "caching": "None", 
-                                        "createOption": "Empty", 
-                                        "diskSizeGB": 64, 
-                                        "lun": 0, 
-                                        "managedDisk": {
-                                            "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/disks/mycluster-master-0-docker-pool", 
-                                            "storageAccountType": "Premium_LRS"
-                                        }, 
-                                        "name": "mycluster-master-0-docker-pool"
-                                    }
-                                ], 
-                                "imageReference": {
-                                    "offer": "CentOS", 
-                                    "publisher": "Openlogic", 
-                                    "sku": "7.4", 
-                                    "version": "latest"
-                                }, 
-                                "osDisk": {
-                                    "caching": "ReadWrite", 
-                                    "createOption": "FromImage", 
-                                    "diskSizeGB": 64, 
-                                    "managedDisk": {
-                                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/disks/mycluster-master-0-osdisk", 
-                                        "storageAccountType": "Premium_LRS"
-                                    }, 
-                                    "name": "mycluster-master-0-osdisk", 
-                                    "osType": "Linux"
-                                }
-                            }, 
-                            "vmId": "ecbd7592-43be-449d-b602-a10cae37bd19"
-                        }, 
-                        "resources": [
-                            {
-                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-master-0/extensions/deployOpenShift"
-                            }
-                        ], 
-                        "tags": {
-                            "Role": "masternode", 
-                            "app": "OpenShiftOrigin", 
-                            "platform": "AzurePublic", 
-                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
-                            "version": "3.9"
-                        }, 
-                        "type": "Microsoft.Compute/virtualMachines"
-                    }, 
-                    {
-                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-master-1", 
-                        "location": "eastus", 
-                        "name": "mycluster-master-1", 
-                        "properties": {
-                            "availabilitySet": {
-                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/availabilitySets/MASTERAVAILABILITYSET"
-                            }, 
-                            "diagnosticsProfile": {
-                                "bootDiagnostics": {
-                                    "enabled": true, 
-                                    "storageUri": "https://diag1ldgn67ikjhlis.blob.core.windows.net/"
-                                }
-                            }, 
-                            "hardwareProfile": {
-                                "vmSize": "Standard_DS3_v2"
-                            }, 
-                            "networkProfile": {
-                                "networkInterfaces": [
-                                    {
-                                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-master-1-nic"
-                                    }
-                                ]
-                            }, 
-                            "osProfile": {
-                                "adminUsername": "clusteradmin", 
-                                "computerName": "mycluster-master-1", 
-                                "linuxConfiguration": {
-                                    "disablePasswordAuthentication": true, 
-                                    "ssh": {
-                                        "publicKeys": [
-                                            {
-                                                "keyData": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDEyXQwVg52NMVoEBU/dRUEmHX9o/+wqm33YhjlbNa33xSmcGFBLs47QFsd8s3fvTIOq7ntKt9E8tONcI0BMcAlm9Ur+Utsuv2MctevO8Y/MLSWQM4qzhwSQof43yoEdf8mRQ1zyTIIzv7noXt9DOg3rfCVX8MhX3xTFwRS1v13HPu6tuyPSl27o5NLGhEbBToXXbcFkNp3isCBjfYWjDnFX58lGmjYDTbMwOhLBiMKYm5hYwtuF7Cxhm29tvBdi9OReMkKhcaJgTsa+a9h8ybwj/2Jk1iL+VZxkiDvTwPGE1vpYbyz/JJ7DhKSoJjpEIl5jqnBXb0v6KPev3FMVUsL", 
-                                                "path": "/home/clusteradmin/.ssh/authorized_keys"
-                                            }
-                                        ]
-                                    }
-                                }, 
-                                "secrets": []
-                            }, 
-                            "provisioningState": "Succeeded", 
-                            "storageProfile": {
-                                "dataDisks": [
-                                    {
-                                        "caching": "None", 
-                                        "createOption": "Empty", 
-                                        "diskSizeGB": 64, 
-                                        "lun": 0, 
-                                        "managedDisk": {
-                                            "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/disks/mycluster-master-1-docker-pool", 
-                                            "storageAccountType": "Premium_LRS"
-                                        }, 
-                                        "name": "mycluster-master-1-docker-pool"
-                                    }
-                                ], 
-                                "imageReference": {
-                                    "offer": "CentOS", 
-                                    "publisher": "Openlogic", 
-                                    "sku": "7.4", 
-                                    "version": "latest"
-                                }, 
-                                "osDisk": {
-                                    "caching": "ReadWrite", 
-                                    "createOption": "FromImage", 
-                                    "diskSizeGB": 64, 
-                                    "managedDisk": {
-                                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/disks/mycluster-master-1-osdisk", 
-                                        "storageAccountType": "Premium_LRS"
-                                    }, 
-                                    "name": "mycluster-master-1-osdisk", 
-                                    "osType": "Linux"
-                                }
-                            }, 
-                            "vmId": "7d42b7f5-4b8b-4427-9bec-d9c6d9ed9159"
-                        }, 
-                        "resources": [
-                            {
-                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-master-1/extensions/deployOpenShift"
-                            }
-                        ], 
-                        "tags": {
-                            "Role": "masternode", 
-                            "app": "OpenShiftOrigin", 
-                            "platform": "AzurePublic", 
-                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
-                            "version": "3.9"
-                        }, 
-                        "type": "Microsoft.Compute/virtualMachines"
-                    }, 
-                    {
-                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-master-2", 
-                        "location": "eastus", 
-                        "name": "mycluster-master-2", 
-                        "properties": {
-                            "availabilitySet": {
-                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/availabilitySets/MASTERAVAILABILITYSET"
-                            }, 
-                            "diagnosticsProfile": {
-                                "bootDiagnostics": {
-                                    "enabled": true, 
-                                    "storageUri": "https://diag1ldgn67ikjhlis.blob.core.windows.net/"
-                                }
-                            }, 
-                            "hardwareProfile": {
-                                "vmSize": "Standard_DS3_v2"
-                            }, 
-                            "networkProfile": {
-                                "networkInterfaces": [
-                                    {
-                                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-master-2-nic"
-                                    }
-                                ]
-                            }, 
-                            "osProfile": {
-                                "adminUsername": "clusteradmin", 
-                                "computerName": "mycluster-master-2", 
-                                "linuxConfiguration": {
-                                    "disablePasswordAuthentication": true, 
-                                    "ssh": {
-                                        "publicKeys": [
-                                            {
-                                                "keyData": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDEyXQwVg52NMVoEBU/dRUEmHX9o/+wqm33YhjlbNa33xSmcGFBLs47QFsd8s3fvTIOq7ntKt9E8tONcI0BMcAlm9Ur+Utsuv2MctevO8Y/MLSWQM4qzhwSQof43yoEdf8mRQ1zyTIIzv7noXt9DOg3rfCVX8MhX3xTFwRS1v13HPu6tuyPSl27o5NLGhEbBToXXbcFkNp3isCBjfYWjDnFX58lGmjYDTbMwOhLBiMKYm5hYwtuF7Cxhm29tvBdi9OReMkKhcaJgTsa+a9h8ybwj/2Jk1iL+VZxkiDvTwPGE1vpYbyz/JJ7DhKSoJjpEIl5jqnBXb0v6KPev3FMVUsL", 
-                                                "path": "/home/clusteradmin/.ssh/authorized_keys"
-                                            }
-                                        ]
-                                    }
-                                }, 
-                                "secrets": []
-                            }, 
-                            "provisioningState": "Succeeded", 
-                            "storageProfile": {
-                                "dataDisks": [
-                                    {
-                                        "caching": "None", 
-                                        "createOption": "Empty", 
-                                        "diskSizeGB": 64, 
-                                        "lun": 0, 
-                                        "managedDisk": {
-                                            "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/disks/mycluster-master-2-docker-pool", 
-                                            "storageAccountType": "Premium_LRS"
-                                        }, 
-                                        "name": "mycluster-master-2-docker-pool"
-                                    }
-                                ], 
-                                "imageReference": {
-                                    "offer": "CentOS", 
-                                    "publisher": "Openlogic", 
-                                    "sku": "7.4", 
-                                    "version": "latest"
-                                }, 
-                                "osDisk": {
-                                    "caching": "ReadWrite", 
-                                    "createOption": "FromImage", 
-                                    "diskSizeGB": 64, 
-                                    "managedDisk": {
-                                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/disks/mycluster-master-2-osdisk", 
-                                        "storageAccountType": "Premium_LRS"
-                                    }, 
-                                    "name": "mycluster-master-2-osdisk", 
-                                    "osType": "Linux"
-                                }
-                            }, 
-                            "vmId": "02ac29c9-89bb-4d15-a6e2-258b62482cb8"
-                        }, 
-                        "resources": [
-                            {
-                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-master-2/extensions/deployOpenShift"
-                            }
-                        ], 
-                        "tags": {
-                            "Role": "masternode", 
-                            "app": "OpenShiftOrigin", 
-                            "platform": "AzurePublic", 
-                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
-                            "version": "3.9"
-                        }, 
-                        "type": "Microsoft.Compute/virtualMachines"
-                    }, 
-                    {
-                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-node-0", 
-                        "location": "eastus", 
-                        "name": "mycluster-node-0", 
-                        "properties": {
-                            "availabilitySet": {
-                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/availabilitySets/NODEAVAILABILITYSET"
-                            }, 
-                            "diagnosticsProfile": {
-                                "bootDiagnostics": {
-                                    "enabled": true, 
-                                    "storageUri": "https://diag2pyd3glxqg44l4.blob.core.windows.net/"
-                                }
-                            }, 
-                            "hardwareProfile": {
-                                "vmSize": "Standard_DS3_v2"
-                            }, 
-                            "networkProfile": {
-                                "networkInterfaces": [
-                                    {
-                                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-node-0-nic"
-                                    }
-                                ]
-                            }, 
-                            "osProfile": {
-                                "adminUsername": "clusteradmin", 
-                                "computerName": "mycluster-node-0", 
-                                "linuxConfiguration": {
-                                    "disablePasswordAuthentication": true, 
-                                    "ssh": {
-                                        "publicKeys": [
-                                            {
-                                                "keyData": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDEyXQwVg52NMVoEBU/dRUEmHX9o/+wqm33YhjlbNa33xSmcGFBLs47QFsd8s3fvTIOq7ntKt9E8tONcI0BMcAlm9Ur+Utsuv2MctevO8Y/MLSWQM4qzhwSQof43yoEdf8mRQ1zyTIIzv7noXt9DOg3rfCVX8MhX3xTFwRS1v13HPu6tuyPSl27o5NLGhEbBToXXbcFkNp3isCBjfYWjDnFX58lGmjYDTbMwOhLBiMKYm5hYwtuF7Cxhm29tvBdi9OReMkKhcaJgTsa+a9h8ybwj/2Jk1iL+VZxkiDvTwPGE1vpYbyz/JJ7DhKSoJjpEIl5jqnBXb0v6KPev3FMVUsL", 
-                                                "path": "/home/clusteradmin/.ssh/authorized_keys"
-                                            }
-                                        ]
-                                    }
-                                }, 
-                                "secrets": []
-                            }, 
-                            "provisioningState": "Succeeded", 
-                            "storageProfile": {
-                                "dataDisks": [
-                                    {
-                                        "caching": "None", 
-                                        "createOption": "Empty", 
-                                        "diskSizeGB": 64, 
-                                        "lun": 0, 
-                                        "managedDisk": {
-                                            "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/disks/mycluster-node-0-docker-pool", 
-                                            "storageAccountType": "Premium_LRS"
-                                        }, 
-                                        "name": "mycluster-node-0-docker-pool"
-                                    }
-                                ], 
-                                "imageReference": {
-                                    "offer": "CentOS", 
-                                    "publisher": "Openlogic", 
-                                    "sku": "7.4", 
-                                    "version": "latest"
-                                }, 
-                                "osDisk": {
-                                    "caching": "ReadWrite", 
-                                    "createOption": "FromImage", 
-                                    "diskSizeGB": 64, 
-                                    "managedDisk": {
-                                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/disks/mycluster-node-0-osdisk", 
-                                        "storageAccountType": "Premium_LRS"
-                                    }, 
-                                    "name": "mycluster-node-0-osdisk", 
-                                    "osType": "Linux"
-                                }
-                            }, 
-                            "vmId": "95e321a7-094a-4027-9092-60691acbeabc"
-                        }, 
-                        "resources": [
-                            {
-                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-node-0/extensions/prepNodes"
-                            }
-                        ], 
-                        "tags": {
-                            "Role": "appnode", 
-                            "app": "OpenShiftOrigin", 
-                            "platform": "AzurePublic", 
-                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
-                            "version": "3.9"
-                        }, 
-                        "type": "Microsoft.Compute/virtualMachines"
-                    }, 
-                    {
-                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-node-1", 
-                        "location": "eastus", 
-                        "name": "mycluster-node-1", 
-                        "properties": {
-                            "availabilitySet": {
-                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/availabilitySets/NODEAVAILABILITYSET"
-                            }, 
-                            "diagnosticsProfile": {
-                                "bootDiagnostics": {
-                                    "enabled": true, 
-                                    "storageUri": "https://diag2pyd3glxqg44l4.blob.core.windows.net/"
-                                }
-                            }, 
-                            "hardwareProfile": {
-                                "vmSize": "Standard_DS3_v2"
-                            }, 
-                            "networkProfile": {
-                                "networkInterfaces": [
-                                    {
-                                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-node-1-nic"
-                                    }
-                                ]
-                            }, 
-                            "osProfile": {
-                                "adminUsername": "clusteradmin", 
-                                "computerName": "mycluster-node-1", 
-                                "linuxConfiguration": {
-                                    "disablePasswordAuthentication": true, 
-                                    "ssh": {
-                                        "publicKeys": [
-                                            {
-                                                "keyData": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDEyXQwVg52NMVoEBU/dRUEmHX9o/+wqm33YhjlbNa33xSmcGFBLs47QFsd8s3fvTIOq7ntKt9E8tONcI0BMcAlm9Ur+Utsuv2MctevO8Y/MLSWQM4qzhwSQof43yoEdf8mRQ1zyTIIzv7noXt9DOg3rfCVX8MhX3xTFwRS1v13HPu6tuyPSl27o5NLGhEbBToXXbcFkNp3isCBjfYWjDnFX58lGmjYDTbMwOhLBiMKYm5hYwtuF7Cxhm29tvBdi9OReMkKhcaJgTsa+a9h8ybwj/2Jk1iL+VZxkiDvTwPGE1vpYbyz/JJ7DhKSoJjpEIl5jqnBXb0v6KPev3FMVUsL", 
-                                                "path": "/home/clusteradmin/.ssh/authorized_keys"
-                                            }
-                                        ]
-                                    }
-                                }, 
-                                "secrets": []
-                            }, 
-                            "provisioningState": "Succeeded", 
-                            "storageProfile": {
-                                "dataDisks": [
-                                    {
-                                        "caching": "None", 
-                                        "createOption": "Empty", 
-                                        "diskSizeGB": 64, 
-                                        "lun": 0, 
-                                        "managedDisk": {
-                                            "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/disks/mycluster-node-1-docker-pool", 
-                                            "storageAccountType": "Premium_LRS"
-                                        }, 
-                                        "name": "mycluster-node-1-docker-pool"
-                                    }
-                                ], 
-                                "imageReference": {
-                                    "offer": "CentOS", 
-                                    "publisher": "Openlogic", 
-                                    "sku": "7.4", 
-                                    "version": "latest"
-                                }, 
-                                "osDisk": {
-                                    "caching": "ReadWrite", 
-                                    "createOption": "FromImage", 
-                                    "diskSizeGB": 64, 
-                                    "managedDisk": {
-                                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/disks/mycluster-node-1-osdisk", 
-                                        "storageAccountType": "Premium_LRS"
-                                    }, 
-                                    "name": "mycluster-node-1-osdisk", 
-                                    "osType": "Linux"
-                                }
-                            }, 
-                            "vmId": "9094a12d-4345-460d-898d-f4dda8e5747c"
-                        }, 
-                        "resources": [
-                            {
-                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-node-1/extensions/prepNodes"
-                            }
-                        ], 
-                        "tags": {
-                            "Role": "appnode", 
-                            "app": "OpenShiftOrigin", 
-                            "platform": "AzurePublic", 
-                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
-                            "version": "3.9"
-                        }, 
-                        "type": "Microsoft.Compute/virtualMachines"
-                    }
-                ]
+                "value": []
             }
         ], 
-        "url": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.compute/virtualmachines"
+        "url": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.compute/virtualmachines"
     }
 }
 
-TASK [Call REST API - LoadBalancers_List] ******************************************************************************************************************************************************************************************
+TASK [Call REST API - LoadBalancers_List] *******************************************************************************
 ok: [localhost]
 
-TASK [debug] ***********************************************************************************************************************************************************************************************************************
+TASK [debug] ************************************************************************************************************
 ok: [localhost] => {
     "output": {
         "changed": false, 
         "failed": false, 
         "response": [
             {
-                "value": [
-                    {
-                        "etag": "W/\"805b67b8-9e33-4717-84eb-1bfd0c03a84f\"", 
-                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb", 
-                        "location": "eastus", 
-                        "name": "mycluster-masterlb", 
-                        "properties": {
-                            "backendAddressPools": [
-                                {
-                                    "etag": "W/\"805b67b8-9e33-4717-84eb-1bfd0c03a84f\"", 
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb/backendAddressPools/loadBalancerBackEnd", 
-                                    "name": "loadBalancerBackEnd", 
-                                    "properties": {
-                                        "backendIPConfigurations": [
-                                            {
-                                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-master-1-nic/ipConfigurations/mycluster-master1ipconfig"
-                                            }, 
-                                            {
-                                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-master-2-nic/ipConfigurations/mycluster-master2ipconfig"
-                                            }, 
-                                            {
-                                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-master-0-nic/ipConfigurations/mycluster-master0ipconfig"
-                                            }
-                                        ], 
-                                        "loadBalancingRules": [
-                                            {
-                                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb/loadBalancingRules/OpenShiftAdminConsole"
-                                            }
-                                        ], 
-                                        "provisioningState": "Succeeded"
-                                    }
-                                }
-                            ], 
-                            "frontendIPConfigurations": [
-                                {
-                                    "etag": "W/\"805b67b8-9e33-4717-84eb-1bfd0c03a84f\"", 
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb/frontendIPConfigurations/LoadBalancerFrontEnd", 
-                                    "name": "LoadBalancerFrontEnd", 
-                                    "properties": {
-                                        "inboundNatRules": [
-                                            {
-                                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb/inboundNatRules/SSH-mycluster-master2"
-                                            }, 
-                                            {
-                                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb/inboundNatRules/SSH-mycluster-master1"
-                                            }, 
-                                            {
-                                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb/inboundNatRules/SSH-mycluster-master0"
-                                            }
-                                        ], 
-                                        "loadBalancingRules": [
-                                            {
-                                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb/loadBalancingRules/OpenShiftAdminConsole"
-                                            }
-                                        ], 
-                                        "privateIPAllocationMethod": "Dynamic", 
-                                        "provisioningState": "Succeeded", 
-                                        "publicIPAddress": {
-                                            "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/publicIPAddresses/masterdnswbsoodzidfrky"
-                                        }
-                                    }
-                                }
-                            ], 
-                            "inboundNatPools": [], 
-                            "inboundNatRules": [
-                                {
-                                    "etag": "W/\"805b67b8-9e33-4717-84eb-1bfd0c03a84f\"", 
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb/inboundNatRules/SSH-mycluster-master2", 
-                                    "name": "SSH-mycluster-master2", 
-                                    "properties": {
-                                        "backendIPConfiguration": {
-                                            "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-master-2-nic/ipConfigurations/mycluster-master2ipconfig"
-                                        }, 
-                                        "backendPort": 22, 
-                                        "enableDestinationServiceEndpoint": false, 
-                                        "enableFloatingIP": false, 
-                                        "frontendIPConfiguration": {
-                                            "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb/frontendIPConfigurations/LoadBalancerFrontEnd"
-                                        }, 
-                                        "frontendPort": 2202, 
-                                        "idleTimeoutInMinutes": 4, 
-                                        "protocol": "Tcp", 
-                                        "provisioningState": "Succeeded"
-                                    }
-                                }, 
-                                {
-                                    "etag": "W/\"805b67b8-9e33-4717-84eb-1bfd0c03a84f\"", 
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb/inboundNatRules/SSH-mycluster-master1", 
-                                    "name": "SSH-mycluster-master1", 
-                                    "properties": {
-                                        "backendIPConfiguration": {
-                                            "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-master-1-nic/ipConfigurations/mycluster-master1ipconfig"
-                                        }, 
-                                        "backendPort": 22, 
-                                        "enableDestinationServiceEndpoint": false, 
-                                        "enableFloatingIP": false, 
-                                        "frontendIPConfiguration": {
-                                            "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb/frontendIPConfigurations/LoadBalancerFrontEnd"
-                                        }, 
-                                        "frontendPort": 2201, 
-                                        "idleTimeoutInMinutes": 4, 
-                                        "protocol": "Tcp", 
-                                        "provisioningState": "Succeeded"
-                                    }
-                                }, 
-                                {
-                                    "etag": "W/\"805b67b8-9e33-4717-84eb-1bfd0c03a84f\"", 
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb/inboundNatRules/SSH-mycluster-master0", 
-                                    "name": "SSH-mycluster-master0", 
-                                    "properties": {
-                                        "backendIPConfiguration": {
-                                            "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-master-0-nic/ipConfigurations/mycluster-master0ipconfig"
-                                        }, 
-                                        "backendPort": 22, 
-                                        "enableDestinationServiceEndpoint": false, 
-                                        "enableFloatingIP": false, 
-                                        "frontendIPConfiguration": {
-                                            "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb/frontendIPConfigurations/LoadBalancerFrontEnd"
-                                        }, 
-                                        "frontendPort": 2200, 
-                                        "idleTimeoutInMinutes": 4, 
-                                        "protocol": "Tcp", 
-                                        "provisioningState": "Succeeded"
-                                    }
-                                }
-                            ], 
-                            "loadBalancingRules": [
-                                {
-                                    "etag": "W/\"805b67b8-9e33-4717-84eb-1bfd0c03a84f\"", 
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb/loadBalancingRules/OpenShiftAdminConsole", 
-                                    "name": "OpenShiftAdminConsole", 
-                                    "properties": {
-                                        "backendAddressPool": {
-                                            "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb/backendAddressPools/loadBalancerBackEnd"
-                                        }, 
-                                        "backendPort": 443, 
-                                        "enableDestinationServiceEndpoint": false, 
-                                        "enableFloatingIP": false, 
-                                        "frontendIPConfiguration": {
-                                            "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb/frontendIPConfigurations/LoadBalancerFrontEnd"
-                                        }, 
-                                        "frontendPort": 443, 
-                                        "idleTimeoutInMinutes": 30, 
-                                        "loadDistribution": "SourceIP", 
-                                        "probe": {
-                                            "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb/probes/httpsProbe"
-                                        }, 
-                                        "protocol": "Tcp", 
-                                        "provisioningState": "Succeeded"
-                                    }
-                                }
-                            ], 
-                            "probes": [
-                                {
-                                    "etag": "W/\"805b67b8-9e33-4717-84eb-1bfd0c03a84f\"", 
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb/probes/httpsProbe", 
-                                    "name": "httpsProbe", 
-                                    "properties": {
-                                        "intervalInSeconds": 5, 
-                                        "loadBalancingRules": [
-                                            {
-                                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb/loadBalancingRules/OpenShiftAdminConsole"
-                                            }
-                                        ], 
-                                        "numberOfProbes": 2, 
-                                        "port": 443, 
-                                        "protocol": "Tcp", 
-                                        "provisioningState": "Succeeded"
-                                    }
-                                }
-                            ], 
-                            "provisioningState": "Succeeded", 
-                            "resourceGuid": "7d7f2eb5-70f7-4710-917a-607d2b6b59c0"
-                        }, 
-                        "sku": {
-                            "name": "Basic", 
-                            "tier": "Regional"
-                        }, 
-                        "tags": {
-                            "app": "OpenShiftOrigin", 
-                            "displayName": "OpenShiftMasterLB", 
-                            "platform": "AzurePublic", 
-                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
-                            "version": "3.9"
-                        }, 
-                        "type": "Microsoft.Network/loadBalancers"
-                    }
-                ]
+                "value": []
             }
         ], 
-        "url": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.network/loadbalancers"
+        "url": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.network/loadbalancers"
     }
 }
 
-TASK [Call REST API - NetworkInterfaces_List] **************************************************************************************************************************************************************************************
+TASK [Call REST API - NetworkInterfaces_List] ***************************************************************************
 ok: [localhost]
 
-TASK [debug] ***********************************************************************************************************************************************************************************************************************
+TASK [debug] ************************************************************************************************************
 ok: [localhost] => {
     "output": {
         "changed": false, 
@@ -1089,125 +169,50 @@ ok: [localhost] => {
             {
                 "value": [
                     {
-                        "etag": "W/\"9bcab386-0251-4718-ac18-c35e5cf0e310\"", 
-                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-master-0-nic", 
+                        "etag": "W/\"cedfece2-ba97-4aea-a184-3b28a4e8d0f0\"", 
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkInterfaces/mycluster-bastion-nic", 
                         "location": "eastus", 
-                        "name": "mycluster-master-0-nic", 
+                        "name": "mycluster-bastion-nic", 
                         "properties": {
                             "dnsSettings": {
                                 "appliedDnsServers": [], 
                                 "dnsServers": [], 
-                                "internalDomainNameSuffix": "nkgegzelrboezlzqdgdycy3j0g.bx.internal.cloudapp.net"
+                                "internalDomainNameSuffix": "eerfaibm4gve1fdkoltctencie.bx.internal.cloudapp.net"
                             }, 
                             "enableAcceleratedNetworking": false, 
                             "enableIPForwarding": false, 
                             "ipConfigurations": [
                                 {
-                                    "etag": "W/\"9bcab386-0251-4718-ac18-c35e5cf0e310\"", 
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-master-0-nic/ipConfigurations/mycluster-master0ipconfig", 
-                                    "name": "mycluster-master0ipconfig", 
+                                    "etag": "W/\"cedfece2-ba97-4aea-a184-3b28a4e8d0f0\"", 
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkInterfaces/mycluster-bastion-nic/ipConfigurations/mycluster-bastionipconfig", 
+                                    "name": "mycluster-bastionipconfig", 
                                     "properties": {
                                         "isInUseWithService": false, 
-                                        "loadBalancerBackendAddressPools": [
-                                            {
-                                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb/backendAddressPools/loadBalancerBackEnd"
-                                            }
-                                        ], 
-                                        "loadBalancerInboundNatRules": [
-                                            {
-                                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb/inboundNatRules/SSH-mycluster-master0"
-                                            }
-                                        ], 
-                                        "primary": true, 
-                                        "privateIPAddress": "10.1.0.6", 
-                                        "privateIPAddressVersion": "IPv4", 
-                                        "privateIPAllocationMethod": "Dynamic", 
-                                        "provisioningState": "Succeeded", 
-                                        "subnet": {
-                                            "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/virtualNetworks/openshiftvnet/subnets/mastersubnet"
-                                        }
-                                    }
-                                }
-                            ], 
-                            "macAddress": "00-0D-3A-4D-D0-26", 
-                            "networkSecurityGroup": {
-                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-master-nsg"
-                            }, 
-                            "primary": true, 
-                            "provisioningState": "Succeeded", 
-                            "resourceGuid": "31f5dc95-790d-4323-89bb-49a4c654d327", 
-                            "services": null, 
-                            "virtualMachine": {
-                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-master-0"
-                            }, 
-                            "virtualNetworkTapProvisioningState": "NotProvisioned"
-                        }, 
-                        "tags": {
-                            "app": "OpenShiftOrigin", 
-                            "displayName": "OpenShiftMasterNetworkInterface", 
-                            "platform": "AzurePublic", 
-                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
-                            "version": "3.9"
-                        }, 
-                        "type": "Microsoft.Network/networkInterfaces"
-                    }, 
-                    {
-                        "etag": "W/\"2aca206c-3a5b-4113-a17a-d49077c196bc\"", 
-                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-master-1-nic", 
-                        "location": "eastus", 
-                        "name": "mycluster-master-1-nic", 
-                        "properties": {
-                            "dnsSettings": {
-                                "appliedDnsServers": [], 
-                                "dnsServers": [], 
-                                "internalDomainNameSuffix": "nkgegzelrboezlzqdgdycy3j0g.bx.internal.cloudapp.net"
-                            }, 
-                            "enableAcceleratedNetworking": false, 
-                            "enableIPForwarding": false, 
-                            "ipConfigurations": [
-                                {
-                                    "etag": "W/\"2aca206c-3a5b-4113-a17a-d49077c196bc\"", 
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-master-1-nic/ipConfigurations/mycluster-master1ipconfig", 
-                                    "name": "mycluster-master1ipconfig", 
-                                    "properties": {
-                                        "isInUseWithService": false, 
-                                        "loadBalancerBackendAddressPools": [
-                                            {
-                                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb/backendAddressPools/loadBalancerBackEnd"
-                                            }
-                                        ], 
-                                        "loadBalancerInboundNatRules": [
-                                            {
-                                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb/inboundNatRules/SSH-mycluster-master1"
-                                            }
-                                        ], 
                                         "primary": true, 
                                         "privateIPAddress": "10.1.0.4", 
                                         "privateIPAddressVersion": "IPv4", 
                                         "privateIPAllocationMethod": "Dynamic", 
                                         "provisioningState": "Succeeded", 
+                                        "publicIPAddress": {
+                                            "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/publicIPAddresses/bastionpublicip"
+                                        }, 
                                         "subnet": {
-                                            "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/virtualNetworks/openshiftvnet/subnets/mastersubnet"
+                                            "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/virtualNetworks/openshiftvnet/subnets/mastersubnet"
                                         }
                                     }
                                 }
                             ], 
-                            "macAddress": "00-0D-3A-4D-D5-10", 
                             "networkSecurityGroup": {
-                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-master-nsg"
+                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-bastion-nsg"
                             }, 
-                            "primary": true, 
                             "provisioningState": "Succeeded", 
-                            "resourceGuid": "f795f39e-4664-4ef7-a0f2-1ede17f53227", 
+                            "resourceGuid": "f5b4656d-be03-4473-b11d-98d7c40b62c4", 
                             "services": null, 
-                            "virtualMachine": {
-                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-master-1"
-                            }, 
                             "virtualNetworkTapProvisioningState": "NotProvisioned"
                         }, 
                         "tags": {
-                            "app": "OpenShiftOrigin", 
-                            "displayName": "OpenShiftMasterNetworkInterface", 
+                            "app": "OpenShiftContainerPlatform", 
+                            "displayName": "OpenShiftBastionNetworkInterface", 
                             "platform": "AzurePublic", 
                             "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
                             "version": "3.9"
@@ -1215,62 +220,95 @@ ok: [localhost] => {
                         "type": "Microsoft.Network/networkInterfaces"
                     }, 
                     {
-                        "etag": "W/\"59e24df8-0c3e-4bdf-9025-1bfb0622151b\"", 
-                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-master-2-nic", 
+                        "etag": "W/\"c14f056a-5fd7-47c9-b5e4-72a154e392fb\"", 
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkInterfaces/mycluster-cns-0-nic", 
                         "location": "eastus", 
-                        "name": "mycluster-master-2-nic", 
+                        "name": "mycluster-cns-0-nic", 
                         "properties": {
                             "dnsSettings": {
                                 "appliedDnsServers": [], 
                                 "dnsServers": [], 
-                                "internalDomainNameSuffix": "nkgegzelrboezlzqdgdycy3j0g.bx.internal.cloudapp.net"
+                                "internalDomainNameSuffix": "eerfaibm4gve1fdkoltctencie.bx.internal.cloudapp.net"
                             }, 
-                            "enableAcceleratedNetworking": false, 
+                            "enableAcceleratedNetworking": true, 
                             "enableIPForwarding": false, 
                             "ipConfigurations": [
                                 {
-                                    "etag": "W/\"59e24df8-0c3e-4bdf-9025-1bfb0622151b\"", 
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-master-2-nic/ipConfigurations/mycluster-master2ipconfig", 
-                                    "name": "mycluster-master2ipconfig", 
+                                    "etag": "W/\"c14f056a-5fd7-47c9-b5e4-72a154e392fb\"", 
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkInterfaces/mycluster-cns-0-nic/ipConfigurations/mycluster-cns0ipconfig", 
+                                    "name": "mycluster-cns0ipconfig", 
                                     "properties": {
                                         "isInUseWithService": false, 
-                                        "loadBalancerBackendAddressPools": [
-                                            {
-                                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb/backendAddressPools/loadBalancerBackEnd"
-                                            }
-                                        ], 
-                                        "loadBalancerInboundNatRules": [
-                                            {
-                                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb/inboundNatRules/SSH-mycluster-master2"
-                                            }
-                                        ], 
+                                        "primary": true, 
+                                        "privateIPAddress": "10.1.0.7", 
+                                        "privateIPAddressVersion": "IPv4", 
+                                        "privateIPAllocationMethod": "Dynamic", 
+                                        "provisioningState": "Succeeded", 
+                                        "subnet": {
+                                            "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/virtualNetworks/openshiftvnet/subnets/mastersubnet"
+                                        }
+                                    }
+                                }
+                            ], 
+                            "networkSecurityGroup": {
+                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-cns-nsg"
+                            }, 
+                            "provisioningState": "Succeeded", 
+                            "resourceGuid": "c3c2a5c2-f92d-4ba6-be90-19bbf5f99fd6", 
+                            "services": null, 
+                            "virtualNetworkTapProvisioningState": "NotProvisioned"
+                        }, 
+                        "tags": {
+                            "app": "OpenShiftContainerPlatform", 
+                            "displayName": "OpenShiftInfraNetworkInterfaces", 
+                            "platform": "AzurePublic", 
+                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
+                            "version": "3.9"
+                        }, 
+                        "type": "Microsoft.Network/networkInterfaces"
+                    }, 
+                    {
+                        "etag": "W/\"a02d6acf-28f3-4d13-8f03-f388f7958e24\"", 
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkInterfaces/mycluster-cns-1-nic", 
+                        "location": "eastus", 
+                        "name": "mycluster-cns-1-nic", 
+                        "properties": {
+                            "dnsSettings": {
+                                "appliedDnsServers": [], 
+                                "dnsServers": [], 
+                                "internalDomainNameSuffix": "eerfaibm4gve1fdkoltctencie.bx.internal.cloudapp.net"
+                            }, 
+                            "enableAcceleratedNetworking": true, 
+                            "enableIPForwarding": false, 
+                            "ipConfigurations": [
+                                {
+                                    "etag": "W/\"a02d6acf-28f3-4d13-8f03-f388f7958e24\"", 
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkInterfaces/mycluster-cns-1-nic/ipConfigurations/mycluster-cns1ipconfig", 
+                                    "name": "mycluster-cns1ipconfig", 
+                                    "properties": {
+                                        "isInUseWithService": false, 
                                         "primary": true, 
                                         "privateIPAddress": "10.1.0.5", 
                                         "privateIPAddressVersion": "IPv4", 
                                         "privateIPAllocationMethod": "Dynamic", 
                                         "provisioningState": "Succeeded", 
                                         "subnet": {
-                                            "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/virtualNetworks/openshiftvnet/subnets/mastersubnet"
+                                            "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/virtualNetworks/openshiftvnet/subnets/mastersubnet"
                                         }
                                     }
                                 }
                             ], 
-                            "macAddress": "00-0D-3A-4D-A8-DD", 
                             "networkSecurityGroup": {
-                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-master-nsg"
+                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-cns-nsg"
                             }, 
-                            "primary": true, 
                             "provisioningState": "Succeeded", 
-                            "resourceGuid": "d2c88587-dccb-47ea-9756-1be5f7a31560", 
+                            "resourceGuid": "8225bd7b-aa4b-435e-bc70-b7f49ebb94b5", 
                             "services": null, 
-                            "virtualMachine": {
-                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-master-2"
-                            }, 
                             "virtualNetworkTapProvisioningState": "NotProvisioned"
                         }, 
                         "tags": {
-                            "app": "OpenShiftOrigin", 
-                            "displayName": "OpenShiftMasterNetworkInterface", 
+                            "app": "OpenShiftContainerPlatform", 
+                            "displayName": "OpenShiftInfraNetworkInterfaces", 
                             "platform": "AzurePublic", 
                             "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
                             "version": "3.9"
@@ -1278,22 +316,70 @@ ok: [localhost] => {
                         "type": "Microsoft.Network/networkInterfaces"
                     }, 
                     {
-                        "etag": "W/\"7a18c18d-cde8-4e9d-ba5f-b872f7e2925c\"", 
-                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-node-0-nic", 
+                        "etag": "W/\"c7ed6a8d-5c21-489e-9b49-168a21ef87d6\"", 
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkInterfaces/mycluster-cns-2-nic", 
+                        "location": "eastus", 
+                        "name": "mycluster-cns-2-nic", 
+                        "properties": {
+                            "dnsSettings": {
+                                "appliedDnsServers": [], 
+                                "dnsServers": [], 
+                                "internalDomainNameSuffix": "eerfaibm4gve1fdkoltctencie.bx.internal.cloudapp.net"
+                            }, 
+                            "enableAcceleratedNetworking": true, 
+                            "enableIPForwarding": false, 
+                            "ipConfigurations": [
+                                {
+                                    "etag": "W/\"c7ed6a8d-5c21-489e-9b49-168a21ef87d6\"", 
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkInterfaces/mycluster-cns-2-nic/ipConfigurations/mycluster-cns2ipconfig", 
+                                    "name": "mycluster-cns2ipconfig", 
+                                    "properties": {
+                                        "isInUseWithService": false, 
+                                        "primary": true, 
+                                        "privateIPAddress": "10.1.0.6", 
+                                        "privateIPAddressVersion": "IPv4", 
+                                        "privateIPAllocationMethod": "Dynamic", 
+                                        "provisioningState": "Succeeded", 
+                                        "subnet": {
+                                            "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/virtualNetworks/openshiftvnet/subnets/mastersubnet"
+                                        }
+                                    }
+                                }
+                            ], 
+                            "networkSecurityGroup": {
+                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-cns-nsg"
+                            }, 
+                            "provisioningState": "Succeeded", 
+                            "resourceGuid": "fb6e7072-bd68-4e00-9bfb-37e0905f3335", 
+                            "services": null, 
+                            "virtualNetworkTapProvisioningState": "NotProvisioned"
+                        }, 
+                        "tags": {
+                            "app": "OpenShiftContainerPlatform", 
+                            "displayName": "OpenShiftInfraNetworkInterfaces", 
+                            "platform": "AzurePublic", 
+                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
+                            "version": "3.9"
+                        }, 
+                        "type": "Microsoft.Network/networkInterfaces"
+                    }, 
+                    {
+                        "etag": "W/\"cd76260d-fcf3-4f0d-91db-1bfa6f60f19e\"", 
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkInterfaces/mycluster-node-0-nic", 
                         "location": "eastus", 
                         "name": "mycluster-node-0-nic", 
                         "properties": {
                             "dnsSettings": {
                                 "appliedDnsServers": [], 
                                 "dnsServers": [], 
-                                "internalDomainNameSuffix": "nkgegzelrboezlzqdgdycy3j0g.bx.internal.cloudapp.net"
+                                "internalDomainNameSuffix": "eerfaibm4gve1fdkoltctencie.bx.internal.cloudapp.net"
                             }, 
-                            "enableAcceleratedNetworking": false, 
+                            "enableAcceleratedNetworking": true, 
                             "enableIPForwarding": false, 
                             "ipConfigurations": [
                                 {
-                                    "etag": "W/\"7a18c18d-cde8-4e9d-ba5f-b872f7e2925c\"", 
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-node-0-nic/ipConfigurations/mycluster-node0ipconfig", 
+                                    "etag": "W/\"cd76260d-fcf3-4f0d-91db-1bfa6f60f19e\"", 
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkInterfaces/mycluster-node-0-nic/ipConfigurations/mycluster-node0ipconfig", 
                                     "name": "mycluster-node0ipconfig", 
                                     "properties": {
                                         "isInUseWithService": false, 
@@ -1303,26 +389,21 @@ ok: [localhost] => {
                                         "privateIPAllocationMethod": "Dynamic", 
                                         "provisioningState": "Succeeded", 
                                         "subnet": {
-                                            "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/virtualNetworks/openshiftvnet/subnets/nodesubnet"
+                                            "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/virtualNetworks/openshiftvnet/subnets/nodesubnet"
                                         }
                                     }
                                 }
                             ], 
-                            "macAddress": "00-0D-3A-4D-D4-19", 
                             "networkSecurityGroup": {
-                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-node-nsg"
+                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-node-nsg"
                             }, 
-                            "primary": true, 
                             "provisioningState": "Succeeded", 
-                            "resourceGuid": "d7be0028-15cc-400b-9670-24d9d7ed36d7", 
+                            "resourceGuid": "52b87974-1794-4815-a74a-905f58ced6bb", 
                             "services": null, 
-                            "virtualMachine": {
-                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-node-0"
-                            }, 
                             "virtualNetworkTapProvisioningState": "NotProvisioned"
                         }, 
                         "tags": {
-                            "app": "OpenShiftOrigin", 
+                            "app": "OpenShiftContainerPlatform", 
                             "displayName": "OpenShiftNodeNetworkInterfaces", 
                             "platform": "AzurePublic", 
                             "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
@@ -1331,22 +412,22 @@ ok: [localhost] => {
                         "type": "Microsoft.Network/networkInterfaces"
                     }, 
                     {
-                        "etag": "W/\"e92cd70c-961b-4d7e-9707-c3370b870434\"", 
-                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-node-1-nic", 
+                        "etag": "W/\"87a0bc63-2b7c-4978-a7f6-ebdbab564162\"", 
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkInterfaces/mycluster-node-1-nic", 
                         "location": "eastus", 
                         "name": "mycluster-node-1-nic", 
                         "properties": {
                             "dnsSettings": {
                                 "appliedDnsServers": [], 
                                 "dnsServers": [], 
-                                "internalDomainNameSuffix": "nkgegzelrboezlzqdgdycy3j0g.bx.internal.cloudapp.net"
+                                "internalDomainNameSuffix": "eerfaibm4gve1fdkoltctencie.bx.internal.cloudapp.net"
                             }, 
-                            "enableAcceleratedNetworking": false, 
+                            "enableAcceleratedNetworking": true, 
                             "enableIPForwarding": false, 
                             "ipConfigurations": [
                                 {
-                                    "etag": "W/\"e92cd70c-961b-4d7e-9707-c3370b870434\"", 
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-node-1-nic/ipConfigurations/mycluster-node1ipconfig", 
+                                    "etag": "W/\"87a0bc63-2b7c-4978-a7f6-ebdbab564162\"", 
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkInterfaces/mycluster-node-1-nic/ipConfigurations/mycluster-node1ipconfig", 
                                     "name": "mycluster-node1ipconfig", 
                                     "properties": {
                                         "isInUseWithService": false, 
@@ -1356,26 +437,21 @@ ok: [localhost] => {
                                         "privateIPAllocationMethod": "Dynamic", 
                                         "provisioningState": "Succeeded", 
                                         "subnet": {
-                                            "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/virtualNetworks/openshiftvnet/subnets/nodesubnet"
+                                            "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/virtualNetworks/openshiftvnet/subnets/nodesubnet"
                                         }
                                     }
                                 }
                             ], 
-                            "macAddress": "00-0D-3A-4D-D0-36", 
                             "networkSecurityGroup": {
-                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-node-nsg"
+                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-node-nsg"
                             }, 
-                            "primary": true, 
                             "provisioningState": "Succeeded", 
-                            "resourceGuid": "6467f2b0-b9bb-4b32-92bd-5568acea2884", 
+                            "resourceGuid": "78c14e7a-7522-4c0f-8cfa-807eaf268642", 
                             "services": null, 
-                            "virtualMachine": {
-                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Compute/virtualMachines/mycluster-node-1"
-                            }, 
                             "virtualNetworkTapProvisioningState": "NotProvisioned"
                         }, 
                         "tags": {
-                            "app": "OpenShiftOrigin", 
+                            "app": "OpenShiftContainerPlatform", 
                             "displayName": "OpenShiftNodeNetworkInterfaces", 
                             "platform": "AzurePublic", 
                             "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
@@ -1386,14 +462,14 @@ ok: [localhost] => {
                 ]
             }
         ], 
-        "url": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.network/networkinterfaces"
+        "url": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.network/networkinterfaces"
     }
 }
 
-TASK [Call REST API - NetworkSecurityGroups_List] **********************************************************************************************************************************************************************************
+TASK [Call REST API - NetworkSecurityGroups_List] ***********************************************************************
 ok: [localhost]
 
-TASK [debug] ***********************************************************************************************************************************************************************************************************************
+TASK [debug] ************************************************************************************************************
 ok: [localhost] => {
     "output": {
         "changed": false, 
@@ -1402,15 +478,15 @@ ok: [localhost] => {
             {
                 "value": [
                     {
-                        "etag": "W/\"c24e9c3b-57e9-432d-bbae-366cab208d09\"", 
-                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-infra-nsg", 
+                        "etag": "W/\"9eaae85a-9b49-482f-9f87-38654aa00c65\"", 
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-bastion-nsg", 
                         "location": "eastus", 
-                        "name": "mycluster-infra-nsg", 
+                        "name": "mycluster-bastion-nsg", 
                         "properties": {
                             "defaultSecurityRules": [
                                 {
-                                    "etag": "W/\"c24e9c3b-57e9-432d-bbae-366cab208d09\"", 
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-infra-nsg/defaultSecurityRules/AllowVnetInBound", 
+                                    "etag": "W/\"9eaae85a-9b49-482f-9f87-38654aa00c65\"", 
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-bastion-nsg/defaultSecurityRules/AllowVnetInBound", 
                                     "name": "AllowVnetInBound", 
                                     "properties": {
                                         "access": "Allow", 
@@ -1430,8 +506,8 @@ ok: [localhost] => {
                                     }
                                 }, 
                                 {
-                                    "etag": "W/\"c24e9c3b-57e9-432d-bbae-366cab208d09\"", 
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-infra-nsg/defaultSecurityRules/AllowAzureLoadBalancerInBound", 
+                                    "etag": "W/\"9eaae85a-9b49-482f-9f87-38654aa00c65\"", 
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-bastion-nsg/defaultSecurityRules/AllowAzureLoadBalancerInBound", 
                                     "name": "AllowAzureLoadBalancerInBound", 
                                     "properties": {
                                         "access": "Allow", 
@@ -1451,8 +527,8 @@ ok: [localhost] => {
                                     }
                                 }, 
                                 {
-                                    "etag": "W/\"c24e9c3b-57e9-432d-bbae-366cab208d09\"", 
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-infra-nsg/defaultSecurityRules/DenyAllInBound", 
+                                    "etag": "W/\"9eaae85a-9b49-482f-9f87-38654aa00c65\"", 
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-bastion-nsg/defaultSecurityRules/DenyAllInBound", 
                                     "name": "DenyAllInBound", 
                                     "properties": {
                                         "access": "Deny", 
@@ -1472,8 +548,8 @@ ok: [localhost] => {
                                     }
                                 }, 
                                 {
-                                    "etag": "W/\"c24e9c3b-57e9-432d-bbae-366cab208d09\"", 
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-infra-nsg/defaultSecurityRules/AllowVnetOutBound", 
+                                    "etag": "W/\"9eaae85a-9b49-482f-9f87-38654aa00c65\"", 
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-bastion-nsg/defaultSecurityRules/AllowVnetOutBound", 
                                     "name": "AllowVnetOutBound", 
                                     "properties": {
                                         "access": "Allow", 
@@ -1493,8 +569,8 @@ ok: [localhost] => {
                                     }
                                 }, 
                                 {
-                                    "etag": "W/\"c24e9c3b-57e9-432d-bbae-366cab208d09\"", 
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-infra-nsg/defaultSecurityRules/AllowInternetOutBound", 
+                                    "etag": "W/\"9eaae85a-9b49-482f-9f87-38654aa00c65\"", 
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-bastion-nsg/defaultSecurityRules/AllowInternetOutBound", 
                                     "name": "AllowInternetOutBound", 
                                     "properties": {
                                         "access": "Allow", 
@@ -1514,8 +590,361 @@ ok: [localhost] => {
                                     }
                                 }, 
                                 {
-                                    "etag": "W/\"c24e9c3b-57e9-432d-bbae-366cab208d09\"", 
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-infra-nsg/defaultSecurityRules/DenyAllOutBound", 
+                                    "etag": "W/\"9eaae85a-9b49-482f-9f87-38654aa00c65\"", 
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-bastion-nsg/defaultSecurityRules/DenyAllOutBound", 
+                                    "name": "DenyAllOutBound", 
+                                    "properties": {
+                                        "access": "Deny", 
+                                        "description": "Deny all outbound traffic", 
+                                        "destinationAddressPrefix": "*", 
+                                        "destinationAddressPrefixes": [], 
+                                        "destinationPortRange": "*", 
+                                        "destinationPortRanges": [], 
+                                        "direction": "Outbound", 
+                                        "priority": 65500, 
+                                        "protocol": "*", 
+                                        "provisioningState": "Succeeded", 
+                                        "sourceAddressPrefix": "*", 
+                                        "sourceAddressPrefixes": [], 
+                                        "sourcePortRange": "*", 
+                                        "sourcePortRanges": []
+                                    }
+                                }
+                            ], 
+                            "networkInterfaces": [
+                                {
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkInterfaces/mycluster-bastion-nic"
+                                }
+                            ], 
+                            "provisioningState": "Succeeded", 
+                            "resourceGuid": "c6e4f360-7cb8-4ac9-9db2-36965746f825", 
+                            "securityRules": [
+                                {
+                                    "etag": "W/\"9eaae85a-9b49-482f-9f87-38654aa00c65\"", 
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-bastion-nsg/securityRules/allowSSHin_all", 
+                                    "name": "allowSSHin_all", 
+                                    "properties": {
+                                        "access": "Allow", 
+                                        "description": "Allow SSH in from all locations", 
+                                        "destinationAddressPrefix": "*", 
+                                        "destinationAddressPrefixes": [], 
+                                        "destinationPortRange": "22", 
+                                        "destinationPortRanges": [], 
+                                        "direction": "Inbound", 
+                                        "priority": 100, 
+                                        "protocol": "Tcp", 
+                                        "provisioningState": "Succeeded", 
+                                        "sourceAddressPrefix": "*", 
+                                        "sourceAddressPrefixes": [], 
+                                        "sourcePortRange": "*", 
+                                        "sourcePortRanges": []
+                                    }
+                                }
+                            ]
+                        }, 
+                        "tags": {
+                            "app": "OpenShiftContainerPlatform", 
+                            "displayName": "BastionNSG", 
+                            "platform": "Azure", 
+                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
+                            "version": "3.9"
+                        }, 
+                        "type": "Microsoft.Network/networkSecurityGroups"
+                    }, 
+                    {
+                        "etag": "W/\"e1c6629f-884e-49e0-a5a8-ffe571ca0b3d\"", 
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-cns-nsg", 
+                        "location": "eastus", 
+                        "name": "mycluster-cns-nsg", 
+                        "properties": {
+                            "defaultSecurityRules": [
+                                {
+                                    "etag": "W/\"e1c6629f-884e-49e0-a5a8-ffe571ca0b3d\"", 
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-cns-nsg/defaultSecurityRules/AllowVnetInBound", 
+                                    "name": "AllowVnetInBound", 
+                                    "properties": {
+                                        "access": "Allow", 
+                                        "description": "Allow inbound traffic from all VMs in VNET", 
+                                        "destinationAddressPrefix": "VirtualNetwork", 
+                                        "destinationAddressPrefixes": [], 
+                                        "destinationPortRange": "*", 
+                                        "destinationPortRanges": [], 
+                                        "direction": "Inbound", 
+                                        "priority": 65000, 
+                                        "protocol": "*", 
+                                        "provisioningState": "Succeeded", 
+                                        "sourceAddressPrefix": "VirtualNetwork", 
+                                        "sourceAddressPrefixes": [], 
+                                        "sourcePortRange": "*", 
+                                        "sourcePortRanges": []
+                                    }
+                                }, 
+                                {
+                                    "etag": "W/\"e1c6629f-884e-49e0-a5a8-ffe571ca0b3d\"", 
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-cns-nsg/defaultSecurityRules/AllowAzureLoadBalancerInBound", 
+                                    "name": "AllowAzureLoadBalancerInBound", 
+                                    "properties": {
+                                        "access": "Allow", 
+                                        "description": "Allow inbound traffic from azure load balancer", 
+                                        "destinationAddressPrefix": "*", 
+                                        "destinationAddressPrefixes": [], 
+                                        "destinationPortRange": "*", 
+                                        "destinationPortRanges": [], 
+                                        "direction": "Inbound", 
+                                        "priority": 65001, 
+                                        "protocol": "*", 
+                                        "provisioningState": "Succeeded", 
+                                        "sourceAddressPrefix": "AzureLoadBalancer", 
+                                        "sourceAddressPrefixes": [], 
+                                        "sourcePortRange": "*", 
+                                        "sourcePortRanges": []
+                                    }
+                                }, 
+                                {
+                                    "etag": "W/\"e1c6629f-884e-49e0-a5a8-ffe571ca0b3d\"", 
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-cns-nsg/defaultSecurityRules/DenyAllInBound", 
+                                    "name": "DenyAllInBound", 
+                                    "properties": {
+                                        "access": "Deny", 
+                                        "description": "Deny all inbound traffic", 
+                                        "destinationAddressPrefix": "*", 
+                                        "destinationAddressPrefixes": [], 
+                                        "destinationPortRange": "*", 
+                                        "destinationPortRanges": [], 
+                                        "direction": "Inbound", 
+                                        "priority": 65500, 
+                                        "protocol": "*", 
+                                        "provisioningState": "Succeeded", 
+                                        "sourceAddressPrefix": "*", 
+                                        "sourceAddressPrefixes": [], 
+                                        "sourcePortRange": "*", 
+                                        "sourcePortRanges": []
+                                    }
+                                }, 
+                                {
+                                    "etag": "W/\"e1c6629f-884e-49e0-a5a8-ffe571ca0b3d\"", 
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-cns-nsg/defaultSecurityRules/AllowVnetOutBound", 
+                                    "name": "AllowVnetOutBound", 
+                                    "properties": {
+                                        "access": "Allow", 
+                                        "description": "Allow outbound traffic from all VMs to all VMs in VNET", 
+                                        "destinationAddressPrefix": "VirtualNetwork", 
+                                        "destinationAddressPrefixes": [], 
+                                        "destinationPortRange": "*", 
+                                        "destinationPortRanges": [], 
+                                        "direction": "Outbound", 
+                                        "priority": 65000, 
+                                        "protocol": "*", 
+                                        "provisioningState": "Succeeded", 
+                                        "sourceAddressPrefix": "VirtualNetwork", 
+                                        "sourceAddressPrefixes": [], 
+                                        "sourcePortRange": "*", 
+                                        "sourcePortRanges": []
+                                    }
+                                }, 
+                                {
+                                    "etag": "W/\"e1c6629f-884e-49e0-a5a8-ffe571ca0b3d\"", 
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-cns-nsg/defaultSecurityRules/AllowInternetOutBound", 
+                                    "name": "AllowInternetOutBound", 
+                                    "properties": {
+                                        "access": "Allow", 
+                                        "description": "Allow outbound traffic from all VMs to Internet", 
+                                        "destinationAddressPrefix": "Internet", 
+                                        "destinationAddressPrefixes": [], 
+                                        "destinationPortRange": "*", 
+                                        "destinationPortRanges": [], 
+                                        "direction": "Outbound", 
+                                        "priority": 65001, 
+                                        "protocol": "*", 
+                                        "provisioningState": "Succeeded", 
+                                        "sourceAddressPrefix": "*", 
+                                        "sourceAddressPrefixes": [], 
+                                        "sourcePortRange": "*", 
+                                        "sourcePortRanges": []
+                                    }
+                                }, 
+                                {
+                                    "etag": "W/\"e1c6629f-884e-49e0-a5a8-ffe571ca0b3d\"", 
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-cns-nsg/defaultSecurityRules/DenyAllOutBound", 
+                                    "name": "DenyAllOutBound", 
+                                    "properties": {
+                                        "access": "Deny", 
+                                        "description": "Deny all outbound traffic", 
+                                        "destinationAddressPrefix": "*", 
+                                        "destinationAddressPrefixes": [], 
+                                        "destinationPortRange": "*", 
+                                        "destinationPortRanges": [], 
+                                        "direction": "Outbound", 
+                                        "priority": 65500, 
+                                        "protocol": "*", 
+                                        "provisioningState": "Succeeded", 
+                                        "sourceAddressPrefix": "*", 
+                                        "sourceAddressPrefixes": [], 
+                                        "sourcePortRange": "*", 
+                                        "sourcePortRanges": []
+                                    }
+                                }
+                            ], 
+                            "networkInterfaces": [
+                                {
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkInterfaces/mycluster-cns-1-nic"
+                                }, 
+                                {
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkInterfaces/mycluster-cns-2-nic"
+                                }, 
+                                {
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkInterfaces/mycluster-cns-0-nic"
+                                }
+                            ], 
+                            "provisioningState": "Succeeded", 
+                            "resourceGuid": "0cb604c8-fc9b-4b61-a159-346460cff060", 
+                            "securityRules": [
+                                {
+                                    "etag": "W/\"e1c6629f-884e-49e0-a5a8-ffe571ca0b3d\"", 
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-cns-nsg/securityRules/allowSSHin_all", 
+                                    "name": "allowSSHin_all", 
+                                    "properties": {
+                                        "access": "Allow", 
+                                        "description": "Allow SSH in from all locations", 
+                                        "destinationAddressPrefix": "*", 
+                                        "destinationAddressPrefixes": [], 
+                                        "destinationPortRange": "22", 
+                                        "destinationPortRanges": [], 
+                                        "direction": "Inbound", 
+                                        "priority": 100, 
+                                        "protocol": "Tcp", 
+                                        "provisioningState": "Succeeded", 
+                                        "sourceAddressPrefix": "*", 
+                                        "sourceAddressPrefixes": [], 
+                                        "sourcePortRange": "*", 
+                                        "sourcePortRanges": []
+                                    }
+                                }
+                            ]
+                        }, 
+                        "tags": {
+                            "app": "OpenShiftContainerPlatform", 
+                            "displayName": "InfraNSG", 
+                            "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
+                            "version": "3.9"
+                        }, 
+                        "type": "Microsoft.Network/networkSecurityGroups"
+                    }, 
+                    {
+                        "etag": "W/\"656dd9a8-80f9-48f5-96fa-bbf3b300afe9\"", 
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-infra-nsg", 
+                        "location": "eastus", 
+                        "name": "mycluster-infra-nsg", 
+                        "properties": {
+                            "defaultSecurityRules": [
+                                {
+                                    "etag": "W/\"656dd9a8-80f9-48f5-96fa-bbf3b300afe9\"", 
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-infra-nsg/defaultSecurityRules/AllowVnetInBound", 
+                                    "name": "AllowVnetInBound", 
+                                    "properties": {
+                                        "access": "Allow", 
+                                        "description": "Allow inbound traffic from all VMs in VNET", 
+                                        "destinationAddressPrefix": "VirtualNetwork", 
+                                        "destinationAddressPrefixes": [], 
+                                        "destinationPortRange": "*", 
+                                        "destinationPortRanges": [], 
+                                        "direction": "Inbound", 
+                                        "priority": 65000, 
+                                        "protocol": "*", 
+                                        "provisioningState": "Succeeded", 
+                                        "sourceAddressPrefix": "VirtualNetwork", 
+                                        "sourceAddressPrefixes": [], 
+                                        "sourcePortRange": "*", 
+                                        "sourcePortRanges": []
+                                    }
+                                }, 
+                                {
+                                    "etag": "W/\"656dd9a8-80f9-48f5-96fa-bbf3b300afe9\"", 
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-infra-nsg/defaultSecurityRules/AllowAzureLoadBalancerInBound", 
+                                    "name": "AllowAzureLoadBalancerInBound", 
+                                    "properties": {
+                                        "access": "Allow", 
+                                        "description": "Allow inbound traffic from azure load balancer", 
+                                        "destinationAddressPrefix": "*", 
+                                        "destinationAddressPrefixes": [], 
+                                        "destinationPortRange": "*", 
+                                        "destinationPortRanges": [], 
+                                        "direction": "Inbound", 
+                                        "priority": 65001, 
+                                        "protocol": "*", 
+                                        "provisioningState": "Succeeded", 
+                                        "sourceAddressPrefix": "AzureLoadBalancer", 
+                                        "sourceAddressPrefixes": [], 
+                                        "sourcePortRange": "*", 
+                                        "sourcePortRanges": []
+                                    }
+                                }, 
+                                {
+                                    "etag": "W/\"656dd9a8-80f9-48f5-96fa-bbf3b300afe9\"", 
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-infra-nsg/defaultSecurityRules/DenyAllInBound", 
+                                    "name": "DenyAllInBound", 
+                                    "properties": {
+                                        "access": "Deny", 
+                                        "description": "Deny all inbound traffic", 
+                                        "destinationAddressPrefix": "*", 
+                                        "destinationAddressPrefixes": [], 
+                                        "destinationPortRange": "*", 
+                                        "destinationPortRanges": [], 
+                                        "direction": "Inbound", 
+                                        "priority": 65500, 
+                                        "protocol": "*", 
+                                        "provisioningState": "Succeeded", 
+                                        "sourceAddressPrefix": "*", 
+                                        "sourceAddressPrefixes": [], 
+                                        "sourcePortRange": "*", 
+                                        "sourcePortRanges": []
+                                    }
+                                }, 
+                                {
+                                    "etag": "W/\"656dd9a8-80f9-48f5-96fa-bbf3b300afe9\"", 
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-infra-nsg/defaultSecurityRules/AllowVnetOutBound", 
+                                    "name": "AllowVnetOutBound", 
+                                    "properties": {
+                                        "access": "Allow", 
+                                        "description": "Allow outbound traffic from all VMs to all VMs in VNET", 
+                                        "destinationAddressPrefix": "VirtualNetwork", 
+                                        "destinationAddressPrefixes": [], 
+                                        "destinationPortRange": "*", 
+                                        "destinationPortRanges": [], 
+                                        "direction": "Outbound", 
+                                        "priority": 65000, 
+                                        "protocol": "*", 
+                                        "provisioningState": "Succeeded", 
+                                        "sourceAddressPrefix": "VirtualNetwork", 
+                                        "sourceAddressPrefixes": [], 
+                                        "sourcePortRange": "*", 
+                                        "sourcePortRanges": []
+                                    }
+                                }, 
+                                {
+                                    "etag": "W/\"656dd9a8-80f9-48f5-96fa-bbf3b300afe9\"", 
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-infra-nsg/defaultSecurityRules/AllowInternetOutBound", 
+                                    "name": "AllowInternetOutBound", 
+                                    "properties": {
+                                        "access": "Allow", 
+                                        "description": "Allow outbound traffic from all VMs to Internet", 
+                                        "destinationAddressPrefix": "Internet", 
+                                        "destinationAddressPrefixes": [], 
+                                        "destinationPortRange": "*", 
+                                        "destinationPortRanges": [], 
+                                        "direction": "Outbound", 
+                                        "priority": 65001, 
+                                        "protocol": "*", 
+                                        "provisioningState": "Succeeded", 
+                                        "sourceAddressPrefix": "*", 
+                                        "sourceAddressPrefixes": [], 
+                                        "sourcePortRange": "*", 
+                                        "sourcePortRanges": []
+                                    }
+                                }, 
+                                {
+                                    "etag": "W/\"656dd9a8-80f9-48f5-96fa-bbf3b300afe9\"", 
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-infra-nsg/defaultSecurityRules/DenyAllOutBound", 
                                     "name": "DenyAllOutBound", 
                                     "properties": {
                                         "access": "Deny", 
@@ -1536,11 +965,11 @@ ok: [localhost] => {
                                 }
                             ], 
                             "provisioningState": "Succeeded", 
-                            "resourceGuid": "6e42607a-57d7-45f7-abfd-11e6c706fbca", 
+                            "resourceGuid": "537177ca-778b-4ca1-a0a9-bca6675468ef", 
                             "securityRules": [
                                 {
-                                    "etag": "W/\"c24e9c3b-57e9-432d-bbae-366cab208d09\"", 
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-infra-nsg/securityRules/allowSSHin_all", 
+                                    "etag": "W/\"656dd9a8-80f9-48f5-96fa-bbf3b300afe9\"", 
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-infra-nsg/securityRules/allowSSHin_all", 
                                     "name": "allowSSHin_all", 
                                     "properties": {
                                         "access": "Allow", 
@@ -1560,8 +989,8 @@ ok: [localhost] => {
                                     }
                                 }, 
                                 {
-                                    "etag": "W/\"c24e9c3b-57e9-432d-bbae-366cab208d09\"", 
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-infra-nsg/securityRules/allowHTTPSIn_all", 
+                                    "etag": "W/\"656dd9a8-80f9-48f5-96fa-bbf3b300afe9\"", 
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-infra-nsg/securityRules/allowHTTPSIn_all", 
                                     "name": "allowHTTPSIn_all", 
                                     "properties": {
                                         "access": "Allow", 
@@ -1581,8 +1010,8 @@ ok: [localhost] => {
                                     }
                                 }, 
                                 {
-                                    "etag": "W/\"c24e9c3b-57e9-432d-bbae-366cab208d09\"", 
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-infra-nsg/securityRules/allowHTTPIn_all", 
+                                    "etag": "W/\"656dd9a8-80f9-48f5-96fa-bbf3b300afe9\"", 
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-infra-nsg/securityRules/allowHTTPIn_all", 
                                     "name": "allowHTTPIn_all", 
                                     "properties": {
                                         "access": "Allow", 
@@ -1604,24 +1033,23 @@ ok: [localhost] => {
                             ]
                         }, 
                         "tags": {
-                            "app": "OpenShiftOrigin", 
+                            "app": "OpenShiftContainerPlatform", 
                             "displayName": "InfraNSG", 
-                            "platform": "AzurePublic", 
                             "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
                             "version": "3.9"
                         }, 
                         "type": "Microsoft.Network/networkSecurityGroups"
                     }, 
                     {
-                        "etag": "W/\"a05cf5b1-a467-4753-9b6d-c1d736030b9d\"", 
-                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-master-nsg", 
+                        "etag": "W/\"4a78d423-4b26-4f93-8157-c478835779fe\"", 
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-master-nsg", 
                         "location": "eastus", 
                         "name": "mycluster-master-nsg", 
                         "properties": {
                             "defaultSecurityRules": [
                                 {
-                                    "etag": "W/\"a05cf5b1-a467-4753-9b6d-c1d736030b9d\"", 
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-master-nsg/defaultSecurityRules/AllowVnetInBound", 
+                                    "etag": "W/\"4a78d423-4b26-4f93-8157-c478835779fe\"", 
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-master-nsg/defaultSecurityRules/AllowVnetInBound", 
                                     "name": "AllowVnetInBound", 
                                     "properties": {
                                         "access": "Allow", 
@@ -1641,8 +1069,8 @@ ok: [localhost] => {
                                     }
                                 }, 
                                 {
-                                    "etag": "W/\"a05cf5b1-a467-4753-9b6d-c1d736030b9d\"", 
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-master-nsg/defaultSecurityRules/AllowAzureLoadBalancerInBound", 
+                                    "etag": "W/\"4a78d423-4b26-4f93-8157-c478835779fe\"", 
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-master-nsg/defaultSecurityRules/AllowAzureLoadBalancerInBound", 
                                     "name": "AllowAzureLoadBalancerInBound", 
                                     "properties": {
                                         "access": "Allow", 
@@ -1662,8 +1090,8 @@ ok: [localhost] => {
                                     }
                                 }, 
                                 {
-                                    "etag": "W/\"a05cf5b1-a467-4753-9b6d-c1d736030b9d\"", 
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-master-nsg/defaultSecurityRules/DenyAllInBound", 
+                                    "etag": "W/\"4a78d423-4b26-4f93-8157-c478835779fe\"", 
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-master-nsg/defaultSecurityRules/DenyAllInBound", 
                                     "name": "DenyAllInBound", 
                                     "properties": {
                                         "access": "Deny", 
@@ -1683,8 +1111,8 @@ ok: [localhost] => {
                                     }
                                 }, 
                                 {
-                                    "etag": "W/\"a05cf5b1-a467-4753-9b6d-c1d736030b9d\"", 
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-master-nsg/defaultSecurityRules/AllowVnetOutBound", 
+                                    "etag": "W/\"4a78d423-4b26-4f93-8157-c478835779fe\"", 
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-master-nsg/defaultSecurityRules/AllowVnetOutBound", 
                                     "name": "AllowVnetOutBound", 
                                     "properties": {
                                         "access": "Allow", 
@@ -1704,8 +1132,8 @@ ok: [localhost] => {
                                     }
                                 }, 
                                 {
-                                    "etag": "W/\"a05cf5b1-a467-4753-9b6d-c1d736030b9d\"", 
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-master-nsg/defaultSecurityRules/AllowInternetOutBound", 
+                                    "etag": "W/\"4a78d423-4b26-4f93-8157-c478835779fe\"", 
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-master-nsg/defaultSecurityRules/AllowInternetOutBound", 
                                     "name": "AllowInternetOutBound", 
                                     "properties": {
                                         "access": "Allow", 
@@ -1725,8 +1153,8 @@ ok: [localhost] => {
                                     }
                                 }, 
                                 {
-                                    "etag": "W/\"a05cf5b1-a467-4753-9b6d-c1d736030b9d\"", 
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-master-nsg/defaultSecurityRules/DenyAllOutBound", 
+                                    "etag": "W/\"4a78d423-4b26-4f93-8157-c478835779fe\"", 
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-master-nsg/defaultSecurityRules/DenyAllOutBound", 
                                     "name": "DenyAllOutBound", 
                                     "properties": {
                                         "access": "Deny", 
@@ -1746,23 +1174,12 @@ ok: [localhost] => {
                                     }
                                 }
                             ], 
-                            "networkInterfaces": [
-                                {
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-master-1-nic"
-                                }, 
-                                {
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-master-2-nic"
-                                }, 
-                                {
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-master-0-nic"
-                                }
-                            ], 
                             "provisioningState": "Succeeded", 
-                            "resourceGuid": "5d13f11e-7d4c-4602-b7e9-012b8a7867b6", 
+                            "resourceGuid": "a200088e-3f58-4bb4-a3d4-5ee4ed8cfdbb", 
                             "securityRules": [
                                 {
-                                    "etag": "W/\"a05cf5b1-a467-4753-9b6d-c1d736030b9d\"", 
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-master-nsg/securityRules/allowSSHin_all", 
+                                    "etag": "W/\"4a78d423-4b26-4f93-8157-c478835779fe\"", 
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-master-nsg/securityRules/allowSSHin_all", 
                                     "name": "allowSSHin_all", 
                                     "properties": {
                                         "access": "Allow", 
@@ -1782,8 +1199,8 @@ ok: [localhost] => {
                                     }
                                 }, 
                                 {
-                                    "etag": "W/\"a05cf5b1-a467-4753-9b6d-c1d736030b9d\"", 
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-master-nsg/securityRules/allowHTTPS_all", 
+                                    "etag": "W/\"4a78d423-4b26-4f93-8157-c478835779fe\"", 
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-master-nsg/securityRules/allowHTTPS_all", 
                                     "name": "allowHTTPS_all", 
                                     "properties": {
                                         "access": "Allow", 
@@ -1805,24 +1222,23 @@ ok: [localhost] => {
                             ]
                         }, 
                         "tags": {
-                            "app": "OpenShiftOrigin", 
+                            "app": "OpenShiftContainerPlatform", 
                             "displayName": "MasterNSG", 
-                            "platform": "AzurePublic", 
                             "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
                             "version": "3.9"
                         }, 
                         "type": "Microsoft.Network/networkSecurityGroups"
                     }, 
                     {
-                        "etag": "W/\"0060263f-7979-44d9-83ce-7bcef93ab240\"", 
-                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-node-nsg", 
+                        "etag": "W/\"32f7a51c-a1f9-4893-926b-779c51f75b1a\"", 
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-node-nsg", 
                         "location": "eastus", 
                         "name": "mycluster-node-nsg", 
                         "properties": {
                             "defaultSecurityRules": [
                                 {
-                                    "etag": "W/\"0060263f-7979-44d9-83ce-7bcef93ab240\"", 
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-node-nsg/defaultSecurityRules/AllowVnetInBound", 
+                                    "etag": "W/\"32f7a51c-a1f9-4893-926b-779c51f75b1a\"", 
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-node-nsg/defaultSecurityRules/AllowVnetInBound", 
                                     "name": "AllowVnetInBound", 
                                     "properties": {
                                         "access": "Allow", 
@@ -1842,8 +1258,8 @@ ok: [localhost] => {
                                     }
                                 }, 
                                 {
-                                    "etag": "W/\"0060263f-7979-44d9-83ce-7bcef93ab240\"", 
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-node-nsg/defaultSecurityRules/AllowAzureLoadBalancerInBound", 
+                                    "etag": "W/\"32f7a51c-a1f9-4893-926b-779c51f75b1a\"", 
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-node-nsg/defaultSecurityRules/AllowAzureLoadBalancerInBound", 
                                     "name": "AllowAzureLoadBalancerInBound", 
                                     "properties": {
                                         "access": "Allow", 
@@ -1863,8 +1279,8 @@ ok: [localhost] => {
                                     }
                                 }, 
                                 {
-                                    "etag": "W/\"0060263f-7979-44d9-83ce-7bcef93ab240\"", 
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-node-nsg/defaultSecurityRules/DenyAllInBound", 
+                                    "etag": "W/\"32f7a51c-a1f9-4893-926b-779c51f75b1a\"", 
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-node-nsg/defaultSecurityRules/DenyAllInBound", 
                                     "name": "DenyAllInBound", 
                                     "properties": {
                                         "access": "Deny", 
@@ -1884,8 +1300,8 @@ ok: [localhost] => {
                                     }
                                 }, 
                                 {
-                                    "etag": "W/\"0060263f-7979-44d9-83ce-7bcef93ab240\"", 
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-node-nsg/defaultSecurityRules/AllowVnetOutBound", 
+                                    "etag": "W/\"32f7a51c-a1f9-4893-926b-779c51f75b1a\"", 
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-node-nsg/defaultSecurityRules/AllowVnetOutBound", 
                                     "name": "AllowVnetOutBound", 
                                     "properties": {
                                         "access": "Allow", 
@@ -1905,8 +1321,8 @@ ok: [localhost] => {
                                     }
                                 }, 
                                 {
-                                    "etag": "W/\"0060263f-7979-44d9-83ce-7bcef93ab240\"", 
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-node-nsg/defaultSecurityRules/AllowInternetOutBound", 
+                                    "etag": "W/\"32f7a51c-a1f9-4893-926b-779c51f75b1a\"", 
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-node-nsg/defaultSecurityRules/AllowInternetOutBound", 
                                     "name": "AllowInternetOutBound", 
                                     "properties": {
                                         "access": "Allow", 
@@ -1926,8 +1342,8 @@ ok: [localhost] => {
                                     }
                                 }, 
                                 {
-                                    "etag": "W/\"0060263f-7979-44d9-83ce-7bcef93ab240\"", 
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-node-nsg/defaultSecurityRules/DenyAllOutBound", 
+                                    "etag": "W/\"32f7a51c-a1f9-4893-926b-779c51f75b1a\"", 
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-node-nsg/defaultSecurityRules/DenyAllOutBound", 
                                     "name": "DenyAllOutBound", 
                                     "properties": {
                                         "access": "Deny", 
@@ -1949,18 +1365,18 @@ ok: [localhost] => {
                             ], 
                             "networkInterfaces": [
                                 {
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-node-1-nic"
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkInterfaces/mycluster-node-1-nic"
                                 }, 
                                 {
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-node-0-nic"
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkInterfaces/mycluster-node-0-nic"
                                 }
                             ], 
                             "provisioningState": "Succeeded", 
-                            "resourceGuid": "1e43091e-8e20-417e-8b1d-4e96628d247d", 
+                            "resourceGuid": "7ab746d5-1377-4586-8faa-389ba5424278", 
                             "securityRules": [
                                 {
-                                    "etag": "W/\"0060263f-7979-44d9-83ce-7bcef93ab240\"", 
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-node-nsg/securityRules/allowSSHin_all", 
+                                    "etag": "W/\"32f7a51c-a1f9-4893-926b-779c51f75b1a\"", 
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-node-nsg/securityRules/allowSSHin_all", 
                                     "name": "allowSSHin_all", 
                                     "properties": {
                                         "access": "Allow", 
@@ -1980,8 +1396,8 @@ ok: [localhost] => {
                                     }
                                 }, 
                                 {
-                                    "etag": "W/\"0060263f-7979-44d9-83ce-7bcef93ab240\"", 
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-node-nsg/securityRules/allowHTTPS_all", 
+                                    "etag": "W/\"32f7a51c-a1f9-4893-926b-779c51f75b1a\"", 
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-node-nsg/securityRules/allowHTTPS_all", 
                                     "name": "allowHTTPS_all", 
                                     "properties": {
                                         "access": "Allow", 
@@ -2001,8 +1417,8 @@ ok: [localhost] => {
                                     }
                                 }, 
                                 {
-                                    "etag": "W/\"0060263f-7979-44d9-83ce-7bcef93ab240\"", 
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkSecurityGroups/mycluster-node-nsg/securityRules/allowHTTPIn_all", 
+                                    "etag": "W/\"32f7a51c-a1f9-4893-926b-779c51f75b1a\"", 
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkSecurityGroups/mycluster-node-nsg/securityRules/allowHTTPIn_all", 
                                     "name": "allowHTTPIn_all", 
                                     "properties": {
                                         "access": "Allow", 
@@ -2024,9 +1440,8 @@ ok: [localhost] => {
                             ]
                         }, 
                         "tags": {
-                            "app": "OpenShiftOrigin", 
+                            "app": "OpenShiftContainerPlatform", 
                             "displayName": "NodeNSG", 
-                            "platform": "AzurePublic", 
                             "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
                             "version": "3.9"
                         }, 
@@ -2035,14 +1450,14 @@ ok: [localhost] => {
                 ]
             }
         ], 
-        "url": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.network/networksecuritygroups"
+        "url": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.network/networksecuritygroups"
     }
 }
 
-TASK [Call REST API - PublicIPAddresses_List] **************************************************************************************************************************************************************************************
+TASK [Call REST API - PublicIPAddresses_List] ***************************************************************************
 ok: [localhost]
 
-TASK [debug] ***********************************************************************************************************************************************************************************************************************
+TASK [debug] ************************************************************************************************************
 ok: [localhost] => {
     "output": {
         "changed": false, 
@@ -2051,33 +1466,32 @@ ok: [localhost] => {
             {
                 "value": [
                     {
-                        "etag": "W/\"517d2d2c-c77d-4569-ab1f-8ecc8ddde4d7\"", 
-                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/publicIPAddresses/masterdnswbsoodzidfrky", 
+                        "etag": "W/\"54dcac07-babf-4b98-a71d-8921a9edd479\"", 
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/publicIPAddresses/bastionpublicip", 
                         "location": "eastus", 
-                        "name": "masterdnswbsoodzidfrky", 
+                        "name": "bastionpublicip", 
                         "properties": {
                             "dnsSettings": {
-                                "domainNameLabel": "masterdnswbsoodzidfrky", 
-                                "fqdn": "masterdnswbsoodzidfrky.eastus.cloudapp.azure.com"
+                                "domainNameLabel": "bastiondnsfvds7kzmv37lw", 
+                                "fqdn": "bastiondnsfvds7kzmv37lw.eastus.cloudapp.azure.com"
                             }, 
                             "idleTimeoutInMinutes": 4, 
-                            "ipAddress": "104.211.23.92", 
                             "ipConfiguration": {
-                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/loadBalancers/mycluster-masterlb/frontendIPConfigurations/LoadBalancerFrontEnd"
+                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkInterfaces/mycluster-bastion-nic/ipConfigurations/mycluster-bastionipconfig"
                             }, 
                             "ipTags": [], 
                             "provisioningState": "Succeeded", 
                             "publicIPAddressVersion": "IPv4", 
-                            "publicIPAllocationMethod": "Static", 
-                            "resourceGuid": "7e820b9d-ff2a-425b-b24c-c7ef723cb47c"
+                            "publicIPAllocationMethod": "Dynamic", 
+                            "resourceGuid": "8c432e8e-f76b-42d1-9ee5-6112cff9ba5e"
                         }, 
                         "sku": {
                             "name": "Basic", 
                             "tier": "Regional"
                         }, 
                         "tags": {
-                            "app": "OpenShiftOrigin", 
-                            "displayName": "OpenShiftMasterPublicIP", 
+                            "app": "OpenShiftContainerPlatform", 
+                            "displayName": "OpenShiftBastionPublicIP", 
                             "platform": "AzurePublic", 
                             "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
                             "version": "3.9"
@@ -2087,14 +1501,14 @@ ok: [localhost] => {
                 ]
             }
         ], 
-        "url": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.network/publicipaddresses"
+        "url": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.network/publicipaddresses"
     }
 }
 
-TASK [Call REST API - VirtualNetworks_List] ****************************************************************************************************************************************************************************************
+TASK [Call REST API - VirtualNetworks_List] *****************************************************************************
 ok: [localhost]
 
-TASK [debug] ***********************************************************************************************************************************************************************************************************************
+TASK [debug] ************************************************************************************************************
 ok: [localhost] => {
     "output": {
         "changed": false, 
@@ -2103,63 +1517,60 @@ ok: [localhost] => {
             {
                 "value": [
                     {
-                        "etag": "W/\"41d9f2ff-a5bd-4712-8fdd-d1b41b4d3ccb\"", 
-                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/virtualNetworks/openshiftvnet", 
+                        "etag": "W/\"c02f8444-a0b3-46d0-b28b-03bcd4b0bbd9\"", 
+                        "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/virtualNetworks/openshiftvnet", 
                         "location": "eastus", 
                         "name": "openshiftvnet", 
                         "properties": {
                             "addressSpace": {
                                 "addressPrefixes": [
-                                    "10.0.0.0/8"
+                                    "10.0.0.0/14"
                                 ]
                             }, 
                             "enableDdosProtection": false, 
                             "enableVmProtection": false, 
                             "provisioningState": "Succeeded", 
-                            "resourceGuid": "64438c6a-888b-4c5c-af30-19878163a9d6", 
+                            "resourceGuid": "20502221-f12c-4daa-946a-72e62991a244", 
                             "subnets": [
                                 {
-                                    "etag": "W/\"41d9f2ff-a5bd-4712-8fdd-d1b41b4d3ccb\"", 
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/virtualNetworks/openshiftvnet/subnets/mastersubnet", 
+                                    "etag": "W/\"c02f8444-a0b3-46d0-b28b-03bcd4b0bbd9\"", 
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/virtualNetworks/openshiftvnet/subnets/mastersubnet", 
                                     "name": "mastersubnet", 
                                     "properties": {
                                         "addressPrefix": "10.1.0.0/16", 
                                         "delegations": [], 
                                         "ipConfigurations": [
                                             {
-                                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-master-1-nic/ipConfigurations/mycluster-master1ipconfig"
+                                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkInterfaces/mycluster-bastion-nic/ipConfigurations/mycluster-bastionipconfig"
                                             }, 
                                             {
-                                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-master-2-nic/ipConfigurations/mycluster-master2ipconfig"
+                                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkInterfaces/mycluster-cns-1-nic/ipConfigurations/mycluster-cns1ipconfig"
                                             }, 
                                             {
-                                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-master-0-nic/ipConfigurations/mycluster-master0ipconfig"
+                                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkInterfaces/mycluster-cns-2-nic/ipConfigurations/mycluster-cns2ipconfig"
+                                            }, 
+                                            {
+                                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkInterfaces/mycluster-cns-0-nic/ipConfigurations/mycluster-cns0ipconfig"
                                             }
                                         ], 
-                                        "networkSecurityGroup": {
-                                            "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/cleanupservice/providers/Microsoft.Network/networkSecurityGroups/rg-cleanupservice-nsg5"
-                                        }, 
                                         "provisioningState": "Succeeded"
                                     }
                                 }, 
                                 {
-                                    "etag": "W/\"41d9f2ff-a5bd-4712-8fdd-d1b41b4d3ccb\"", 
-                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/virtualNetworks/openshiftvnet/subnets/nodesubnet", 
+                                    "etag": "W/\"c02f8444-a0b3-46d0-b28b-03bcd4b0bbd9\"", 
+                                    "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/virtualNetworks/openshiftvnet/subnets/nodesubnet", 
                                     "name": "nodesubnet", 
                                     "properties": {
                                         "addressPrefix": "10.2.0.0/16", 
                                         "delegations": [], 
                                         "ipConfigurations": [
                                             {
-                                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-node-1-nic/ipConfigurations/mycluster-node1ipconfig"
+                                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkInterfaces/mycluster-node-1-nic/ipConfigurations/mycluster-node1ipconfig"
                                             }, 
                                             {
-                                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.Network/networkInterfaces/mycluster-node-0-nic/ipConfigurations/mycluster-node0ipconfig"
+                                                "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.Network/networkInterfaces/mycluster-node-0-nic/ipConfigurations/mycluster-node0ipconfig"
                                             }
                                         ], 
-                                        "networkSecurityGroup": {
-                                            "id": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/cleanupservice/providers/Microsoft.Network/networkSecurityGroups/rg-cleanupservice-nsg5"
-                                        }, 
                                         "provisioningState": "Succeeded"
                                     }
                                 }
@@ -2167,7 +1578,7 @@ ok: [localhost] => {
                             "virtualNetworkPeerings": []
                         }, 
                         "tags": {
-                            "app": "OpenShiftOrigin", 
+                            "app": "OpenShiftContainerPlatform", 
                             "displayName": "VirtualNetwork", 
                             "platform": "AzurePublic", 
                             "provider": "9d2c71fc-96ba-4b4a-93b3-14def5bc96fc", 
@@ -2178,10 +1589,10 @@ ok: [localhost] => {
                 ]
             }
         ], 
-        "url": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift/providers/Microsoft.network/virtualnetworks"
+        "url": "/subscriptions/685ba005-af8d-4b04-8f16-a7bf38b2eb5a/resourceGroups/zims-openshift-container/providers/Microsoft.network/virtualnetworks"
     }
 }
 
-PLAY RECAP *************************************************************************************************************************************************************************************************************************
+PLAY RECAP **************************************************************************************************************
 localhost                  : ok=17   changed=0    unreachable=0    failed=0   
 
