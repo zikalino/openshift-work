@@ -8,6 +8,8 @@
   vars:
     resource_group: zims-openshift
     location: eastus
+    persistent_volume_name: "pv1saunique1223344"
+    admin_user_name: zim
 
   tasks:
     - name: Create a resource group
@@ -150,6 +152,19 @@
               managed_disk_type: Standard_LRS
         availability_set: masteravailabilityset
 
+    - name: Create master VM extension
+      azure_rm_virtualmachine_extension:
+        resource_group: "{{ resource_group }}"
+        name: deployOpenShift
+        virtual_machine_name: mycluster-master-0
+        publisher: Microsoft.Azure.Extensions
+        virtual_machine_extension_type: CustomScript
+        type_handler_version: 2.0
+        settings:
+          fileUris:
+            - 'https://raw.githubusercontent.com/Microsoft/openshift-origin/master/scripts/masterPrep.sh'
+          commandToExecute: "bash masterPrep.sh {{ persistent_volume_name }} {{ admin_user_name }} {{ location }}"
+
     - name: Create node VMs
       azure_rm_virtualmachine:
         resource_group: "{{ resource_group }}"
@@ -169,6 +184,19 @@
               disk_size_gb: 64
               managed_disk_type: Standard_LRS
         availability_set: nodeavailabilityset
+
+    - name: Create node VM extension
+      azure_rm_virtualmachine_extension:
+        resource_group: "{{ resource_group }}"
+        name: deployOpenShift
+        virtual_machine_name: mycluster-node-0
+        publisher: Microsoft.Azure.Extensions
+        virtual_machine_extension_type: CustomScript
+        type_handler_version: 2.0
+        settings:
+          fileUris:
+            - 'https://raw.githubusercontent.com/Microsoft/openshift-origin/master/scripts/nodePrep.sh'
+          commandToExecute: "bash nodePrep.sh"
 
 
     - name: Create a load balancer
