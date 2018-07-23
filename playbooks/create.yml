@@ -4,7 +4,6 @@
 
 ---
 - hosts: localhost
-  strategy: free
   vars:
     resource_group: brus-openshiftxx
     location: eastus
