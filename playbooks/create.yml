@@ -6,7 +6,7 @@
 ---
 - hosts: localhost
   vars:
-    resource_group: zims-openshift
+    resource_group: zims-openshiftx
     location: eastus
     persistent_volume_name: "pv1saunique1223344"
     admin_user_name: zim
@@ -102,6 +102,44 @@
             priority: 300
             direction: Inbound
 
+    - name: Create a load balancer
+      azure_rm_loadbalancer:
+        name: mycluster-masterlb
+        location: eastus
+        resource_group: "{{ resource_group }}"
+        public_ip: mycluster_publicip
+        probe_protocol: Tcp
+        probe_port: 80
+        probe_interval: 10
+        probe_fail_count: 3
+        protocol: Tcp
+        load_distribution: Default
+        frontend_port: 80
+        backend_port: 8080
+        idle_timeout: 4
+        inbound_nat_pools:
+          - name: inboundnatpool
+            backend_port: 22
+            frontend_port_range_start: 2000
+            frontend_port_range_end: 2005
+            frontend_ip_configuration_name: frontendip
+        frontend_ip_configurations:
+          - name: frontendip
+            public_ip_address: mycluster_publicip
+        load_balancing_rules:
+          - name: loadbalancingrule
+            frontend_ip_configuration: frontendip
+            probe: prob0
+            backend_address_pool: backendaddrpool0
+            frontend_port: 443
+            backend_port: 443
+        backend_address_pools:
+          - name: backendaddrpool0
+        probes:
+          - name: prob0
+            port: 443
+      register: lb
+
     - name: Create virtual network inteface card
       azure_rm_networkinterface:
         resource_group: "{{ resource_group }}"
@@ -109,6 +147,11 @@
         virtual_network: openshiftvnet
         subnet: openshiftsubnet
         security_group: mycluster-master-nsg
+        ip_configurations:
+          - name: ipconfig1
+            load_balancer_backend_address_pools:
+              - name: backendaddrpool0
+                load_balancer: mycluster-masterlb
 
     - name: Create virtual network inteface card
       azure_rm_networkinterface:
@@ -198,24 +241,4 @@
             - 'https://raw.githubusercontent.com/Microsoft/openshift-origin/master/scripts/nodePrep.sh'
           commandToExecute: "bash nodePrep.sh"
 
-
-    - name: Create a load balancer
-      azure_rm_loadbalancer:
-        name: mycluster-masterlb
-        location: eastus
-        resource_group: "{{ resource_group }}"
-        public_ip: mycluster_publicip
-        probe_protocol: Tcp
-        probe_port: 80
-        probe_interval: 10
-        probe_fail_count: 3
-        protocol: Tcp
-        load_distribution: Default
-        frontend_port: 80
-        backend_port: 8080
-        idle_timeout: 4
-        natpool_frontend_port_start: 1030
-        natpool_frontend_port_end: 1040
-        natpool_backend_port: 80
-        natpool_protocol: Tcp
 
