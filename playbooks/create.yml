@@ -6,7 +6,7 @@
 ---
 - hosts: localhost
   vars:
-    resource_group: zims-openshift-2
+    resource_group: zims-openshift
     location: eastus
 
   tasks:
@@ -31,7 +31,7 @@
     - name: Create public IP address
       azure_rm_publicipaddress:
         resource_group: "{{ resource_group }}"
-        allocation_method: Static
+        allocation_method: Dynamic
         name: mycluster_publicip
 
     - name: Create infrastructure NSG
@@ -116,6 +116,19 @@
         subnet: openshiftsubnet
         security_group: mycluster-node-nsg
 
+    - name: Create master availability set
+      azure_rm_availabilityset:
+        name: masteravailabilityset
+        location: eastus
+        resource_group: "{{ resource_group }}"
+        sku: Aligned
+
+    - name: Create node availability set
+      azure_rm_availabilityset:
+        name: nodeavailabilityset
+        location: eastus
+        resource_group: "{{ resource_group }}"
+        sku: Aligned
 
     - name: Create master VMs
       azure_rm_virtualmachine:
@@ -135,6 +148,7 @@
             - lun: 0
               disk_size_gb: 64
               managed_disk_type: Standard_LRS
+        availability_set: masteravailabilityset
 
     - name: Create node VMs
       azure_rm_virtualmachine:
@@ -154,19 +168,8 @@
             - lun: 0
               disk_size_gb: 64
               managed_disk_type: Standard_LRS
+        availability_set: nodeavailabilityset
 
-
-    - name: Create master availability set
-      azure_rm_availabilityset:
-        name: masteravailabilityset
-        location: eastus
-        resource_group: "{{ resource_group }}"
-
-    - name: Create node availability set
-      azure_rm_availabilityset:
-        name: nodeavailabilityset
-        location: eastus
-        resource_group: "{{ resource_group }}"
 
     - name: Create a load balancer
       azure_rm_loadbalancer:
