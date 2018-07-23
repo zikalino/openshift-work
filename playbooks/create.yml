@@ -120,7 +120,7 @@
     - name: Create master load balancer
       azure_rm_loadbalancer:
         name: mycluster-masterlb
-        location: eastus
+        location: "{{ location }}"
         resource_group: "{{ resource_group }}"
         public_ip: masterlb_publicip
         frontend_ip_configurations:
@@ -176,7 +176,7 @@
         resource_group: "{{ resource_group }}"
         name: mycluster-master-{{ item }}-nic
         virtual_network: openshiftvnet
-        subnet: openshiftsubnet
+        subnet: mastersubnet
         security_group: mycluster-master-nsg
         ip_configurations:
           - name: ipconfig1
@@ -190,7 +190,7 @@
         resource_group: "{{ resource_group }}"
         name: mycluster-node-{{ item }}-nic
         virtual_network: openshiftvnet
-        subnet: openshiftsubnet
+        subnet: nodesubnet
         security_group: mycluster-node-nsg
       with_sequence: start=0 end={{ node_count - 1 }}
 
