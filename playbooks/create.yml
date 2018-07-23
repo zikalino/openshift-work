@@ -5,15 +5,15 @@
 ---
 - hosts: localhost
   vars:
-    resource_group: brus-openshiftxx
+    resource_group: del-me-brus-openx
     location: eastus
-    persistent_volume_name: "pv1saunique1223344"
+    persistent_volume_name: "pv1saunique12233a44"
     admin_user_name: bruno
-    master_count: 3
-    infra_count: 3
-    node_count: 3
+    master_count: 1
+    infra_count: 1
+    node_count: 1
     runvmext: "false"
-    virtual_network_name: "openshiftvnet01"
+    virtual_network_name: "openshiftvnet02"
 
   tasks:
     - name: Create a resource group
