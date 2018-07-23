@@ -239,9 +239,9 @@
         admin_password: Password@123
         network_interfaces: mycluster-master-{{ item }}-nic
         image:
-          offer: CentOS
-          publisher: OpenLogic
-          sku: 7.4
+          offer: RHEL
+          publisher: RedHat
+          sku: 7-RAW
           version: latest
         data_disks:
             - lun: 0
@@ -274,9 +274,9 @@
         admin_password: Password@123
         network_interfaces: mycluster-node-{{ item }}-nic
         image:
-          offer: CentOS
-          publisher: OpenLogic
-          sku: 7.4
+          offer: RHEL
+          publisher: RedHat
+          sku: 7-RAW
           version: latest
         data_disks:
             - lun: 0
@@ -309,9 +309,9 @@
         admin_password: Password@123
         network_interfaces: mycluster-infra-{{ item }}-nic
         image:
-          offer: CentOS
-          publisher: OpenLogic
-          sku: 7.4
+          offer: RHEL
+          publisher: RedHat
+          sku: 7-RAW
           version: latest
         data_disks:
             - lun: 0
