@@ -218,21 +218,21 @@
     - name: Create master availability set
       azure_rm_availabilityset:
         name: masteravailabilityset
-        location: eastus
+        location: "{{ location }}"
         resource_group: "{{ resource_group }}"
         sku: Aligned
 
     - name: Create node availability set
       azure_rm_availabilityset:
         name: nodeavailabilityset
-        location: eastus
+        location: "{{ location }}"
         resource_group: "{{ resource_group }}"
         sku: Aligned
 
     - name: Create infra availability set
       azure_rm_availabilityset:
         name: infraavailabilityset
-        location: eastus
+        location: "{{ location }}"
         resource_group: "{{ resource_group }}"
         sku: Aligned
 
