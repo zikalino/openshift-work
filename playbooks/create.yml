@@ -200,7 +200,7 @@
         name: mycluster-infra-{{ item }}-nic
         virtual_network: openshiftvnet
         subnet: openshiftsubnet
-        security_group: mycluster-master-nsg
+        security_group: mycluster-infra-nsg
         ip_configurations:
           - name: ipconfig1
             load_balancer_backend_address_pools:
