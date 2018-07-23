@@ -12,6 +12,7 @@
     master_count: 3
     infra_count: 3
     node_count: 3
+    runvmext: "false"
 
   tasks:
     - name: Create a resource group
@@ -257,20 +258,6 @@
         availability_set: masteravailabilityset
       with_sequence: start=0 end={{ master_count - 1 }}
 
-    - name: Create master VM extension
-      azure_rm_virtualmachine_extension:
-        resource_group: "{{ resource_group }}"
-        name: deployOpenShift
-        virtual_machine_name: mycluster-master-{{ item }}
-        publisher: Microsoft.Azure.Extensions
-        virtual_machine_extension_type: CustomScript
-        type_handler_version: 2.0
-        settings:
-          fileUris:
-            - 'https://raw.githubusercontent.com/Microsoft/openshift-origin/master/scripts/masterPrep.sh'
-          commandToExecute: "bash masterPrep.sh {{ persistent_volume_name }} {{ admin_user_name }} {{ location }}"
-      with_sequence: start=0 end={{ master_count - 1 }}
-
     - name: Create node VMs
       azure_rm_virtualmachine:
         resource_group: "{{ resource_group }}"
@@ -290,20 +277,6 @@
               disk_size_gb: 64
               managed_disk_type: Standard_LRS
         availability_set: nodeavailabilityset
-      with_sequence: start=0 end={{ node_count - 1 }}
-
-    - name: Create node VM extension
-      azure_rm_virtualmachine_extension:
-        resource_group: "{{ resource_group }}"
-        name: deployOpenShift
-        virtual_machine_name: mycluster-node-{{ item }}
-        publisher: Microsoft.Azure.Extensions
-        virtual_machine_extension_type: CustomScript
-        type_handler_version: 2.0
-        settings:
-          fileUris:
-            - 'https://raw.githubusercontent.com/Microsoft/openshift-origin/master/scripts/nodePrep.sh'
-          commandToExecute: "bash nodePrep.sh"
       with_sequence: start=0 end={{ node_count - 1 }}
 
     - name: Create infra VMs
@@ -326,7 +299,22 @@
               managed_disk_type: Standard_LRS
         availability_set: infraavailabilityset
       with_sequence: start=0 end={{ infra_count - 1 }}
-    
+  
+    - name: Create master VM extension
+      azure_rm_virtualmachine_extension:
+        resource_group: "{{ resource_group }}"
+        name: deployOpenShift
+        virtual_machine_name: mycluster-master-{{ item }}
+        publisher: Microsoft.Azure.Extensions
+        virtual_machine_extension_type: CustomScript
+        type_handler_version: 2.0
+        settings:
+          fileUris:
+            - 'https://raw.githubusercontent.com/Microsoft/openshift-origin/master/scripts/masterPrep.sh'
+          commandToExecute: "bash masterPrep.sh {{ persistent_volume_name }} {{ admin_user_name }} {{ location }}"
+      with_sequence: start=0 end={{ master_count - 1 }}
+      when: runvmext == "true"
+  
     - name: Create infra VM extension
       azure_rm_virtualmachine_extension:
         resource_group: "{{ resource_group }}"
@@ -340,3 +328,19 @@
             - 'https://raw.githubusercontent.com/Microsoft/openshift-origin/master/scripts/nodePrep.sh'
           commandToExecute: "bash nodePrep.sh"
       with_sequence: start=0 end={{ infra_count - 1 }}
+      when: runvmext == "true"
+
+    - name: Create node VM extension
+      azure_rm_virtualmachine_extension:
+        resource_group: "{{ resource_group }}"
+        name: deployOpenShift
+        virtual_machine_name: mycluster-node-{{ item }}
+        publisher: Microsoft.Azure.Extensions
+        virtual_machine_extension_type: CustomScript
+        type_handler_version: 2.0
+        settings:
+          fileUris:
+            - 'https://raw.githubusercontent.com/Microsoft/openshift-origin/master/scripts/nodePrep.sh'
+          commandToExecute: "bash nodePrep.sh"
+      with_sequence: start=0 end={{ node_count - 1 }}
+      when: runvmext == "true"
