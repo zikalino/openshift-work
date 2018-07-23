@@ -40,11 +40,23 @@
         resource_group: "{{ resource_group }}"
         name: mycluster-infra-nsg
         rules:
-          - name: SSH
+          - name: allowSSHin_all
             protocol: Tcp
             destination_port_range: 22
             access: Allow
-            priority: 1001
+            priority: 100
+            direction: Inbound
+          - name: allowHTTPSIn_all
+            protocol: Tcp
+            destination_port_range: 443
+            access: Allow
+            priority: 200
+            direction: Inbound
+          - name: allowHTTPIn_all
+            protocol: Tcp
+            destination_port_range: 80
+            access: Allow
+            priority: 300
             direction: Inbound
 
     - name: Create master NSG
@@ -52,11 +64,17 @@
         resource_group: "{{ resource_group }}"
         name: mycluster-master-nsg
         rules:
-          - name: SSH
+          - name: allowSSHin_all
             protocol: Tcp
             destination_port_range: 22
             access: Allow
-            priority: 1001
+            priority: 100
+            direction: Inbound
+          - name: allowHTTPSIn_all
+            protocol: Tcp
+            destination_port_range: 443
+            access: Allow
+            priority: 200
             direction: Inbound
 
     - name: Create node NSG
@@ -64,11 +82,23 @@
         resource_group: "{{ resource_group }}"
         name: mycluster-node-nsg
         rules:
-          - name: SSH
+          - name: allowSSHin_all
             protocol: Tcp
             destination_port_range: 22
             access: Allow
-            priority: 1001
+            priority: 100
+            direction: Inbound
+          - name: allowHTTPSIn_all
+            protocol: Tcp
+            destination_port_range: 443
+            access: Allow
+            priority: 200
+            direction: Inbound
+          - name: allowHTTPIn_all
+            protocol: Tcp
+            destination_port_range: 80
+            access: Allow
+            priority: 300
             direction: Inbound
 
     - name: Create virtual network inteface card
