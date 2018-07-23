@@ -123,31 +123,23 @@
         location: eastus
         resource_group: "{{ resource_group }}"
         public_ip: masterlb_publicip
-        probe_protocol: Tcp
-        probe_port: 80
-        probe_interval: 10
-        probe_fail_count: 3
-        protocol: Tcp
-        load_distribution: SourceIP
-        frontend_port: 80
-        backend_port: 8080
-        idle_timeout: 15
         frontend_ip_configurations:
           - name: frontendip
             public_ip_address: masterlb_publicip
         load_balancing_rules:
-          - name: loadbalancingrule
+          - name: OpenShiftAdminConsole
             frontend_ip_configuration: frontendip
-            probe: prob0
+            load_distribution: SourceIP
+            idle_timeout: 15
+            probe: httpsprobe
             backend_address_pool: backendaddrpool0
             frontend_port: 443
             backend_port: 443
         backend_address_pools:
           - name: backendaddrpool0
         probes:
-          - name: prob0
+          - name: httpsprobe
             port: 443
-      register: lb
 
     - name: Create infra load balancer
       azure_rm_loadbalancer:
@@ -155,31 +147,29 @@
         location: eastus
         resource_group: "{{ resource_group }}"
         public_ip: infralb_publicip
-        probe_protocol: Tcp
-        probe_port: 80
-        probe_interval: 10
-        probe_fail_count: 3
-        protocol: Tcp
-        load_distribution: Default
-        frontend_port: 80
-        backend_port: 8080
-        idle_timeout: 4
         frontend_ip_configurations:
           - name: frontendip
             public_ip_address: infralb_publicip
         load_balancing_rules:
-          - name: loadbalancingrule
+          - name: OpenShiftRouterHTTP
             frontend_ip_configuration: frontendip
-            probe: prob0
+            probe: httpprobe
+            backend_address_pool: backendaddrpool0
+            frontend_port: 80
+            backend_port: 80
+          - name: OpenShiftRouterHTTPS
+            frontend_ip_configuration: frontendip
+            probe: httpsprobe
             backend_address_pool: backendaddrpool0
             frontend_port: 443
             backend_port: 443
         backend_address_pools:
           - name: backendaddrpool0
         probes:
-          - name: prob0
+          - name: httpsprobe
             port: 443
-      register: lb
+          - name: httpprobe
+            port: 80
 
     - name: Create virtual network inteface card for master
       azure_rm_networkinterface:
