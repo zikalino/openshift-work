@@ -151,7 +151,7 @@
     - name: Create infra load balancer
       azure_rm_loadbalancer:
         name: mycluster-infralb
-        location: eastus
+        location: "{{ location }}"
         resource_group: "{{ resource_group }}"
         public_ip: infralb_publicip
         frontend_ip_configurations:
