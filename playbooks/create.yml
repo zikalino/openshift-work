@@ -288,7 +288,7 @@
               disk_size_gb: 64
               managed_disk_type: Standard_LRS
         availability_set: infraavailabilityset
-      with_sequence: start=0 end={{ master_count - 1 }}
+      with_sequence: start=0 end={{ infra_count - 1 }}
     
     - name: Create infra VM extension
       azure_rm_virtualmachine_extension:
@@ -302,4 +302,4 @@
           fileUris:
             - 'https://raw.githubusercontent.com/Microsoft/openshift-origin/master/scripts/nodePrep.sh'
           commandToExecute: "bash nodePrep.sh"
-      with_sequence: start=0 end={{ node_count - 1 }}
+      with_sequence: start=0 end={{ infra_count - 1 }}
