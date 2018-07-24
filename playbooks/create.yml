@@ -16,6 +16,8 @@
     virtual_network_name: "openshiftvnet03"
 
   tasks:
+    # --- PRE TASKS ---
+    # All the other tasks require these tasks
     - name: Create a resource group
       azure_rm_resourcegroup:
         name: "{{ resource_group }}"
@@ -26,6 +28,25 @@
         resource_group: "{{ resource_group }}"
         name: "{{ virtual_network_name }}"
         address_prefixes: "10.0.0.0/14"
+
+    # --- PARALLELIZABLE TASKS ---
+    # All these tasks have no requirements other than RG and vNet
+    # They can be run in any order
+    - name: Create public IP address for Master LB
+      azure_rm_publicipaddress:
+        resource_group: "{{ resource_group }}"
+        allocation_method: Static
+        name: masterlb_publicip
+      async: 150
+      poll: 0
+
+    - name: Create public IP address for Infra LB
+      azure_rm_publicipaddress:
+        resource_group: "{{ resource_group }}"
+        allocation_method: Static
+        name: infralb_publicip
+      async: 150
+      poll: 0
 
     - name: Add master subnet
       azure_rm_subnet:
@@ -54,22 +75,6 @@
       async: 150
       poll: 0
         
-    - name: Create public IP address for Master LB
-      azure_rm_publicipaddress:
-        resource_group: "{{ resource_group }}"
-        allocation_method: Static
-        name: masterlb_publicip
-      async: 150
-      poll: 0
-
-    - name: Create public IP address for Infra LB
-      azure_rm_publicipaddress:
-        resource_group: "{{ resource_group }}"
-        allocation_method: Static
-        name: infralb_publicip
-      async: 150
-      poll: 0
-
     - name: Create infrastructure NSG
       azure_rm_securitygroup:
         resource_group: "{{ resource_group }}"
@@ -170,6 +175,8 @@
       poll: 0
 
 
+    # --- Load Balancers ---
+    # These require the public IPs: master and infra respectively
     - name: Create master load balancer
       azure_rm_loadbalancer:
         name: mycluster-masterlb
@@ -224,6 +231,8 @@
           - name: httpprobe
             port: 80
 
+    # --- NICs ---
+    # These require: Subnets and NSGs
     - name: Create virtual network inteface card for master
       azure_rm_networkinterface:
         resource_group: "{{ resource_group }}"
@@ -267,7 +276,8 @@
       async: 150
       poll: 0
 
-  
+    # --- VMs ---
+    # These require: NICs and AS
     - name: Create master VMs
       azure_rm_virtualmachine:
         resource_group: "{{ resource_group }}"
@@ -337,7 +347,9 @@
       with_sequence: start=0 end={{ infra_count - 1 }}
       async: 150
       poll: 0
-
+      
+    # --- VM Extensions ---
+    # These require: VMs
     - name: Create master VM extension
       azure_rm_virtualmachine_extension:
         resource_group: "{{ resource_group }}"
