@@ -240,7 +240,7 @@
       azure_rm_networkinterface:
         resource_group: "{{ resource_group }}"
         name: "{{ cluster_prefix }}-master-{{ item }}-nic"
-        virtual_network: openshiftvnet
+        virtual_network: "{{ virtual_network_name }}"
         subnet: mastersubnet
         security_group: "{{ cluster_prefix }}-master-nsg"
         ip_configurations:
