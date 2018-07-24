@@ -5,15 +5,15 @@
 ---
 - hosts: localhost
   vars:
-    resource_group: del-me-brus-123
+    resource_group: del-me-brus-1111
     location: eastus
-    persistent_volume_name: "pv1saunique1223a44"
+    persistent_volume_name: "pv1s27223a44"
     admin_user_name: bruno
     master_count: 3
     infra_count: 3
     node_count: 3
-    runvmext: "false"
-    virtual_network_name: "openshiftvnet03"
+    runvmext: "true"
+    virtual_network_name: "openshiftvnet04"
 
   tasks:
     # --- PRE TASKS ---
@@ -347,7 +347,7 @@
       with_sequence: start=0 end={{ infra_count - 1 }}
       async: 150
       poll: 0
-      
+
     # --- VM Extensions ---
     # These require: VMs
     - name: Create master VM extension
