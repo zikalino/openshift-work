@@ -12,8 +12,15 @@ sudo pip install ansible[azure]
 
 ## TL;DR
 
+Install the requirements:
+
 ```bash
 sudo pip install ansible[azure]
+sudo pip install msrestazure
+```
+
+Run the playbook:
+
 ```bash
 ansible-playbook playbooks/create.yml
 ```
