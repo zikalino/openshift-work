@@ -246,8 +246,9 @@
               - name: backendaddrpool0
                 load_balancer: mycluster-masterlb
       with_sequence: start=0 end={{ master_count - 1 }}
-      async: 150
+      async: 400
       poll: 0
+      register: master_nic_sleeper
 
     - name: Create virtual network inteface card for node
       azure_rm_networkinterface:
@@ -257,8 +258,9 @@
         subnet: nodesubnet
         security_group: mycluster-node-nsg
       with_sequence: start=0 end={{ node_count - 1 }}
-      async: 150
+      async: 400
       poll: 0
+      register: node_nic_sleeper
 
     - name: Create virtual network inteface card for infra
       azure_rm_networkinterface:
@@ -273,11 +275,23 @@
               - name: backendaddrpool0
                 load_balancer: mycluster-infralb
       with_sequence: start=0 end={{ infra_count - 1 }}
-      async: 150
+      async: 400
       poll: 0
+      register: infra_nic_sleeper
+
+
 
     # --- VMs ---
     # These require: NICs and AS
+
+    - name: 'Wating for master NIC ...'
+      async_status:
+        jid: "{{ master_nic_sleeper.ansible_job_id }}"
+      register: job_result
+      until: job_result.finished
+      retries: 30
+    
+    # Creating master
     - name: Create master VMs
       azure_rm_virtualmachine:
         resource_group: "{{ resource_group }}"
@@ -301,6 +315,12 @@
       async: 150
       poll: 0
 
+    - name: 'Wating for node NIC ...'
+      async_status:
+        jid: "{{ node_nic_sleeper.ansible_job_id }}"
+      register: job_result
+      until: job_result.finished
+      retries: 30
 
     - name: Create node VMs
       azure_rm_virtualmachine:
@@ -324,6 +344,13 @@
       with_sequence: start=0 end={{ node_count - 1 }}
       async: 150
       poll: 0
+
+    - name: 'Wating for infra NIC ...'
+      async_status:
+        jid: "{{ infra_nic_sleeper.ansible_job_id }}"
+      register: job_result
+      until: job_result.finished
+      retries: 30
 
     - name: Create infra VMs
       azure_rm_virtualmachine:
