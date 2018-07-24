@@ -14,6 +14,8 @@
     node_count: 3
     runvmext: "true"
     virtual_network_name: "openshiftvnet04"
+    admin_username: "azureuser"
+    admin_password: "Password@123"
 
   tasks:
     # --- PRE TASKS ---
@@ -233,7 +235,7 @@
 
     # --- NICs ---
     # These require: Subnets and NSGs
-    - name: Create virtual network inteface card for master
+    - name: Create virtual network interface card for master
       azure_rm_networkinterface:
         resource_group: "{{ resource_group }}"
         name: mycluster-master-{{ item }}-nic
@@ -249,7 +251,7 @@
       async: 150
       poll: 0
 
-    - name: Create virtual network inteface card for node
+    - name: Create virtual network interface card for node
       azure_rm_networkinterface:
         resource_group: "{{ resource_group }}"
         name: mycluster-node-{{ item }}-nic
@@ -260,7 +262,7 @@
       async: 150
       poll: 0
 
-    - name: Create virtual network inteface card for infra
+    - name: Create virtual network interface card for infra
       azure_rm_networkinterface:
         resource_group: "{{ resource_group }}"
         name: mycluster-infra-{{ item }}-nic
@@ -308,8 +310,8 @@
         name: mycluster-node-{{ item }}
         managed_disk_type: Standard_LRS
         vm_size: Standard_DS1_v2
-        admin_username: azureuser
-        admin_password: Password@123
+        admin_username: "{{ admin_username }}"
+        admin_password: "{{ admin_password }}"
         network_interfaces: mycluster-node-{{ item }}-nic
         image:
           offer: RHEL
@@ -331,8 +333,8 @@
         name: mycluster-infra-{{ item }}
         managed_disk_type: Standard_LRS
         vm_size: Standard_DS1_v2
-        admin_username: azureuser
-        admin_password: Password@123
+        admin_username: "{{ admin_username }}"
+        admin_password: "{{ admin_password }}"
         network_interfaces: mycluster-infra-{{ item }}-nic
         image:
           offer: RHEL
