@@ -307,13 +307,6 @@
       async: 150
       poll: 0
 
-    - name: 'Wating for node NIC ...'
-      async_status:
-        jid: "{{ node_nic_sleeper.ansible_job_id }}"
-      register: job_result
-      until: job_result.finished
-      retries: 30
-
     - name: Create node VMs
       azure_rm_virtualmachine:
         resource_group: "{{ resource_group }}"
@@ -337,12 +330,6 @@
       async: 150
       poll: 0
 
-    - name: 'Wating for infra NIC ...'
-      async_status:
-        jid: "{{ infra_nic_sleeper.ansible_job_id }}"
-      register: job_result
-      until: job_result.finished
-      retries: 30
 
     - name: Create infra VMs
       azure_rm_virtualmachine:
