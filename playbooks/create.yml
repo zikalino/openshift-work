@@ -282,17 +282,6 @@
       register: infra_nic_sleeper
 
 
-
-    # --- VMs ---
-    # These require: NICs and AS
-
-    - name: 'Wating for master NIC ...'
-      async_status:
-        jid: "{{ master_nic_sleeper.ansible_job_id }}"
-      register: job_result
-      until: job_result.finished
-      retries: 30
-    
     # Creating master
     - name: Create master VMs
       azure_rm_virtualmachine:
