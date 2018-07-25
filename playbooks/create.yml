@@ -472,6 +472,8 @@
       async: 150
       poll: 0
 
+# ----- COnfigure bastion -----
+
 - hosts: "{{ cluster_prefix }}-bastion"
   tasks:
     - name: Register as user with password and auto-subscribe to available content.
@@ -479,45 +481,51 @@
         state: present
         username: {{ rhsm_username }}
         password: {{ rhsm_password }}
-        autosubscribe: true
+        auto_attach: yes
     
-    - name: Enable rhel-server-rhscl-7-rpms repository
+    - name: Enable RHEL RHSCL repo
       rhsm_repository:
         name: rhel-server-rhscl-7-rpms
+        state: enabled
+    
+    - name: Install python for pip
+      yum:
+        name: python27-python-pip
+    
+    - name: Get pip
+      shell: curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+    
+    - name: Run pip python file
+      shell: python get-pip.py
 
-    - name: Import Microsoft repo key
+    - name: Install gcc + python-devel
+      yum: name = {{ item }}
+        with_items: 
+          - gcc
+          - python-devel
+        state: present
+      
+    - name: Install wheel v 0.30.0
+      pip: 
+        name: wheel
+      state: 0.30.0
+      sudo: yes
+
+    - name: update python-dateutil
+      pip: name = {{ item }}
+      with_items:
+        - python-dateutil
+        - pyopenssl
+        - ansible[azure]
+        - packaging
+        - azure
+      state: latest
+      extra_args: ignore-installed
+      sudo: yes
+
+    - name: Install Azure CLI
       shell: sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
-
-    - name: Create local Azure CLI repo information
       shell: sudo sh -c 'echo -e "[azure-cli]\nname=Azure CLI\nbaseurl=https://packages.microsoft.com/yumrepos/azure-cli\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/azure-cli.repo'
-
-    - name: Install Azure CLI with yum
       yum: 
         name: azure-cli
         state: latest
-    
-    - name: Install Ansible
-      yum:
-        name: ansible
-        state: latest
-    
-    - name: Install pip
-      yum:
-        name: python-pip
-        state: latest
-    
-    - name: Install azure
-    - pip:
-        name: azure
-    
-    - name: Install packaging
-    - pip:
-        name: packaging
-
-    - name: Install msrestazure
-    - pip:
-        name: msrestazure
-    
-    - name: Install ansible[azure] packages
-    - pip:
-        name: ansible[azure]
