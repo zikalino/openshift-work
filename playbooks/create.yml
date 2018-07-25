@@ -53,7 +53,7 @@
       azure_rm_subnet:
         resource_group: "{{ resource_group }}"
         name: nodesubnet
-        address_prefix: "{{ app_subnet_cidr }}"
+        address_prefix: "{{ node_subnet_cidr }}"
         virtual_network: "{{ virtual_network_name }}"
       async: 150
       poll: 0
