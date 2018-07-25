@@ -23,7 +23,7 @@
       shell: curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
     
     - name: Run pip python file
-      shell: sudo python get-pip.py
+      shell: python get-pip.py
 
     - name: Install gcc + python-devel + git
       yum: 
@@ -51,8 +51,9 @@
       extra_args: ignore-installed
 
     - name: Install Azure CLI (shell cmds)
-      shell: sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
-      shell: sudo sh -c 'echo -e "[azure-cli]\nname=Azure CLI\nbaseurl=https://packages.microsoft.com/yumrepos/azure-cli\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/azure-cli.repo'
+       shell: |
+          rpm --import https://packages.microsoft.com/keys/microsoft.asc
+          sh -c 'echo -e "[azure-cli]\nname=Azure CLI\nbaseurl=https://packages.microsoft.com/yumrepos/azure-cli\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/azure-cli.repo'
     
     - name: Install Azure CLI (yum command)
       yum: 
