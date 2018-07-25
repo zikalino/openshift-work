@@ -166,6 +166,13 @@
       async: 150
       poll: 0
 
+    - name: Wait for two IP addresses to be present
+      azure_rm_publicipaddress_facts:
+        resource_group: "{{ resource_group }}"
+      register: output
+      until: output.ansible_facts.azure_publicipaddresses | length == 2
+      delay: 20
+      retries: 10
 
     # --- Load Balancers ---
     # These require the public IPs: master and infra respectively
