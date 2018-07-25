@@ -1,0 +1,61 @@
+# ----- Configure bastion -----
+
+- hosts: "{{ cluster_prefix }}-bastion"
+  become: yes
+  tasks:
+    - name: Register as user with password and auto-subscribe to available content.
+      redhat_subscription:
+        state: present
+        username: {{ rhsm_username }}
+        password: {{ rhsm_password }}
+        auto_attach: yes
+    
+    - name: Enable RHEL RHSCL repo
+      rhsm_repository:
+        name: rhel-server-rhscl-7-rpms
+        state: enabled
+
+    - name: Enable ansible repo
+      rhsm_repository:
+        name: rhel-7-server-ansible-2.6-rpms
+        state: enabled
+
+    - name: Install ansible26 + gcc + python-devel + git
+      yum: 
+        name:
+          - ansible
+          - gcc
+          - python-devel
+          - git
+        state: present
+        
+    - name: Install python for pip
+      yum:
+        name: python27-python-pip
+    
+    - name: Get pip
+      get_url: 
+        url: https://bootstrap.pypa.io/get-pip.py
+        dest: .
+    
+    - name: Run pip python file
+      shell: python get-pip.py
+    - name: pip packages
+      pip:
+        name:
+          - python-dateutil
+          - pyopenssl
+          - ansible[azure]
+          - azure
+      state: latest
+      extra_args: ignore-installed
+
+    - name: Install Azure CLI (shell cmds)
+      shell: |
+        rpm --import https://packages.microsoft.com/keys/microsoft.asc
+        sh -c 'echo -e "[azure-cli]\nname=Azure CLI\nbaseurl=https://packages.microsoft.com/yumrepos/azure-cli\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/azure-cli.repo'
+    
+    - name: Install Azure CLI (yum command)
+      yum: 
+        name: azure-cli
+        state: latest
