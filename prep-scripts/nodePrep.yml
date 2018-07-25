@@ -6,9 +6,6 @@
   become: yes
  
   tasks:
-  - debug:
-      msg: Starting Script
-
   - name: Install EPEL
     yum:
       name: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm"
@@ -90,7 +87,6 @@
           exit 5
       fi
 
-
   # Enable and start Docker services
   - name: Enable and start docker
     systemd:
@@ -98,6 +94,3 @@
       enabled: yes
       state: started
       name: docker
-
-  - debug:
-    msg: "Script complete"
