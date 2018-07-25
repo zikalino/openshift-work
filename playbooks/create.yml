@@ -357,6 +357,18 @@
       async: 150
       poll: 0
 
+    - name: Wait for Virtual Machines
+      azure_rm_resource_facts:
+        # url: /subscriptions/{{ lookup('env','AZURE_SUBSCRIPTION_ID') }}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines
+        api_version: '2018-06-01'
+        resource_group: "{{ resource_group }}"
+        provider: compute
+        resource_type: virtualmachines
+      register: output
+      until: output.response[0].value | length == (infra_count + node_count + master_count)
+      delay: 60
+      retries: 10
+
     # --- VM Extensions ---
     # These require: VMs
     - name: Create master VM extension
