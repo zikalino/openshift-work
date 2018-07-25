@@ -58,27 +58,27 @@ admin_pubkey: 'ssh-rsa LDKJFDLKJDFLDKJDF'
 # Username / Password or
 # Activation key / OrgId
 #######################
-rhsm_user: ''
-rhsm_pass: ''
-rhsm_key: ""
-rhsm_org: ""
+# rhsm_user: ''
+# rhsm_pass: ''
+# rhsm_key: ""
+# rhsm_org: ""
 # Can specify separate pools so only Application nodes use paid subs
 # or keep the same if only using one pool
-rhsm_broker_pool: ""
-rhsm_node_pool: ""
-rhsm_repos: 
-  - rhel-7-server-rpms
-  - rhel-7-server-extras-rpms
-  - rhel-7-server-ose-3.9-rpms
-  - rhel-7-fast-datapath-rpms
-  - rhel-7-server-ansible-2.4-rpms
-bastion_pkgs:
-  - ansible
-  - atomic-openshift-utils
-  - atomic-openshift-clients
-  - git
-  - tmux
-  - screen
+# rhsm_broker_pool: ""
+# rhsm_node_pool: ""
+# rhsm_repos: 
+#   - rhel-7-server-rpms
+#   - rhel-7-server-extras-rpms
+#   - rhel-7-server-ose-3.9-rpms
+#   - rhel-7-fast-datapath-rpms
+#   - rhel-7-server-ansible-2.4-rpms
+# bastion_pkgs:
+#   - ansible
+#   - atomic-openshift-utils
+#   - atomic-openshift-clients
+#   - git
+#   - tmux
+#   - screen
 
 #######################
 # Network
@@ -87,10 +87,10 @@ virtual_network_name: "openshiftvnet"
 virtual_network_cidr: "10.0.0.0/14"
 master_subnet_cidr: "10.1.0.0/16"
 infra_subnet_cidr: "10.2.0.0/16"
-app_subnet_cidr: "10.3.0.0/16"
+node_subnet_cidr: "10.3.0.0/16"
 cns_subnet_cidr: "10.4.0.0/16"
 
-api_port: 443
+# api_port: 443
 
 # If this is set, the bastion host is configured with the given static
 # IP address. A public IP address is still assigned to the bastion
@@ -149,16 +149,16 @@ registry_storage_account: "registry{{ unique_string }}"
 #######################
 # deploy CNS
 #######################
-deploy_cns: true
-deploy_cns_on_infra: false
-deploy_metrics: true
-deploy_logging: true
-deploy_prometheus: true
+# deploy_cns: true
+# deploy_cns_on_infra: false
+# deploy_metrics: true
+# deploy_logging: true
+# deploy_prometheus: true
 
 # volume sizing defaults
-metrics_volume_size: '20Gi'
-logging_volume_size: '100Gi'
-prometheus_volume_size: '20Gi'
+# metrics_volume_size: '20Gi'
+# logging_volume_size: '100Gi'
+# prometheus_volume_size: '20Gi'
 
 #######################
 # UI customization
@@ -171,4 +171,4 @@ prometheus_volume_size: '20Gi'
 # Don't change 
 #######################
 #######################
-bastion: "{{ resource_group }}b.{{ location }}.cloudapp.azure.com"
+# bastion: "{{ resource_group }}b.{{ location }}.cloudapp.azure.com"
