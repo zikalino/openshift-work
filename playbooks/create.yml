@@ -4,21 +4,6 @@
 
 ---
 - hosts: localhost
-  vars:
-    resource_group: del-me-brus-1111
-    location: eastus
-    cluster_prefix: mycluster
-    persistent_volume_name: "pv1saunique1223344"
-    admin_user_name: zim
-    master_count: 3
-    infra_count: 3
-    node_count: 3
-    runvmext: "true"
-    virtual_network_name: "openshiftvnet04"
-    admin_username: "azureuser"
-    admin_password: "Password@123"
-    rhsm_username:
-    rhsm_password:
 
   tasks:
     # --- PRE TASKS ---
@@ -32,7 +17,7 @@
       azure_rm_virtualnetwork:
         resource_group: "{{ resource_group }}"
         name: "{{ virtual_network_name }}"
-        address_prefixes: "10.0.0.0/14"
+        address_prefixes: "{{ virtual_network_cidr }}"
 
     # --- PARALLELIZABLE TASKS ---
     # All these tasks have no requirements other than RG and vNet
@@ -41,7 +26,8 @@
       azure_rm_publicipaddress:
         resource_group: "{{ resource_group }}"
         allocation_method: Static
-        name: masterlb_publicip
+        domain_name: "{{ master_lb_public_ip }}"
+        name: "{{ master_lb_public_ip }}"
       async: 150
       poll: 0
 
@@ -49,7 +35,8 @@
       azure_rm_publicipaddress:
         resource_group: "{{ resource_group }}"
         allocation_method: Static
-        name: infralb_publicip
+        domain_name: "{{ router_lb_public_ip }}"
+        name: "{{ router_lb_public_ip }}"
       async: 150
       poll: 0
 
@@ -65,7 +52,7 @@
       azure_rm_subnet:
         resource_group: "{{ resource_group }}"
         name: mastersubnet
-        address_prefix: "10.1.0.0/16"
+        address_prefix: "{{ master_subnet_cidr }}"
         virtual_network: "{{ virtual_network_name }}"
       async: 150
       poll: 0
@@ -74,7 +61,7 @@
       azure_rm_subnet:
         resource_group: "{{ resource_group }}"
         name: nodesubnet
-        address_prefix: "10.2.0.0/16"
+        address_prefix: "{{ node_subnet_cidr }}"
         virtual_network: "{{ virtual_network_name }}"
       async: 150
       poll: 0
@@ -83,7 +70,7 @@
       azure_rm_subnet:
         resource_group: "{{ resource_group }}"
         name: infrasubnet
-        address_prefix: "10.3.0.0/16"
+        address_prefix: "{{ infra_subnet_cidr }}"
         virtual_network: "{{ virtual_network_name }}"
       async: 150
       poll: 0
@@ -189,7 +176,7 @@
     - name: Create master availability set
       azure_rm_availabilityset:
         name: masteravailabilityset
-        location: eastus
+        location: "{{ location }}"
         resource_group: "{{ resource_group }}"
         sku: Aligned
       async: 150
@@ -198,7 +185,7 @@
     - name: Create node availability set
       azure_rm_availabilityset:
         name: nodeavailabilityset
-        location: eastus
+        location: "{{ location }}"
         resource_group: "{{ resource_group }}"
         sku: Aligned
       async: 150
@@ -207,12 +194,19 @@
     - name: Create infra availability set
       azure_rm_availabilityset:
         name: infraavailabilityset
-        location: eastus
+        location: "{{ location }}"
         resource_group: "{{ resource_group }}"
         sku: Aligned
       async: 150
       poll: 0
 
+    - name: Wait for two IP addresses to be present
+      azure_rm_publicipaddress_facts:
+        resource_group: "{{ resource_group }}"
+      register: output
+      until: output.ansible_facts.azure_publicipaddresses | length == 2
+      delay: 20
+      retries: 10
 
     # --- Load Balancers ---
     # These require the public IPs: master and infra respectively
@@ -221,10 +215,9 @@
         name: "{{ cluster_prefix }}-masterlb"
         location: "{{ location }}"
         resource_group: "{{ resource_group }}"
-        public_ip: masterlb_publicip
         frontend_ip_configurations:
           - name: frontendip
-            public_ip_address: masterlb_publicip
+            public_ip_address: "{{ master_lb_public_ip }}"
         load_balancing_rules:
           - name: OpenShiftAdminConsole
             frontend_ip_configuration: frontendip
@@ -245,10 +238,9 @@
         name: "{{ cluster_prefix }}-infralb"
         location: "{{ location }}"
         resource_group: "{{ resource_group }}"
-        public_ip: infralb_publicip
         frontend_ip_configurations:
           - name: frontendip
-            public_ip_address: infralb_publicip
+            public_ip_address: "{{ router_lb_public_ip }}"
         load_balancing_rules:
           - name: OpenShiftRouterHTTP
             frontend_ip_configuration: frontendip
@@ -276,7 +268,7 @@
       azure_rm_networkinterface:
         resource_group: "{{ resource_group }}"
         name: "{{ cluster_prefix }}-master-{{ item }}-nic"
-        virtual_network: openshiftvnet
+        virtual_network: "{{ virtual_network_name }}"
         subnet: mastersubnet
         security_group: "{{ cluster_prefix }}-master-nsg"
         ip_configurations:
@@ -355,10 +347,13 @@
       azure_rm_virtualmachine:
         resource_group: "{{ resource_group }}"
         name: "{{ cluster_prefix }}-master-{{ item }}"
-        managed_disk_type: Standard_LRS
-        vm_size: Standard_DS1_v2
-        admin_username: azureuser
-        admin_password: Password@123
+        managed_disk_type: "{{ managed_disk_type }}"
+        vm_size: "{{ vm_size_master }}"
+        admin_username: "{{ admin_username }}"
+        ssh_password_enabled: false
+        ssh_public_keys:
+          - path: /home/{{ admin_username }}/.ssh/authorized_keys
+            key_data: "{{ admin_pubkey }}"
         network_interfaces: "{{ cluster_prefix }}-master-{{ item }}-nic"
         image:
           offer: RHEL
@@ -367,8 +362,8 @@
           version: latest
         data_disks:
             - lun: 0
-              disk_size_gb: 64
-              managed_disk_type: Standard_LRS
+              disk_size_gb: "{{ data_disk_size }}"
+              managed_disk_type: "{{ managed_disk_type }}"
         availability_set: masteravailabilityset
       with_sequence: start=0 end={{ master_count - 1 }}
       async: 150
@@ -378,10 +373,13 @@
       azure_rm_virtualmachine:
         resource_group: "{{ resource_group }}"
         name: "{{ cluster_prefix }}-node-{{ item }}"
-        managed_disk_type: Standard_LRS
-        vm_size: Standard_DS1_v2
+        managed_disk_type: "{{ managed_disk_type }}"
+        vm_size: "{{ vm_size_node }}"
         admin_username: "{{ admin_username }}"
-        admin_password: "{{ admin_password }}"
+        ssh_password_enabled: false
+        ssh_public_keys:
+          - path: /home/{{ admin_username }}/.ssh/authorized_keys
+            key_data: "{{ admin_pubkey }}"
         network_interfaces: "{{ cluster_prefix }}-node-{{ item }}-nic"
         image:
           offer: RHEL
@@ -390,8 +388,8 @@
           version: latest
         data_disks:
             - lun: 0
-              disk_size_gb: 64
-              managed_disk_type: Standard_LRS
+              disk_size_gb: "{{ data_disk_size }}"
+              managed_disk_type: "{{ managed_disk_type }}"
         availability_set: nodeavailabilityset
       with_sequence: start=0 end={{ node_count - 1 }}
       async: 150
@@ -401,10 +399,13 @@
       azure_rm_virtualmachine:
         resource_group: "{{ resource_group }}"
         name: "{{ cluster_prefix }}-infra-{{ item }}"
-        managed_disk_type: Standard_LRS
-        vm_size: Standard_DS1_v2
+        managed_disk_type: "{{ managed_disk_type }}"
+        vm_size: "{{ vm_size_infra }}"
         admin_username: "{{ admin_username }}"
-        admin_password: "{{ admin_password }}"
+        ssh_password_enabled: false
+        ssh_public_keys:
+          - path: /home/{{ admin_username }}/.ssh/authorized_keys
+            key_data: "{{ admin_pubkey }}"
         network_interfaces: "{{ cluster_prefix }}-infra-{{ item }}-nic"
         image:
           offer: RHEL
@@ -413,12 +414,24 @@
           version: latest
         data_disks:
             - lun: 0
-              disk_size_gb: 64
-              managed_disk_type: Standard_LRS
+              disk_size_gb: "{{ data_disk_size }}"
+              managed_disk_type: "{{ managed_disk_type }}"
         availability_set: infraavailabilityset
       with_sequence: start=0 end={{ infra_count - 1 }}
       async: 150
       poll: 0
+
+    - name: Wait for Virtual Machines
+      azure_rm_resource_facts:
+        # url: /subscriptions/{{ lookup('env','AZURE_SUBSCRIPTION_ID') }}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines
+        api_version: '2018-06-01'
+        resource_group: "{{ resource_group }}"
+        provider: compute
+        resource_type: virtualmachines
+      register: output
+      until: output.response[0].value | length == (infra_count + node_count + master_count)
+      delay: 60
+      retries: 10
 
     # --- VM Extensions ---
     # These require: VMs
