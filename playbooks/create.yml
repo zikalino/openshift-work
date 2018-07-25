@@ -17,6 +17,8 @@
     virtual_network_name: "openshiftvnet04"
     admin_username: "azureuser"
     admin_password: "Password@123"
+    rhsm_username:
+    rhsm_password:
 
   tasks:
     # --- PRE TASKS ---
@@ -472,23 +474,25 @@
       async: 150
       poll: 0
 
-# ----- COnfigure bastion -----
+# ----- Configure bastion -----
 
 - hosts: "{{ cluster_prefix }}-bastion"
   tasks:
     - name: Register as user with password and auto-subscribe to available content.
+      become: yes
       redhat_subscription:
         state: present
         username: {{ rhsm_username }}
         password: {{ rhsm_password }}
         auto_attach: yes
     
-    - name: Enable RHEL RHSCL repo
+    - name: Enable RHEL RHSCL repo # TODO: need to do this as sudo
       rhsm_repository:
         name: rhel-server-rhscl-7-rpms
         state: enabled
     
     - name: Install python for pip
+      become: yes
       yum:
         name: python27-python-pip
     
@@ -496,34 +500,37 @@
       shell: curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
     
     - name: Run pip python file
-      shell: python get-pip.py
+      shell: sudo python get-pip.py
 
     - name: Install gcc + python-devel
+      become: yes
       yum: name = {{ item }}
         with_items: 
           - gcc
           - python-devel
         state: present
       
-    - name: Install wheel v 0.30.0
-      pip: 
-        name: wheel
-      state: 0.30.0
-      sudo: yes
+    # this looks like it might not be necessary??????
+    # - name: Install wheel v 0.30.0
+    #   pip: 
+    #     name: wheel
+    #   state: 0.30.0
+    #   sudo: yes
 
-    - name: update python-dateutil
+    - name: pip packages
+      become: yes
       pip: name = {{ item }}
       with_items:
         - python-dateutil
         - pyopenssl
         - ansible[azure]
-        - packaging
+        # - packaging
         - azure
       state: latest
       extra_args: ignore-installed
-      sudo: yes
 
     - name: Install Azure CLI
+      become: yes
       shell: sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
       shell: sudo sh -c 'echo -e "[azure-cli]\nname=Azure CLI\nbaseurl=https://packages.microsoft.com/yumrepos/azure-cli\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/azure-cli.repo'
       yum: 
