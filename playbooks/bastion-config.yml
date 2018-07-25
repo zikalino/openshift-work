@@ -14,13 +14,20 @@
       rhsm_repository:
         name: rhel-server-rhscl-7-rpms
         state: enabled
+
+    - name: Enable ansible repo
+      rhsm_repository:
+        name: rhel-7-server-ansible-2.6-rpms
+        state: enabled
     
     - name: Install python for pip
       yum:
         name: python27-python-pip
     
     - name: Get pip
-      shell: curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+      get_url: 
+        url: https://bootstrap.pypa.io/get-pip.py
+        dest: .
     
     - name: Run pip python file
       shell: python get-pip.py
@@ -32,12 +39,6 @@
           - python-devel
           - git
         state: present
-      
-    # this looks like it might not be necessary??????
-    # - name: Install wheel v 0.30.0
-    #   pip: 
-    #     name: wheel
-    #   state: 0.30.0
 
     - name: pip packages
       pip:
@@ -45,15 +46,14 @@
           - python-dateutil
           - pyopenssl
           - ansible[azure]
-          # - packaging
           - azure
       state: latest
       extra_args: ignore-installed
 
     - name: Install Azure CLI (shell cmds)
-       shell: |
-          rpm --import https://packages.microsoft.com/keys/microsoft.asc
-          sh -c 'echo -e "[azure-cli]\nname=Azure CLI\nbaseurl=https://packages.microsoft.com/yumrepos/azure-cli\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/azure-cli.repo'
+      shell: |
+        rpm --import https://packages.microsoft.com/keys/microsoft.asc
+        sh -c 'echo -e "[azure-cli]\nname=Azure CLI\nbaseurl=https://packages.microsoft.com/yumrepos/azure-cli\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/azure-cli.repo'
     
     - name: Install Azure CLI (yum command)
       yum: 
