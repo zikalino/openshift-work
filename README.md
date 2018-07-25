@@ -14,9 +14,10 @@ Install the requirements:
 sudo pip install ansible[azure]
 sudo pip install msrestazure
 ```
+Copy vars.example.yml to vars.yml. Edit the file and update all the variables with your information.
 
 Run the playbook:
 
 ```bash
-ansible-playbook playbooks/create.yml
+ansible-playbook playbooks/create.yml -e @vars.yml
 ```
