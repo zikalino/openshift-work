@@ -264,6 +264,16 @@
 
     # --- NICs ---
     # These require: Subnets and NSGs
+    - name: Create virtual network interface card for bastion
+      azure_rm_networkinterface:
+        resource_group: "{{ resource_group }}"
+        name: "{{ cluster_prefix }}-bastion-nic"
+        virtual_network: "{{ virtual_network_name }}"
+        security_group: "{{ cluster_prefix }}-bastion-nsg"
+      async: 400
+      poll: 0
+      register: bastion_nic_sleeper
+
     - name: Create virtual network interface card for master
       azure_rm_networkinterface:
         resource_group: "{{ resource_group }}"
@@ -309,16 +319,6 @@
       async: 400
       poll: 0
       register: infra_nic_sleeper
-
-    - name: Create virtual network interface card for bastion
-      azure_rm_networkinterface:
-        resource_group: "{{ resource_group }}"
-        name: "{{ cluster_prefix }}-bastion-nic"
-        virtual_network: "{{ virtual_network_name }}"
-        security_group: "{{ cluster_prefix }}-bastion-nsg"
-      async: 400
-      poll: 0
-      register: bastion_nic_sleeper
 
     # Create bastion
     - name: Create bastion VM
@@ -421,6 +421,41 @@
       async: 150
       poll: 0
 
+    - name: Wait for Bastion
+      azure_rm_resource_facts:
+        api_version: '2018-06-01'
+        resource_group: "{{ resource_group }}"
+        provider: compute
+        resource_type: virtualmachines
+        name: "{{ cluster_prefix }}-bastion"
+      register: bastion
+      until: bastion.response.value | length == 1
+      delay: 30
+      retries: 20
+
+    - name: Add Bastion to host group
+      add_host:
+        hostname: "{{ item['ips'][0].public_ip }}"
+        groupname: bastion
+      with_items: "{{ bastion.deployment.instances }}"
+
+    - hosts: bastion
+      include: bastion-config.yml
+      user: "{{ admin_username }}"
+
+    - hosts: bastion
+      user: "{{ admin_username }}"
+      tasks:
+        - name: Wait for SSH to come up
+          wait_for:
+            port: 22
+            timeout: 2000
+            state: started
+        - name: echo the hostname of the vm
+          shell: hostname
+
+
+
     - name: Wait for Virtual Machines
       azure_rm_resource_facts:
         # url: /subscriptions/{{ lookup('env','AZURE_SUBSCRIPTION_ID') }}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines
@@ -432,6 +467,7 @@
       until: output.response[0].value | length == (infra_count + node_count + master_count)
       delay: 60
       retries: 10
+
 
     # --- VM Extensions ---
     # These require: VMs

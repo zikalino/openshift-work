@@ -29,6 +29,7 @@ vm_size_node:   Standard_D2s_v3
 vm_size_bastion: Standard_D2s_v3
 data_disk_size: 64
 managed_disk_type: Premium_LRS
+persistent_volume_name: "pv{{ unique_string }}"
 
 #######################
 # SSH user for all VMs created
@@ -58,8 +59,8 @@ admin_pubkey: 'ssh-rsa LDKJFDLKJDFLDKJDF'
 # Username / Password or
 # Activation key / OrgId
 #######################
-# rhsm_user: ''
-# rhsm_pass: ''
+# rhsm_username: ''
+# rhsm_password: ''
 # rhsm_key: ""
 # rhsm_org: ""
 # Can specify separate pools so only Application nodes use paid subs
