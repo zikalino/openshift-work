@@ -6,7 +6,7 @@ resource_group: "myclusterrg"
 cluster_prefix: mycluster
 
 runvmext: "false"
-unique_string: "{{ resource_group }} | md5 | truncate(8, True, '')"
+unique_string: "{{ resource_group  | md5 | truncate(8, True, '') }}"
 
 #######################
 # Number of nodes
