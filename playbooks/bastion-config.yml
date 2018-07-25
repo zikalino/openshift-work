@@ -19,7 +19,16 @@
       rhsm_repository:
         name: rhel-7-server-ansible-2.6-rpms
         state: enabled
-    
+
+    - name: Install ansible26 + gcc + python-devel + git
+      yum: 
+        name:
+          - ansible
+          - gcc
+          - python-devel
+          - git
+        state: present
+        
     - name: Install python for pip
       yum:
         name: python27-python-pip
@@ -31,15 +40,6 @@
     
     - name: Run pip python file
       shell: python get-pip.py
-
-    - name: Install gcc + python-devel + git
-      yum: 
-        name: 
-          - gcc
-          - python-devel
-          - git
-        state: present
-
     - name: pip packages
       pip:
         name:
