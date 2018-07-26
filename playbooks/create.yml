@@ -4,8 +4,7 @@
 
 ---
 - hosts: localhost
-  roles:
-    - ../custom-role
+
   tasks:
     # --- PRE TASKS ---
     # All the other tasks require these tasks
@@ -353,7 +352,6 @@
               disk_size_gb: "{{ data_disk_size }}"
               managed_disk_type: "{{ managed_disk_type }}"
         availability_set: masteravailabilityset
-        os_disk_size_gb: 64
       with_sequence: start=0 end={{ master_count - 1 }}
       async: 150
       poll: 0
@@ -380,7 +378,6 @@
               disk_size_gb: "{{ data_disk_size }}"
               managed_disk_type: "{{ managed_disk_type }}"
         availability_set: nodeavailabilityset
-        os_disk_size_gb: 64
       with_sequence: start=0 end={{ node_count - 1 }}
       async: 150
       poll: 0
@@ -407,11 +404,9 @@
               disk_size_gb: "{{ data_disk_size }}"
               managed_disk_type: "{{ managed_disk_type }}"
         availability_set: infraavailabilityset
-        os_disk_size_gb: 64
       with_sequence: start=0 end={{ infra_count - 1 }}
       async: 150
       poll: 0
-
 
 
     - name: Get bastion Public IP
@@ -453,8 +448,8 @@
         type_handler_version: 2.0
         settings:
           fileUris:
-            - 'https://raw.githubusercontent.com/Microsoft/openshift-container-platform/master/scripts/masterPrep.sh'
-          commandToExecute: "bash masterPrep.sh {{ rhsm_username_org }} '{{ rhsm_password_key }}' {{ rhsm_pool }} {{ admin_username }} {{ location }} {{ unmanaged_storage_class_account }}"
+            - 'https://raw.githubusercontent.com/Microsoft/openshift-origin/master/scripts/masterPrep.sh'
+          commandToExecute: "bash masterPrep.sh {{ persistent_volume_name }} {{ admin_username }} {{ location }}"
       with_sequence: start=0 end={{ master_count - 1 }}
       when: runvmext == "true"
       async: 150
@@ -471,8 +466,8 @@
         type_handler_version: 2.0
         settings:
           fileUris:
-            - 'https://raw.githubusercontent.com/Microsoft/openshift-container-platform/master/scripts/nodePrep.sh'
-          commandToExecute: "bash nodePrep.sh {{ rhsm_username_org }} '{{ rhsm_password_key }}' {{ rhsm_pool }}"
+            - 'https://raw.githubusercontent.com/Microsoft/openshift-origin/master/scripts/nodePrep.sh'
+          commandToExecute: "bash nodePrep.sh"
       with_sequence: start=0 end={{ infra_count - 1 }}
       when: runvmext == "true"
       async: 150
@@ -488,8 +483,8 @@
         type_handler_version: 2.0
         settings:
           fileUris:
-            - 'https://raw.githubusercontent.com/Microsoft/openshift-container-platform/master/scripts/nodePrep.sh'
-          commandToExecute: "bash nodePrep.sh {{ rhsm_username_org }} '{{ rhsm_password_key }}' {{ rhsm_pool }}"
+            - 'https://raw.githubusercontent.com/Microsoft/openshift-origin/master/scripts/nodePrep.sh'
+          commandToExecute: "bash nodePrep.sh"
       with_sequence: start=0 end={{ node_count - 1 }}
       when: runvmext == "true"
       async: 150
@@ -503,21 +498,56 @@
       dest_key: "/home/{{ admin_username }}/.ssh/id_rsa"
       empty_var: ""
   tasks:
+    - name: Ensure .ssh directory exists in root home folder.
+      file: 
+        dest: "{{ dest_key | dirname }}"
+        mode: 0700 
+        owner: "{{ admin_username }}" 
+        state: directory
+
+    - name: Install SSH private key on Bastion
+      copy: 
+        src: "{{ admin_privkey }}" 
+        dest: "{{ dest_key }}"
+        mode: 0600
+        owner: "{{ admin_username }}"
+
+    - name: Remove RHUI
+      sh: |
+        rm -f /etc/yum.repos.d/rh-cloud.repo
+        sleep 10
+
     - name: Register as user with password and auto-subscribe to available content.
       redhat_subscription:
         state: present
         username: "{{ rhsm_username }}"
         password: "{{ rhsm_password }}"
+        pool_ids: "{{ rhsm_pool }}"
         auto_attach: yes
+
+    - name: Disable all RHSM repositories
+      rhsm_repository:
+        name: '*'
+        state: disabled
 
     - name: Enable RHEL RHSCL and ansible repo
       rhsm_repository:
         name: 
-          - rhel-server-rhscl-7-rpms
-          - rhel-7-server-ansible-2.6-rpms
+          - rhel-7-server-rpms
+          - rhel-7-server-extras-rpms
+          - rhel-7-server-ose-3.9-rpms
+          - rhel-7-server-ansible-2.4-rpms
+          - rhel-7-fast-datapath-rpms
+          - rh-gluster-3-client-for-rhel-7-server-rpms
         state: enabled
       run_once: True
 
+    - name: Update system to latest packages
+      yum:
+        name: '*'
+        state: latest
+        exclude: WALinuxAgent
+    
     - name: Az CLI import rpm key   
       rpm_key:
         state: present
@@ -530,12 +560,23 @@
         baseurl: https://packages.microsoft.com/yumrepos/azure-cli
         gpgcheck: yes
         gpgkey: https://packages.microsoft.com/keys/microsoft.asc
-
+    
     #TODO: Fix versions
-    - name: Install ansible26 + gcc + python-devel + git + python27 + azure-cli
+    - name: Install base packages
       yum: 
         name:
+          - wget
+          - net-tools
+          - bind-utils
+          - iptables-services
+          - bridge-utils
+          - bash-completion
+          - httpd-tools
+          - kexec-tools
+          - sos
+          - psacct
           - ansible
+          - glusterfs-fuse
           - gcc
           - python-devel
           - git
@@ -544,6 +585,8 @@
         state: present
       run_once: True
 
+
+    
     - name: Get pip
       get_url: 
         url: https://bootstrap.pypa.io/get-pip.py
@@ -563,19 +606,6 @@
       extra_args: ignore-installed
       run_once: true
 
-    - name: Ensure .ssh directory exists in root home folder.
-      file: 
-        dest: "{{ dest_key | dirname }}"
-        mode: 0700 
-        owner: "{{ admin_username }}" 
-        state: directory
-
-    - name: Install ssh key
-      copy: 
-        src: "{{ admin_privkey }}" 
-        dest: "{{ dest_key }}"
-        mode: 0600
-        owner: "{{ admin_username }}"
 
     - name: Get "deployOpenShift.sh"
       get_url:
