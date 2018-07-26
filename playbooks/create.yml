@@ -353,7 +353,7 @@
               disk_size_gb: "{{ data_disk_size }}"
               managed_disk_type: "{{ managed_disk_type }}"
         availability_set: masteravailabilityset
-        os_disk_size_gb: "{{ os_disk_size }}"
+        os_disk_size_gb: 64
       with_sequence: start=0 end={{ master_count - 1 }}
       async: 150
       poll: 0
@@ -380,7 +380,7 @@
               disk_size_gb: "{{ data_disk_size }}"
               managed_disk_type: "{{ managed_disk_type }}"
         availability_set: nodeavailabilityset
-        os_disk_size_gb: "{{ os_disk_size }}"
+        os_disk_size_gb: 64
       with_sequence: start=0 end={{ node_count - 1 }}
       async: 150
       poll: 0
@@ -407,7 +407,7 @@
               disk_size_gb: "{{ data_disk_size }}"
               managed_disk_type: "{{ managed_disk_type }}"
         availability_set: infraavailabilityset
-        os_disk_size_gb: "{{ os_disk_size }}"
+        os_disk_size_gb: 64
       with_sequence: start=0 end={{ infra_count - 1 }}
       async: 150
       poll: 0
@@ -588,8 +588,14 @@
           - python27-python-pip
           - atomic-openshift-excluder
           - atomic-openshift-docker-excluder
-          - atomic-openshift-excluder 
-          - unexclude
+        state: present
+
+    - name: Excluders for OpenShift
+      shell: atomic-openshift-excluder unexclude
+
+    - name: Installing OpenShift utilities
+      yum: 
+        name:
           - atomic-openshift-utils
         state: present
 
@@ -603,7 +609,7 @@
         dest: .
     
     - name: Run updateansiblecfg.yaml playbook
-      include: updateansiblecfg.yaml
+      shell: ansible-playbook -f 25 updateansiblecfg.yaml
       
     - name: Get "deployOpenShift.sh"
       get_url:
