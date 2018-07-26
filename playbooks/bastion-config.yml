@@ -6,8 +6,8 @@
     - name: Register as user with password and auto-subscribe to available content.
       redhat_subscription:
         state: present
-        username: {{ rhsm_username }}
-        password: {{ rhsm_password }}
+        username: "{{ rhsm_username }}"
+        password: "{{ rhsm_password }}"
         auto_attach: yes
     
     - name: Enable RHEL RHSCL repo

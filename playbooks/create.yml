@@ -22,6 +22,14 @@
     # --- PARALLELIZABLE TASKS ---
     # All these tasks have no requirements other than RG and vNet
     # They can be run in any order
+    - name: Create public IP address for Bastion node
+      azure_rm_publicipaddress:
+        resource_group: "{{ resource_group }}"
+        allocation_method: Static
+        name: bastion_publicip
+      async: 150
+      poll: 0
+
     - name: Create public IP address for Master LB
       azure_rm_publicipaddress:
         resource_group: "{{ resource_group }}"
@@ -40,13 +48,7 @@
       async: 150
       poll: 0
 
-    - name: Create public IP address for Bastion node
-      azure_rm_publicipaddress:
-        resource_group: "{{ resource_group }}"
-        allocation_method: Static
-        name: bastion_publicip
-      async: 150
-      poll: 0
+
 
     - name: Add master subnet
       azure_rm_subnet:
@@ -147,32 +149,6 @@
       async: 150
       poll: 0
 
-    - name: Create bastion NSG
-      azure_rm_securitygroup:
-        resource_group: "{{ resource_group }}"
-        name: "{{ cluster_prefix }}-bastion-nsg"
-        rules:
-          - name: allowSSHin_all
-            protocol: Tcp
-            destination_port_range: 22
-            access: Allow
-            priority: 100
-            direction: Inbound
-          - name: allowHTTPSIn_all
-            protocol: Tcp
-            destination_port_range: 443
-            access: Allow
-            priority: 200
-            direction: Inbound
-          - name: allowHTTPIn_all
-            protocol: Tcp
-            destination_port_range: 80
-            access: Allow
-            priority: 300
-            direction: Inbound
-      async: 150
-      poll: 0
-
     - name: Create master availability set
       azure_rm_availabilityset:
         name: masteravailabilityset
@@ -200,11 +176,11 @@
       async: 150
       poll: 0
 
-    - name: Wait for two IP addresses to be present
+    - name: Wait for three IP addresses to be present
       azure_rm_publicipaddress_facts:
         resource_group: "{{ resource_group }}"
       register: output
-      until: output.ansible_facts.azure_publicipaddresses | length == 2
+      until: output.ansible_facts.azure_publicipaddresses | length >= 2
       delay: 20
       retries: 10
 
@@ -269,10 +245,14 @@
         resource_group: "{{ resource_group }}"
         name: "{{ cluster_prefix }}-bastion-nic"
         virtual_network: "{{ virtual_network_name }}"
-        security_group: "{{ cluster_prefix }}-bastion-nsg"
+        subnet: infrasubnet
+        security_group: "{{ cluster_prefix }}-infra-nsg"
+        ip_configurations:
+          - name: ipconfig0
+            public_ip_address_name: bastion_publicip
       async: 400
       poll: 0
-      register: bastion_nic_sleeper
+
 
     - name: Create virtual network interface card for master
       azure_rm_networkinterface:
@@ -289,7 +269,6 @@
       with_sequence: start=0 end={{ master_count - 1 }}
       async: 400
       poll: 0
-      register: master_nic_sleeper
 
     - name: Create virtual network interface card for node
       azure_rm_networkinterface:
@@ -301,7 +280,6 @@
       with_sequence: start=0 end={{ node_count - 1 }}
       async: 400
       poll: 0
-      register: node_nic_sleeper
 
     - name: Create virtual network interface card for infra
       azure_rm_networkinterface:
@@ -318,7 +296,6 @@
       with_sequence: start=0 end={{ infra_count - 1 }}
       async: 400
       poll: 0
-      register: infra_nic_sleeper
 
     # Create bastion
     - name: Create bastion VM
@@ -328,7 +305,10 @@
         managed_disk_type: Standard_LRS
         vm_size: Standard_DS1_v2
         admin_username: "{{ admin_username }}"
-        admin_password: "{{ admin_password }}"
+        ssh_password_enabled: false
+        ssh_public_keys:
+          - path: /home/{{ admin_username }}/.ssh/authorized_keys
+            key_data: "{{ admin_pubkey }}"
         network_interfaces: "{{ cluster_prefix }}-bastion-nic"
         image:
           offer: RHEL
@@ -421,40 +401,21 @@
       async: 150
       poll: 0
 
-    - name: Wait for Bastion
-      azure_rm_resource_facts:
-        api_version: '2018-06-01'
-        resource_group: "{{ resource_group }}"
-        provider: compute
-        resource_type: virtualmachines
-        name: "{{ cluster_prefix }}-bastion"
-      register: bastion
-      until: bastion.response.value | length == 1
-      delay: 30
-      retries: 20
 
+
+    - name: Get bastion Public IP
+      azure_rm_publicipaddress_facts:
+        resource_group: "{{ resource_group }}"
+        name: bastion_publicip
+      register: bastion_ip
+
+    - debug:
+       var: bastion_ip.ansible_facts.azure_publicipaddresses[0].properties.ipAddress
+       
     - name: Add Bastion to host group
       add_host:
-        hostname: "{{ item['ips'][0].public_ip }}"
-        groupname: bastion
-      with_items: "{{ bastion.deployment.instances }}"
-
-    - hosts: bastion
-      include: bastion-config.yml
-      user: "{{ admin_username }}"
-
-    - hosts: bastion
-      user: "{{ admin_username }}"
-      tasks:
-        - name: Wait for SSH to come up
-          wait_for:
-            port: 22
-            timeout: 2000
-            state: started
-        - name: echo the hostname of the vm
-          shell: hostname
-
-
+        hostname: "{{ bastion_ip.ansible_facts.azure_publicipaddresses[0].properties.ipAddress }}"
+        groupname: bastion_vm
 
     - name: Wait for Virtual Machines
       azure_rm_resource_facts:
@@ -464,7 +425,7 @@
         provider: compute
         resource_type: virtualmachines
       register: output
-      until: output.response[0].value | length == (infra_count + node_count + master_count)
+      until: output.response[0].value | length >= (infra_count + node_count + master_count)
       delay: 60
       retries: 10
 
@@ -482,7 +443,7 @@
         settings:
           fileUris:
             - 'https://raw.githubusercontent.com/Microsoft/openshift-origin/master/scripts/masterPrep.sh'
-          commandToExecute: "bash masterPrep.sh {{ persistent_volume_name }} {{ admin_user_name }} {{ location }}"
+          commandToExecute: "bash masterPrep.sh {{ persistent_volume_name }} {{ admin_username }} {{ location }}"
       with_sequence: start=0 end={{ master_count - 1 }}
       when: runvmext == "true"
       async: 150
@@ -522,3 +483,65 @@
       when: runvmext == "true"
       async: 150
       poll: 0
+# Bastion playbook configuration
+
+- hosts: bastion_vm
+  user: "{{ admin_username }}"
+  become: yes
+  tasks:
+    - name: Register as user with password and auto-subscribe to available content.
+      redhat_subscription:
+        state: present
+        username: "{{ rhsm_username }}"
+        password: "{{ rhsm_password }}"
+        auto_attach: yes
+    
+    - name: Enable RHEL RHSCL repo
+      rhsm_repository:
+        name: rhel-server-rhscl-7-rpms
+        state: enabled
+
+    - name: Enable ansible repo
+      rhsm_repository:
+        name: rhel-7-server-ansible-2.6-rpms
+        state: enabled
+
+    - name: Install ansible26 + gcc + python-devel + git
+      yum: 
+        name:
+          - ansible
+          - gcc
+          - python-devel
+          - git
+        state: present
+        
+    - name: Install python for pip
+      yum:
+        name: python27-python-pip
+    
+    - name: Get pip
+      get_url: 
+        url: https://bootstrap.pypa.io/get-pip.py
+        dest: .
+    
+    - name: Run pip python file
+      shell: python get-pip.py
+    - name: pip packages
+      pip:
+        name:
+          - python-dateutil
+          - pyopenssl
+          - ansible[azure]
+          - azure
+      state: latest
+      extra_args: ignore-installed
+
+    - name: Install Azure CLI (shell cmds)
+      shell: |
+        rpm --import https://packages.microsoft.com/keys/microsoft.asc
+        sh -c 'echo -e "[azure-cli]\nname=Azure CLI\nbaseurl=https://packages.microsoft.com/yumrepos/azure-cli\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/azure-cli.repo'
+    
+    - name: Install Azure CLI (yum command)
+      yum: 
+        name: azure-cli
+        state: latest
