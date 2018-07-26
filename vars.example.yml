@@ -59,12 +59,13 @@ admin_pubkey: 'ssh-rsa LDKJFDLKJDFLDKJDF'
 # Username / Password or
 # Activation key / OrgId
 #######################
-# rhsm_username: ''
-# rhsm_password: ''
+rhsm_username_org: ''
+rhsm_password_key: ''
 # rhsm_key: ""
 # rhsm_org: ""
 # Can specify separate pools so only Application nodes use paid subs
 # or keep the same if only using one pool
+rhsm_pool: ""
 # rhsm_broker_pool: ""
 # rhsm_node_pool: ""
 # rhsm_repos: 
@@ -127,6 +128,8 @@ router_lb_public_ip: "routerdns{{ unique_string }}"
 # registry Storage Account Name
 registry_storage_account: "registry{{ unique_string }}"
 
+# Storage account for default Storage Class if using unmanaged disks
+unmanaged_storage_class_account: "scsa{{ unique_string }}"
 
 #######################
 # Custom Named Certs
