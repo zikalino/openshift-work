@@ -503,21 +503,55 @@
       dest_key: "/home/{{ admin_username }}/.ssh/id_rsa"
       empty_var: ""
   tasks:
+    - name: Ensure .ssh directory exists in root home folder.
+      file: 
+        dest: "{{ dest_key | dirname }}"
+        mode: 0700 
+        owner: "{{ admin_username }}" 
+        state: directory
+
+    - name: Install SSH private key on Bastion
+      copy: 
+        src: "{{ admin_privkey }}" 
+        dest: "{{ dest_key }}"
+        mode: 0600
+        owner: "{{ admin_username }}"
+
+    - name: Remove RHUI
+      shell: |
+        rm -f /etc/yum.repos.d/rh-cloud.repo
+        sleep 10
+
     - name: Register as user with password and auto-subscribe to available content.
       redhat_subscription:
         state: present
-        username: "{{ rhsm_username }}"
-        password: "{{ rhsm_password }}"
+        username: "{{ rhsm_username_org }}"
+        password: "{{ rhsm_password_key }}"
+        pool_ids: "{{ rhsm_pool }}"
         auto_attach: yes
+
+    - name: Disable all RHSM repositories
+      rhsm_repository:
+        name: '*'
+        state: disabled
 
     - name: Enable RHEL RHSCL and ansible repo
       rhsm_repository:
         name: 
-          - rhel-server-rhscl-7-rpms
-          - rhel-7-server-ansible-2.6-rpms
+          - rhel-7-server-rpms
+          - rhel-7-server-extras-rpms
+          - rhel-7-server-ose-3.9-rpms
+          - rhel-7-server-ansible-2.4-rpms
+          - rhel-7-fast-datapath-rpms
+          - rh-gluster-3-client-for-rhel-7-server-rpms
         state: enabled
-      run_once: True
 
+    - name: Update system to latest packages
+      yum:
+        name: '*'
+        state: latest
+        exclude: WALinuxAgent
+    
     - name: Az CLI import rpm key   
       rpm_key:
         state: present
@@ -530,53 +564,47 @@
         baseurl: https://packages.microsoft.com/yumrepos/azure-cli
         gpgcheck: yes
         gpgkey: https://packages.microsoft.com/keys/microsoft.asc
-
+    
     #TODO: Fix versions
-    - name: Install ansible26 + gcc + python-devel + git + python27 + azure-cli
+    - name: Install ALL packages
       yum: 
         name:
+          - wget
+          - net-tools
+          - bind-utils
+          - iptables-services
+          - bridge-utils
+          - bash-completion
+          - httpd-tools
+          - kexec-tools
+          - sos
+          - psacct
           - ansible
+          - glusterfs-fuse
           - gcc
           - python-devel
           - git
           - azure-cli
           - python27-python-pip
+          - atomic-openshift-excluder
+          - atomic-openshift-docker-excluder
+          - atomic-openshift-excluder 
+          - unexclude
+          - atomic-openshift-utils
         state: present
-      run_once: True
 
-    - name: Get pip
-      get_url: 
-        url: https://bootstrap.pypa.io/get-pip.py
+    - name: Adding DOMAIN to search for resolv.conf
+      shell: |
+        echo "DOMAIN=`domainname -d`" >> /etc/sysconfig/network-scripts/ifcfg-eth0
+
+    - name: Get updateansiblecfg.yaml playbook
+      get_url:
+        url: https://raw.githubusercontent.com/microsoft/openshift-container-platform-playbooks/master/updateansiblecfg.yaml
         dest: .
-
-    - name: Run pip python file
-      shell: python get-pip.py
-
-    - name: pip packages
-      pip:
-        name:
-          - python-dateutil
-          - pyopenssl
-          - ansible[azure]
-          - azure
-      state: latest
-      extra_args: ignore-installed
-      run_once: true
-
-    - name: Ensure .ssh directory exists in root home folder.
-      file: 
-        dest: "{{ dest_key | dirname }}"
-        mode: 0700 
-        owner: "{{ admin_username }}" 
-        state: directory
-
-    - name: Install ssh key
-      copy: 
-        src: "{{ admin_privkey }}" 
-        dest: "{{ dest_key }}"
-        mode: 0600
-        owner: "{{ admin_username }}"
-
+    
+    - name: Run updateansiblecfg.yaml playbook
+      include: updateansiblecfg.yaml
+      
     - name: Get "deployOpenShift.sh"
       get_url:
         url: https://gist.githubusercontent.com/brusMX/b8ba89a4ce7063363315e6ce69b4a1d3/raw/652d8c73bc5f45e0383d0781c9e5293e56c4dc1f/export-all.sh
@@ -596,15 +624,15 @@
           # export PRIVATEKEY=$3 - parameters('sshPrivateKey')
           "{{ admin_privkey }}" \
           # export MASTER=$4 - parameters('openshiftMasterHostname')
-          "{{ cluster_prefix }}-master-0" \
+          "{{ cluster_prefix }}-master" \
           # export MASTERPUBLICIPHOSTNAME=$5 - parameters('openshiftMasterPublicIpFqdn')
           "{{ master_lb_public_ip }}" \
           # export MASTERPUBLICIPADDRESS=$6 - parameters('openshiftMasterPublicIpAddress')
           "{{ empty_var }}" \
           # export INFRA=$7 - parameters('openshiftInfraHostname')
-          "{{ cluster_prefix }}-infra-0" \
+          "{{ cluster_prefix }}-infra" \
           # export NODE=$8 - parameters('openshiftNodeHostname')
-          "{{ cluster_prefix }}-node-0" \
+          "{{ cluster_prefix }}-node" \
           # export NODECOUNT=$9 - parameters('nodeInstanceCount')
           "{{ node_count }}" \
           # export INFRACOUNT=${10} - parameters('infraInstanceCount')
