@@ -39,7 +39,7 @@ admin_username: azureuser
 # This will be added to each instance's authorized_keys file
 admin_pubkey: 'ssh-rsa LDKJFDLKJDFLDKJDF'
 # Path for the private key which will be added to localhost ssh_config for proxying through the bastion
-# admin_privkey: '~/.ssh/id_rsa'
+admin_privkey: '~/.ssh/id_rsa'
 
 # If set, creates local users with password-less sudo on the bastion.
 # bastion_users:
@@ -150,7 +150,7 @@ unmanaged_storage_class_account: "scsa{{ unique_string }}"
 # openshift_master_identity_providers: [{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider', 'filename': '/etc/origin/master/htpasswd'}]
 
 # 
-#ocp_admin_passwd: 'redhat'
+ocp_admin_passwd: 'redhat@123'
 
 #######################
 # deploy CNS
