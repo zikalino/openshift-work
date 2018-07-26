@@ -28,6 +28,7 @@ vm_size_node:   Standard_D2s_v3
 # vm_size_cns:    Standard_D8s_v3
 vm_size_bastion: Standard_D2s_v3
 data_disk_size: 64
+os_disk_size: 64
 managed_disk_type: Premium_LRS
 persistent_volume_name: "pv{{ unique_string }}"
 
