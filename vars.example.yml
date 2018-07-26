@@ -91,6 +91,7 @@ infra_subnet_cidr: "10.2.0.0/16"
 node_subnet_cidr: "10.3.0.0/16"
 cns_subnet_cidr: "10.4.0.0/16"
 
+bastion_publicip: "bastion{{ unique_string }}"
 # api_port: 443
 
 # If this is set, the bastion host is configured with the given static
@@ -109,7 +110,7 @@ cns_subnet_cidr: "10.4.0.0/16"
 # LB
 #######################
 # Name of Master LB public IP address
-master_lb_public_ip: "masterdns{{ unique_string}}"
+master_lb_public_ip: "masterdns{{ unique_string }}"
 
 
 # If this is set, the master load balancer will be configured as an

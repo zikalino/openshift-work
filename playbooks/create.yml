@@ -22,6 +22,14 @@
     # --- PARALLELIZABLE TASKS ---
     # All these tasks have no requirements other than RG and vNet
     # They can be run in any order
+    - name: Create public IP address for Bastion node
+      azure_rm_publicipaddress:
+        resource_group: "{{ resource_group }}"
+        allocation_method: Static
+        name: bastion_publicip
+      async: 150
+      poll: 0
+
     - name: Create public IP address for Master LB
       azure_rm_publicipaddress:
         resource_group: "{{ resource_group }}"
@@ -44,7 +52,8 @@
       azure_rm_publicipaddress:
         resource_group: "{{ resource_group }}"
         allocation_method: Static
-        name: bastion_publicip
+        domain_name: "{{ bastion_publicip }}"
+        name: "{{ bastion_publicip }}"
       async: 150
       poll: 0
 
@@ -147,32 +156,6 @@
       async: 150
       poll: 0
 
-    - name: Create bastion NSG
-      azure_rm_securitygroup:
-        resource_group: "{{ resource_group }}"
-        name: "{{ cluster_prefix }}-bastion-nsg"
-        rules:
-          - name: allowSSHin_all
-            protocol: Tcp
-            destination_port_range: 22
-            access: Allow
-            priority: 100
-            direction: Inbound
-          - name: allowHTTPSIn_all
-            protocol: Tcp
-            destination_port_range: 443
-            access: Allow
-            priority: 200
-            direction: Inbound
-          - name: allowHTTPIn_all
-            protocol: Tcp
-            destination_port_range: 80
-            access: Allow
-            priority: 300
-            direction: Inbound
-      async: 150
-      poll: 0
-
     - name: Create master availability set
       azure_rm_availabilityset:
         name: masteravailabilityset
@@ -200,11 +183,11 @@
       async: 150
       poll: 0
 
-    - name: Wait for two IP addresses to be present
+    - name: Wait for three IP addresses to be present
       azure_rm_publicipaddress_facts:
         resource_group: "{{ resource_group }}"
       register: output
-      until: output.ansible_facts.azure_publicipaddresses | length == 2
+      until: output.ansible_facts.azure_publicipaddresses | length >= 3
       delay: 20
       retries: 10
 
@@ -269,10 +252,14 @@
         resource_group: "{{ resource_group }}"
         name: "{{ cluster_prefix }}-bastion-nic"
         virtual_network: "{{ virtual_network_name }}"
-        security_group: "{{ cluster_prefix }}-bastion-nsg"
+        subnet: infrasubnet
+        security_group: "{{ cluster_prefix }}-infra-nsg"
+        ip_configurations:
+          - name: ipconfig0
+            public_ip_address_name: bastion_publicip
       async: 400
       poll: 0
-      register: bastion_nic_sleeper
+
 
     - name: Create virtual network interface card for master
       azure_rm_networkinterface:
@@ -289,7 +276,6 @@
       with_sequence: start=0 end={{ master_count - 1 }}
       async: 400
       poll: 0
-      register: master_nic_sleeper
 
     - name: Create virtual network interface card for node
       azure_rm_networkinterface:
@@ -301,7 +287,6 @@
       with_sequence: start=0 end={{ node_count - 1 }}
       async: 400
       poll: 0
-      register: node_nic_sleeper
 
     - name: Create virtual network interface card for infra
       azure_rm_networkinterface:
@@ -318,7 +303,6 @@
       with_sequence: start=0 end={{ infra_count - 1 }}
       async: 400
       poll: 0
-      register: infra_nic_sleeper
 
     # Create bastion
     - name: Create bastion VM
@@ -326,9 +310,12 @@
         resource_group: "{{ resource_group }}"
         name: "{{ cluster_prefix }}-bastion"
         managed_disk_type: Standard_LRS
-        vm_size: Standard_DS1_v2
+        vm_size: "{{ vm_size_bastion }}"
         admin_username: "{{ admin_username }}"
-        admin_password: "{{ admin_password }}"
+        ssh_password_enabled: false
+        ssh_public_keys:
+          - path: /home/{{ admin_username }}/.ssh/authorized_keys
+            key_data: "{{ admin_pubkey }}"
         network_interfaces: "{{ cluster_prefix }}-bastion-nic"
         image:
           offer: RHEL
@@ -337,7 +324,7 @@
           version: latest
         data_disks:
             - lun: 0
-              disk_size_gb: 64
+              disk_size_gb: "{{ data_disk_size }}"
               managed_disk_type: Standard_LRS
       async: 150
       poll: 0
@@ -421,40 +408,21 @@
       async: 150
       poll: 0
 
-    - name: Wait for Bastion
-      azure_rm_resource_facts:
-        api_version: '2018-06-01'
-        resource_group: "{{ resource_group }}"
-        provider: compute
-        resource_type: virtualmachines
-        name: "{{ cluster_prefix }}-bastion"
-      register: bastion
-      until: bastion.response.value | length == 1
-      delay: 30
-      retries: 20
 
+
+    - name: Get bastion Public IP
+      azure_rm_publicipaddress_facts:
+        resource_group: "{{ resource_group }}"
+        name: bastion_publicip
+      register: bastion_ip
+
+    - debug:
+       var: bastion_ip.ansible_facts.azure_publicipaddresses[0].properties.ipAddress
+       
     - name: Add Bastion to host group
       add_host:
-        hostname: "{{ item['ips'][0].public_ip }}"
-        groupname: bastion
-      with_items: "{{ bastion.deployment.instances }}"
-
-    - hosts: bastion
-      include: bastion-config.yml
-      user: "{{ admin_username }}"
-
-    - hosts: bastion
-      user: "{{ admin_username }}"
-      tasks:
-        - name: Wait for SSH to come up
-          wait_for:
-            port: 22
-            timeout: 2000
-            state: started
-        - name: echo the hostname of the vm
-          shell: hostname
-
-
+        hostname: "{{ bastion_ip.ansible_facts.azure_publicipaddresses[0].properties.ipAddress }}"
+        groupname: bastion_vm
 
     - name: Wait for Virtual Machines
       azure_rm_resource_facts:
@@ -464,7 +432,7 @@
         provider: compute
         resource_type: virtualmachines
       register: output
-      until: output.response[0].value | length == (infra_count + node_count + master_count)
+      until: output.response[0].value | length >= (infra_count + node_count + master_count)
       delay: 60
       retries: 10
 
@@ -482,7 +450,7 @@
         settings:
           fileUris:
             - 'https://raw.githubusercontent.com/Microsoft/openshift-origin/master/scripts/masterPrep.sh'
-          commandToExecute: "bash masterPrep.sh {{ persistent_volume_name }} {{ admin_user_name }} {{ location }}"
+          commandToExecute: "bash masterPrep.sh {{ persistent_volume_name }} {{ admin_username }} {{ location }}"
       with_sequence: start=0 end={{ master_count - 1 }}
       when: runvmext == "true"
       async: 150
@@ -522,3 +490,149 @@
       when: runvmext == "true"
       async: 150
       poll: 0
+
+# Bastion playbook tasks to set it up
+- hosts: bastion_vm
+  user: "{{ admin_username }}"
+  become: yes
+  vars:
+      dest_key: "/home/{{ admin_username }}/.ssh/id_rsa"
+      empty_var: ""
+  tasks:
+    - name: Register as user with password and auto-subscribe to available content.
+      redhat_subscription:
+        state: present
+        username: "{{ rhsm_username }}"
+        password: "{{ rhsm_password }}"
+        auto_attach: yes
+
+    - name: Enable RHEL RHSCL and ansible repo
+      rhsm_repository:
+        name: 
+          - rhel-server-rhscl-7-rpms
+          - rhel-7-server-ansible-2.6-rpms
+        state: enabled
+      run_once: True
+
+    - name: Az CLI import rpm key   
+      rpm_key:
+        state: present
+        key: https://packages.microsoft.com/keys/microsoft.asc 
+
+    - name: Add Azure repository
+      yum_repository:
+        name: azure-cli
+        description: Azure CLI
+        baseurl: https://packages.microsoft.com/yumrepos/azure-cli
+        gpgcheck: yes
+        gpgkey: https://packages.microsoft.com/keys/microsoft.asc
+
+    #TODO: Fix versions
+    - name: Install ansible26 + gcc + python-devel + git + python27 + azure-cli
+      yum: 
+        name:
+          - ansible
+          - gcc
+          - python-devel
+          - git
+          - azure-cli
+          - python27-python-pip
+        state: present
+      run_once: True
+
+    - name: Get pip
+      get_url: 
+        url: https://bootstrap.pypa.io/get-pip.py
+        dest: .
+
+    - name: Run pip python file
+      shell: python get-pip.py
+
+    - name: pip packages
+      pip:
+        name:
+          - python-dateutil
+          - pyopenssl
+          - ansible[azure]
+          - azure
+      state: latest
+      extra_args: ignore-installed
+      run_once: true
+
+    - name: Ensure .ssh directory exists in root home folder.
+      file: 
+        dest: "{{ dest_key | dirname }}"
+        mode: 0700 
+        owner: "{{ admin_username }}" 
+        state: directory
+
+    - name: Install ssh key
+      copy: 
+        src: "{{ admin_privkey }}" 
+        dest: "{{ dest_key }}"
+        mode: 0600
+        owner: "{{ admin_username }}"
+
+    - name: Get "deployOpenShift.sh"
+      get_url:
+        url: https://gist.githubusercontent.com/brusMX/b8ba89a4ce7063363315e6ce69b4a1d3/raw/652d8c73bc5f45e0383d0781c9e5293e56c4dc1f/export-all.sh
+        dest: .
+    - file:
+        path: export-all.sh
+        mode: "a+x"
+    
+    # Deploying openshift  with deployOpenShift.sh
+    # 'bash ', parameters('openshiftDeploymentScriptFileName')
+    - name: Run deployOpenShift.sh
+      shell: |
+        args=(# export SUDOUSER=$1 - parameters('adminUsername')
+          "{{ admin_username }}" 
+          # export PASSWORD="$2" - parameters('openshiftPassword')
+          "{{ ocp_admin_passwd }}" \
+          # export PRIVATEKEY=$3 - parameters('sshPrivateKey')
+          "{{ admin_privkey }}" \
+          # export MASTER=$4 - parameters('openshiftMasterHostname')
+          "{{ cluster_prefix }}-master-0" \
+          # export MASTERPUBLICIPHOSTNAME=$5 - parameters('openshiftMasterPublicIpFqdn')
+          "{{ master_lb_public_ip }}" \
+          # export MASTERPUBLICIPADDRESS=$6 - parameters('openshiftMasterPublicIpAddress')
+          "{{ empty_var }}" \
+          # export INFRA=$7 - parameters('openshiftInfraHostname')
+          "{{ cluster_prefix }}-infra-0" \
+          # export NODE=$8 - parameters('openshiftNodeHostname')
+          "{{ cluster_prefix }}-node-0" \
+          # export NODECOUNT=$9 - parameters('nodeInstanceCount')
+          "{{ node_count }}" \
+          # export INFRACOUNT=${10} - parameters('infraInstanceCount')
+          "{{ infra_count }}" \
+          # export MASTERCOUNT=${11} - parameters('MasterInstanceCount')
+          "{{ master_count }}" \
+          # export ROUTING=${12} - parameters(parameters('subDomainChosen'))
+          "{{ empty_var }}" \
+          # export REGISTRYSA=${13} - parameters('newStorageAccountRegistry')
+          "{{ empty_var }}" \
+          # export ACCOUNTKEY="${14}" - parameters('newStorageAccountKey')
+          "{{ empty_var }}" \
+          # export TENANTID=${15} - variables('tenantId')
+          "{{ empty_var }}" \
+          # export SUBSCRIPTIONID=${16} - variables('subscriptionId')
+          "{{ empty_var }}" \
+          # export AADCLIENTID=${17} - parameters('aadClientId')
+          "{{ empty_var }}" \
+          # export AADCLIENTSECRET="${18}" - parameters('aadClientSecret')
+          "{{ empty_var }}" \
+          # export RESOURCEGROUP=${19} - variables('resourceGroupName')
+          "{{ resource_group }}" \
+          # export LOCATION=${20} - variables('location')
+          "{{ location }}" \
+          # export METRICS=${21} - parameters('enableMetrics')
+          "{{ empty_var }}" \
+          # export LOGGING=${22} - parameters('enableLogging')
+          "{{ empty_var }}" \
+          # export AZURE=${23} - parameters('enableAzure')
+          "{{ empty_var }}" \
+          # export STORAGEKIND=${24}
+          "{{ empty_var }}"
+        )
+        ./export-all.sh "${args[@]}"
+        
