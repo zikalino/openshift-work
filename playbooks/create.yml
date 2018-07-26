@@ -483,11 +483,14 @@
       when: runvmext == "true"
       async: 150
       poll: 0
-# Bastion playbook configuration
 
+# Bastion playbook tasks to set it up
 - hosts: bastion_vm
   user: "{{ admin_username }}"
   become: yes
+  vars:
+      dest_key: ~/.ssh/id_rsa
+      variable: ""
   tasks:
     - name: Register as user with password and auto-subscribe to available content.
       redhat_subscription:
@@ -495,37 +498,46 @@
         username: "{{ rhsm_username }}"
         password: "{{ rhsm_password }}"
         auto_attach: yes
-    
-    - name: Enable RHEL RHSCL repo
+
+    - name: Enable RHEL RHSCL and ansible repo
       rhsm_repository:
-        name: rhel-server-rhscl-7-rpms
+        name: 
+          - rhel-server-rhscl-7-rpms
+          - rhel-7-server-ansible-2.6-rpms
         state: enabled
 
-    - name: Enable ansible repo
-      rhsm_repository:
-        name: rhel-7-server-ansible-2.6-rpms
-        state: enabled
+    - name: Az CLI import rpm key   
+      rpm_key:
+        state: present
+        key: https://packages.microsoft.com/keys/microsoft.asc 
 
-    - name: Install ansible26 + gcc + python-devel + git
+    - name: Add Azure repository
+      yum_repository:
+        name: azure-cli
+        description: Azure CLI
+        baseurl: https://packages.microsoft.com/yumrepos/azure-cli
+        gpgcheck: yes
+        gpgkey: https://packages.microsoft.com/keys/microsoft.asc
+
+    - name: Install ansible26 + gcc + python-devel + git + python27 + azure-cli
       yum: 
         name:
           - ansible
           - gcc
           - python-devel
           - git
+          - azure-cli
+          - python27-python-pip
         state: present
-        
-    - name: Install python for pip
-      yum:
-        name: python27-python-pip
-    
+
     - name: Get pip
       get_url: 
         url: https://bootstrap.pypa.io/get-pip.py
         dest: .
-    
+
     - name: Run pip python file
       shell: python get-pip.py
+
     - name: pip packages
       pip:
         name:
@@ -536,12 +548,85 @@
       state: latest
       extra_args: ignore-installed
 
-    - name: Install Azure CLI (shell cmds)
-      shell: |
-        rpm --import https://packages.microsoft.com/keys/microsoft.asc
-        sh -c 'echo -e "[azure-cli]\nname=Azure CLI\nbaseurl=https://packages.microsoft.com/yumrepos/azure-cli\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/azure-cli.repo'
+    - name: Ensure .ssh directory exists in root home folder.
+      file: 
+        dest: "{{ dest_key | dirname }}"
+        mode: 0700 
+        owner: root 
+        state: directory
+
+    - name: Install ssh key
+      copy: 
+        src: "{{ admin_privkey }}" 
+        dest: "{{ dest_key }}"
+        mode: 0600
+        owner: root
+
+    - name: Get "deployOpenShift.sh"
+      get_url:
+        url: https://gist.githubusercontent.com/brusMX/b8ba89a4ce7063363315e6ce69b4a1d3/raw/9b21c37cca01e03aa829be3df935d59f171e531f/export-all.sh
+        dest: .
+    - file:
+        path: export-all.sh
+        mode: "a+x"
     
-    - name: Install Azure CLI (yum command)
-      yum: 
-        name: azure-cli
-        state: latest
+    # Deploying openshift  with deployOpenShift.sh
+    # 'bash ', parameters('openshiftDeploymentScriptFileName')
+    - name: Run deployOpenShift.sh
+      shell: |
+        bash export-all.sh \n
+        # export SUDOUSER=$1 - parameters('adminUsername')
+        "{{ admin_username }}" \n
+        # export PASSWORD="$2" - parameters('openshiftPassword')
+        "{{ ocp_admin_passwd }}" \n
+        # export PRIVATEKEY=$3 - parameters('sshPrivateKey')
+        "{{ admin_privkey }}" \n
+        # export MASTER=$4 - parameters('openshiftMasterHostname')
+        "{{ cluster_prefix }}-master-0" \n
+        # export MASTERPUBLICIPHOSTNAME=$5 - parameters('openshiftMasterPublicIpFqdn')
+        "{{ master_lb_public_ip }}" \n
+        # export MASTERPUBLICIPADDRESS=$6 - parameters('openshiftMasterPublicIpAddress')
+        "{{ variable }}" \n
+        # export INFRA=$7 - parameters('openshiftInfraHostname')
+        "{{ cluster_prefix }}-infra-0 }}" \n
+        # export NODE=$8 - parameters('openshiftNodeHostname')
+        "{{ cluster_prefix }}-node-0 }}" \n
+        # export NODECOUNT=$9 - parameters('nodeInstanceCount')
+        "{{ node_count }}" \n
+        # export INFRACOUNT=${10} - parameters('infraInstanceCount')
+        "{{ infra_count }}" \n
+        # export MASTERCOUNT=${11} - parameters('MasterInstanceCount')
+        "{{ master_count }}" \n
+        # export ROUTING=${12} - parameters(parameters('subDomainChosen'))
+        "{{ variable }}" \n
+        # export REGISTRYSA=${13} - parameters('newStorageAccountRegistry')
+        "{{ variable }}" \n
+        # export ACCOUNTKEY="${14}" - parameters('newStorageAccountKey')
+        "{{ variable }}" \n
+        # export TENANTID=${15} - variables('tenantId')
+        "{{ variable }}" \n
+        # export SUBSCRIPTIONID=${16} - variables('subscriptionId')
+        "{{ variable }}" \n
+        # export AADCLIENTID=${17} - parameters('aadClientId')
+        "{{ variable }}" \n
+        # export AADCLIENTSECRET="${18}" - parameters('aadClientSecret')
+        "{{ variable }}" \n
+        # export RESOURCEGROUP=${19} - variables('resourceGroupName')
+        "{{ resource_group }}" \n
+        # export LOCATION=${20} - variables('location')
+        "{{ location }}" \n
+        # export METRICS=${21} - parameters('enableMetrics')
+        "{{ variable }}" \n
+        # export LOGGING=${22} - parameters('enableLogging')
+        "{{ variable }}" \n
+        # export AZURE=${23} - parameters('enableAzure')
+        "{{ variable }}" \n
+        # export STORAGEKIND=${24}
+        "{{ variable }}"
+          
+
+
+
+
+    
+
