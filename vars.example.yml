@@ -5,7 +5,7 @@ location: eastus
 resource_group: "myclusterrg"
 cluster_prefix: mycluster
 
-runvmext: "false"
+runvmext: "true"
 unique_string: "{{ resource_group  | md5 | truncate(8, True, '') }}"
 
 #######################
@@ -18,23 +18,23 @@ node_count: 3
 # cns_count:    [1,2,3]
 
 #######################
-# vm sizes (adapt)
+# vm sizes and other vm configurations (adapt)
 # az vm list-sizes -l <region> -o table
 #######################
 
 vm_size_master: Standard_D2s_v3
 vm_size_infra:  Standard_D2s_v3
 vm_size_node:   Standard_D2s_v3
-# vm_size_cns:    Standard_D8s_v3
 vm_size_bastion: Standard_D2s_v3
+# vm_size_cns:    Standard_D8s_v3
 
 # Disk sizes for OS Disk and Data Disk in GB
-data_disk_size: 64
 os_disk_size: 64
+data_disk_size: 64
 
-disk_type: managed
+# Type of disk used
+# disk_type: managed
 managed_disk_type: Premium_LRS
-
 
 #######################
 # SSH user for all VMs created
@@ -58,9 +58,7 @@ aad_client_id: 'dfkdkfkdkf'
 
 # Place this in vars file that can be encrypted in root of play and not checked into SCM
 aad_client_secret: 'password'
-
 subscription_id: ""
-
 tenant_id: ""
 
 #######################
@@ -121,9 +119,7 @@ bastion_publicip: "bastion{{ unique_string }}"
 #######################
 # Name of Master LB public IP address
 master_lb_public_ip: "masterdns{{ unique_string }}"
-master_lb_fqdn: "{{ master_lb_public_ip }}.{{ location }}.cloudapp.azure.com"
 routing: "apps.contoso.com"
-
 
 # If this is set, the master load balancer will be configured as an
 # internal Azure load balancer with the given IP address as its
