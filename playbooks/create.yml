@@ -267,12 +267,20 @@
         name: "{{ registry_storage_account }}"
         type: Standard_LRS
 
-    - shell: az storage account keys list --account-name "{{ registry_storage_account }}" \
-        --resource-group "{{ rg }}" --query "[?keyName == 'key1'].value" -o tsv
-      register: key
+    - name: Get storage keys
+      azure_rm_resource:
+        resource_group: "{{ resource_group }}"
+        provider: storage
+        resource_type: storageAccounts
+        resource_name: "{{ registry_storage_account }}"
+        subresource:
+          - type: listkeys
+        api_version: '2018-03-01-preview'
+        method: POST
+      register: keys
 
-    - set_facts:
-        registry_storage_account_key: "{{ key.stdout }}"
+    - name: store key as fact
+      set_fact: registry_storage_account_key="{{ keys['response']['keys'][0]['value'] }}"
 
     - name: Create virtual network interface card for master
       azure_rm_networkinterface:
