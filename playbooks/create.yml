@@ -266,11 +266,13 @@
         resource_group: "{{ resource_group }}"
         name: "{{ registry_storage_account }}"
         type: Standard_LRS
-      register: registry_storage_account_name
+
+    - shell: az storage account keys list --account-name "{{ registry_storage_account }}" \
+        --resource-group "{{ rg }}" --query "[?keyName == 'key1'].value" -o tsv
+      register: key
 
     - set_facts:
-        registry_storage_account_key: 
-
+        registry_storage_account_key: "{{ key.stdout }}"
 
     - name: Create virtual network interface card for master
       azure_rm_networkinterface:
