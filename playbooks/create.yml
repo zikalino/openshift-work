@@ -261,6 +261,16 @@
       async: 400
       poll: 0
 
+    - name: Create storage account for Registry
+      azure_rm_storageaccount:
+        resource_group: "{{ resource_group }}"
+        name: "{{ registry_storage_account }}"
+        type: Standard_LRS
+      register: registry_storage_account_name
+
+    - set_facts:
+        registry_storage_account_key: 
+
 
     - name: Create virtual network interface card for master
       azure_rm_networkinterface:
@@ -412,20 +422,42 @@
       async: 150
       poll: 0
 
-
-
     - name: Get bastion Public IP
       azure_rm_publicipaddress_facts:
         resource_group: "{{ resource_group }}"
-        name: bastion_publicip
+        name: "{{ bastion_publicip }}"
       register: bastion_ip
 
-    - debug:
-       var: bastion_ip.ansible_facts.azure_publicipaddresses[0].properties.ipAddress
-       
+    - set_fact:
+       bastion_public_ip: "{{ bastion_ip.ansible_facts.azure_publicipaddresses[0].properties.ipAddress }}"
+
+    - name: Get master Public IP
+      azure_rm_publicipaddress_facts:
+        resource_group: "{{ resource_group }}"
+        name: "{{ master_lb_public_ip }}"
+      register: master_ip
+
+    - set_fact:
+        master_publicip: "{{ master_lb_ip.ansible_facts.azure_publicipaddresses[0].properties.ipAddress }}"
+        master_publicip_fqdn: "{{ master_lb_ip.ansible_facts.azure_publicipaddresses[0].properties.dnsSettings.fqdn }}"
+
+    - name: Get infra Public IP
+      azure_rm_publicipaddress_facts:
+        resource_group: "{{ resource_group }}"
+        name: "{{ infra_lb_public_ip }}"
+      register: infra_ip
+
+    - set_fact:
+        infra_publicip: "{{ infra_lb_ip.ansible_facts.azure_publicipaddresses[0].properties.ipAddress }}"
+        nip_io_domain: "{{ infra_publicip }}.nip.io"
+
+    -  set_fact:
+        routing: "{{ nip_io_domain }}"
+        when: routing is undefined or routing is none or routing == ""
+
     - name: Add Bastion to host group
       add_host:
-        hostname: "{{ bastion_ip.ansible_facts.azure_publicipaddresses[0].properties.ipAddress }}"
+        hostname: "{{ bastion_public_ip }}"
         groupname: bastion_vm
 
     - name: Wait for Virtual Machines
@@ -632,9 +664,9 @@
           # export MASTER=$4 - parameters('openshiftMasterHostname')
           "{{ cluster_prefix }}-master" \
           # export MASTERPUBLICIPHOSTNAME=$5 - parameters('openshiftMasterPublicIpFqdn')
-          "{{ master_lb_public_ip }}" \
+          "{{ master_publicip_fqdn }}" \
           # export MASTERPUBLICIPADDRESS=$6 - parameters('openshiftMasterPublicIpAddress')
-          "{{ empty_var }}" \
+          "{{ master_publicip }}" \
           # export INFRA=$7 - parameters('openshiftInfraHostname')
           "{{ cluster_prefix }}-infra" \
           # export NODE=$8 - parameters('openshiftNodeHostname')
@@ -646,31 +678,31 @@
           # export MASTERCOUNT=${11} - parameters('MasterInstanceCount')
           "{{ master_count }}" \
           # export ROUTING=${12} - parameters(parameters('subDomainChosen'))
-          "{{ empty_var }}" \
+          "{{ routing }}" \
           # export REGISTRYSA=${13} - parameters('newStorageAccountRegistry')
-          "{{ empty_var }}" \
+          "{{ registry_storage_account }}" \
           # export ACCOUNTKEY="${14}" - parameters('newStorageAccountKey')
-          "{{ empty_var }}" \
+          "{{ registry_storage_account_key }}" \
           # export TENANTID=${15} - variables('tenantId')
-          "{{ empty_var }}" \
+          "{{ tenant_id }}" \
           # export SUBSCRIPTIONID=${16} - variables('subscriptionId')
-          "{{ empty_var }}" \
+          "{{ subscription_id }}" \
           # export AADCLIENTID=${17} - parameters('aadClientId')
-          "{{ empty_var }}" \
+          "{{ aad_client_id }}" \
           # export AADCLIENTSECRET="${18}" - parameters('aadClientSecret')
-          "{{ empty_var }}" \
+          "{{ aad_client_secret }}" \
           # export RESOURCEGROUP=${19} - variables('resourceGroupName')
           "{{ resource_group }}" \
           # export LOCATION=${20} - variables('location')
           "{{ location }}" \
           # export METRICS=${21} - parameters('enableMetrics')
-          "{{ empty_var }}" \
+          "{{ deploy_metrics }}" \
           # export LOGGING=${22} - parameters('enableLogging')
-          "{{ empty_var }}" \
+          "{{ deploy_logging }}" \
           # export AZURE=${23} - parameters('enableAzure')
-          "{{ empty_var }}" \
+          "{{ deploy_azure_cloud_provider }}" \
           # export STORAGEKIND=${24}
-          "{{ empty_var }}"
+          "{{ disk_type }}"
         )
         ./export-all.sh "${args[@]}"
         

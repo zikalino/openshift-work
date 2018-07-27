@@ -27,10 +27,14 @@ vm_size_infra:  Standard_D2s_v3
 vm_size_node:   Standard_D2s_v3
 # vm_size_cns:    Standard_D8s_v3
 vm_size_bastion: Standard_D2s_v3
+
+# Disk sizes for OS Disk and Data Disk in GB
 data_disk_size: 64
 os_disk_size: 64
+
+disk_type: managed
 managed_disk_type: Premium_LRS
-persistent_volume_name: "pv{{ unique_string }}"
+
 
 #######################
 # SSH user for all VMs created
@@ -50,10 +54,14 @@ admin_privkey: '~/.ssh/id_rsa'
 # Service Principal 
 #######################
 # This is used to template the cloud config file on each node for azure
-# aad_client_id: 'dfkdkfkdkf'
+aad_client_id: 'dfkdkfkdkf'
 
 # Place this in vars file that can be encrypted in root of play and not checked into SCM
-# aad_client_secret: 'password'
+aad_client_secret: 'password'
+
+subscription_id: ""
+
+tenant_id: ""
 
 #######################
 # RHSM 
@@ -113,6 +121,8 @@ bastion_publicip: "bastion{{ unique_string }}"
 #######################
 # Name of Master LB public IP address
 master_lb_public_ip: "masterdns{{ unique_string }}"
+master_lb_fqdn: "{{ master_lb_public_ip }}.{{ location }}.cloudapp.azure.com"
+routing: "apps.contoso.com"
 
 
 # If this is set, the master load balancer will be configured as an
@@ -157,9 +167,15 @@ ocp_admin_passwd: 'redhat@123'
 #######################
 # deploy_cns: true
 # deploy_cns_on_infra: false
-# deploy_metrics: true
-# deploy_logging: true
+
+#######################
+# deploy additional components
+#######################
+
+deploy_metrics: true
+deploy_logging: true
 # deploy_prometheus: true
+deploy_azure_cloud_provider: true
 
 # volume sizing defaults
 # metrics_volume_size: '20Gi'
