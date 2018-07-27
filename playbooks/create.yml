@@ -27,7 +27,7 @@
       azure_rm_publicipaddress:
         resource_group: "{{ resource_group }}"
         allocation_method: Static
-        name: bastion_publicip
+        name: "{{ bastion_publicip }}"
       async: 150
       poll: 0
 
@@ -257,7 +257,7 @@
         security_group: "{{ cluster_prefix }}-infra-nsg"
         ip_configurations:
           - name: ipconfig0
-            public_ip_address_name: bastion_publicip
+            public_ip_address_name: "{{ bastion_publicip }}"
       async: 400
       poll: 0
 
@@ -458,8 +458,7 @@
       register: router_lb_ip
 
     - set_fact:
-        router_publicip: "{{ router_lb_ip.ansible_facts.azure_publicipaddresses[0].properties.ipAddress }}"
-        nip_io_domain: "{{ router_publicip }}.nip.io"
+        nip_io_domain: "{{ router_lb_ip.ansible_facts.azure_publicipaddresses[0].properties.ipAddress }}.nip.io"
 
     -  set_fact:
         routing: "{{ nip_io_domain }}"
@@ -535,7 +534,7 @@
       with_sequence: start=0 end={{ node_count - 1 }}
       when: runvmext == "true"
       async: 150
-      poll: 0
+      poll: 0      
 
 # Bastion playbook tasks to set it up
 - hosts: bastion_vm
@@ -627,7 +626,6 @@
           - python-devel
           - git
           - azure-cli
-          - python27-python-pip
           - atomic-openshift-excluder
           - atomic-openshift-docker-excluder
         state: present
