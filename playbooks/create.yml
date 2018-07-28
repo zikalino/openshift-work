@@ -477,14 +477,34 @@
         provider: compute
         resource_type: virtualmachines
       register: output
-      until: output.response[0].value | length >= (infra_count + node_count + master_count)
+      until: output.response[0].value | length >= (infra_count + node_count + master_count + 1)
       delay: 60
       retries: 10
 
 
     # --- VM Extensions ---
-    # These require: VMs
-    - name: Create master VM extension
+    # These require: VMs  
+    - name: Getting content of the private key
+      set_fact:
+        priv_key_content: "{{lookup('file', '{{ admin_privkey }}') }}"
+
+    - name: Prepare bastion with VM extension
+      azure_rm_virtualmachine_extension:
+        resource_group: "{{ resource_group }}"
+        name: preparBastion
+        virtual_machine_name: "{{ cluster_prefix }}-bastion"
+        publisher: Microsoft.Azure.Extensions
+        virtual_machine_extension_type: CustomScript
+        type_handler_version: 2.0
+        settings:
+          fileUris:
+            - 'https://raw.githubusercontent.com/Microsoft/openshift-container-platform/master/scripts/bastionPrep.sh'
+          commandToExecute: "bash masterPrep.sh {{ rhsm_username_org }} '{{ rhsm_password_key }}' {{ rhsm_pool }} {{ priv_key_content }} {{ admin_username }} "
+      when: runvmext == "true"
+      async: 150
+      poll: 0
+        
+    - name: Prepare master with VM extension
       azure_rm_virtualmachine_extension:
         resource_group: "{{ resource_group }}"
         name: deployOpenShift
@@ -541,116 +561,8 @@
   user: "{{ admin_username }}"
   become: yes
   vars:
-      dest_key: "/home/{{ admin_username }}/.ssh/id_rsa"
-      empty_var: ""
+    empty_var: ""
   tasks:
-    - name: Ensure .ssh directory exists in root home folder.
-      file: 
-        dest: "{{ dest_key | dirname }}"
-        mode: 0700 
-        owner: "{{ admin_username }}" 
-        state: directory
-
-    - name: Install SSH private key on Bastion
-      copy: 
-        src: "{{ admin_privkey }}" 
-        dest: "{{ dest_key }}"
-        mode: 0600
-        owner: "{{ admin_username }}"
-
-    - name: Remove RHUI
-      shell: |
-        rm -f /etc/yum.repos.d/rh-cloud.repo
-        sleep 10
-
-    - name: Register as user with password and auto-subscribe to available content.
-      redhat_subscription:
-        state: present
-        username: "{{ rhsm_username_org }}"
-        password: "{{ rhsm_password_key }}"
-        pool_ids: "{{ rhsm_pool }}"
-        auto_attach: yes
-
-    - name: Disable all RHSM repositories
-      rhsm_repository:
-        name: '*'
-        state: disabled
-
-    - name: Enable RHEL RHSCL and ansible repo
-      rhsm_repository:
-        name: 
-          - rhel-7-server-rpms
-          - rhel-7-server-extras-rpms
-          - rhel-7-server-ose-3.9-rpms
-          - rhel-7-server-ansible-2.4-rpms
-          - rhel-7-fast-datapath-rpms
-          - rh-gluster-3-client-for-rhel-7-server-rpms
-        state: enabled
-
-    - name: Update system to latest packages
-      yum:
-        name: '*'
-        state: latest
-        exclude: WALinuxAgent
-    
-    - name: Az CLI import rpm key   
-      rpm_key:
-        state: present
-        key: https://packages.microsoft.com/keys/microsoft.asc 
-
-    - name: Add Azure repository
-      yum_repository:
-        name: azure-cli
-        description: Azure CLI
-        baseurl: https://packages.microsoft.com/yumrepos/azure-cli
-        gpgcheck: yes
-        gpgkey: https://packages.microsoft.com/keys/microsoft.asc
-    
-    #TODO: Fix versions
-    - name: Install ALL packages
-      yum: 
-        name:
-          - wget
-          - net-tools
-          - bind-utils
-          - iptables-services
-          - bridge-utils
-          - bash-completion
-          - httpd-tools
-          - kexec-tools
-          - sos
-          - psacct
-          - ansible
-          - glusterfs-fuse
-          - gcc
-          - python-devel
-          - git
-          - azure-cli
-          - atomic-openshift-excluder
-          - atomic-openshift-docker-excluder
-        state: present
-
-    - name: Excluders for OpenShift
-      shell: atomic-openshift-excluder unexclude
-
-    - name: Installing OpenShift utilities
-      yum: 
-        name:
-          - atomic-openshift-utils
-        state: present
-
-    - name: Adding DOMAIN to search for resolv.conf
-      shell: |
-        echo "DOMAIN=`domainname -d`" >> /etc/sysconfig/network-scripts/ifcfg-eth0
-
-    - name: Get updateansiblecfg.yaml playbook
-      get_url:
-        url: https://raw.githubusercontent.com/microsoft/openshift-container-platform-playbooks/master/updateansiblecfg.yaml
-        dest: .
-    
-    - name: Run updateansiblecfg.yaml playbook
-      shell: ansible-playbook -f 25 updateansiblecfg.yaml
-      
     - name: Get "deployOpenShift.sh"
       get_url:
         url: https://gist.githubusercontent.com/brusMX/b8ba89a4ce7063363315e6ce69b4a1d3/raw/652d8c73bc5f45e0383d0781c9e5293e56c4dc1f/export-all.sh
@@ -671,9 +583,9 @@
           # $3 MASTER=$3 - parameters('openshiftMasterHostname')
           "{{ cluster_prefix }}-master" \
           # $4 MASTERPUBLICIPHOSTNAME=$4 - parameters('openshiftMasterPublicIpFqdn')
-          "{{ master_publicip_fqdn }}" \
+          "{{ hostvars.master_publicip_fqdn }}" \
           # $5 MASTERPUBLICIPADDRESS=$5 - parameters('openshiftMasterPublicIpAddress')
-          "{{ master_publicip }}" \
+          "{{ hostvars.master_publicip }}" \
           # $6 INFRA=$6 - parameters('openshiftInfraHostname')
           "{{ cluster_prefix }}-infra" \
           # $7 NODE=$7 - parameters('openshiftNodeHostname')
@@ -687,9 +599,9 @@
           # $11 ROUTING=${11} - parameters(parameters('subDomainChosen'))
           "{{ routing }}" \
           # $12 REGISTRYSA=${12} - parameters('newStorageAccountRegistry')
-          "{{ registry_storage_account }}" \
+          "{{ hostvars.registry_storage_account }}" \
           # $13 ACCOUNTKEY="${13}" - parameters('newStorageAccountKey')
-          "{{ registry_storage_account_key }}" \
+          "{{ hostvars.registry_storage_account_key }}" \
           # $14 METRICS=${14} - parameters('enableMetrics')
           "{{ deploy_metrics }}"
           # $15 LOGGING=${15}
